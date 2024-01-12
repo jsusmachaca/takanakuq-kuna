@@ -25,3 +25,12 @@ export const ACCEPTED_ORIGINS = [
 
 
 export const generateToken = ({ data }) => jwt.sign(data, process.env.SECRET_KEY, {expiresIn: '1y'})
+
+export const validateToken = (token) => {
+    try{
+        const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
+        return decodedToken 
+    } catch (error) {
+        return null
+    }
+}

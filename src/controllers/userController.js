@@ -1,12 +1,22 @@
 import { user } from "../models/userModel.js";
 import { userValidation, userValidationPartial } from "../schemas/userSchema.js";
-import { generateToken } from "../config/config.js";
+import { generateToken, validateToken } from "../config/config.js";
 
 
 export class userController {
     static async getAll(req, res) {
-        const users = await user.getAll()
-        return res.json(users)
+        const authorization = req.headers.authorization
+        let token = null
+        try {
+            if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
+            token = authorization.substring(7)
+            const validation = validateToken(token)
+            if (validation === null) throw new Error('invalid token')
+            const users = await user.getAll()
+            return res.json(users)
+        } catch(error) {
+            return res.status(401).json({error: error.message})
+        }
     }
 
     static async findByName(req, res) {
@@ -40,23 +50,51 @@ export class userController {
     }
 
     static async editUser(req, res) {
-        const results = userValidationPartial(req.body)
-        if (results.error) {
-            return res.status(400).json({error: results.error.issues[0].message})
-        }
-        const data = await user.editUser({id: 1, data: results.data})
-        if (data.error){
-            return res.status(400).json({error: "error when modifying"})
-        }
-        return res.json({success: data, data: results.data})
+        const authorization = req.headers.authorization
+        let token = null
+        try {
+            if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
+            token = authorization.substring(7)
+            const validation = validateToken(token)
+
+            if (validation === null) throw new Error('invalid token')
+
+            const results = userValidationPartial(req.body)
+            if (results.error) {
+                return res.status(400).json({error: results.error.issues[0].message})
+            }
+            const { id } = req.query
+            if (id === undefined) throw new Error('must provide id')
+            
+            const data = await user.editUser({id: id, data: results.data})
+            if (data.error){
+                return res.status(400).json({error: "error when modifying"})
+            }
+            return res.json({success: data, data: results.data})
+
+        } catch (error) {
+            return res.status(401).json({error: error.message})
+        }   
     }
 
     static async deleteUser(req, res) {
-        const { id } = req.query
-        if (!id){
-            return res.status(404)
+        const authorization = req.headers.authorization
+        let token = null
+        try {
+            if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
+            token = authorization.substring(7)
+            const validation = validateToken(token)
+
+            if (validation === null) throw new Error('invalid Token')
+            
+            const { id } = req.query
+            if (id === undefined) throw new Error('must provide id')
+            
+            const data = await user.deleteUser(id)
+            return res.json({success: data})
+
+        } catch(error) {
+            return res.status(401).json({error: error.message})
         }
-        const data = await user.deleteUser(id)
-        return res.json({success: data})
     }
 }
