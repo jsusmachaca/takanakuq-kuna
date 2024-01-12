@@ -1,5 +1,7 @@
 import { connection } from "../config/config.js";
+import bcrypt, { hash } from 'bcrypt'
 
+const saltRounds = 10
 
 
 export class user {
@@ -19,9 +21,12 @@ export class user {
       const [user, ] = await connection.query(`
       SELECT id,username,password 
       FROM users 
-      WHERE username=? AND password=?;`,
-      [data.username, data.password])
+      WHERE username=?;`,
+      [data.username])
+      
       if(user.length === 0) return null
+      const comparePassword = await bcrypt.compare(data.password, user[0].password)
+      if (!comparePassword) return null
       return user[0]
     }
     catch(error) {
@@ -32,11 +37,14 @@ export class user {
 
   static async createUser({ data }) {
     try {
+      const salt = await bcrypt.genSalt(saltRounds)
+      const hash = await bcrypt.hash(data.password, salt)
+
       const [ result, ] = await connection.query(`
       INSERT INTO users(username, first_name, last_name, email, password)
       VALUES
       (?, ?, ?, ?, ?);`,
-      [data.username, data.first_name, data.last_name, data.email, data.password])
+      [data.username, data.first_name, data.last_name, data.email, hash])
       return true
     }
     catch(error) {

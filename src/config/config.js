@@ -1,5 +1,8 @@
 import dotenv from 'dotenv'
 import mysql from 'mysql2/promise'
+import jwt from 'jsonwebtoken'
+
+
 
 dotenv.config()
 
@@ -19,3 +22,6 @@ export const ACCEPTED_ORIGINS = [
     'http://localhost:9000',
     'http://localhost:8000',
 ]
+
+
+export const generateToken = ({ data }) => jwt.sign(data, process.env.SECRET_KEY, {expiresIn: '1y'})

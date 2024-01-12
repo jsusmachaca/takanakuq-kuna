@@ -1,5 +1,7 @@
 import { user } from "../models/userModel.js";
 import { userValidation, userValidationPartial } from "../schemas/userSchema.js";
+import { generateToken } from "../config/config.js";
+
 
 export class userController {
     static async getAll(req, res) {
@@ -16,7 +18,13 @@ export class userController {
         if (users === null) {
             return res.status(404).json({error: 'incorrect credentials'});
         }
-        return res.json(users)
+        const userForToken = {
+            id: users.id,
+            username: users.username
+        }
+
+        const token = generateToken({data: userForToken})
+        return res.json({access_token: token})
     }
 
     static async createUser(req, res) {
