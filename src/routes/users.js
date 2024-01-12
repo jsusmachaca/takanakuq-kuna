@@ -7,6 +7,6 @@ export const users = Router()
 
 users.get('/', userController.getAll)
 users.post('/register', userController.createUser)
-users.get('/find', userController.findById)
+users.post('/login', userController.findByName)
 users.put('/edit', userController.editUser)
 users.delete('/delete', userController.deleteUser)

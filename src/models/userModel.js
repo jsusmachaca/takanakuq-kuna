@@ -14,11 +14,16 @@ export class user {
     }
   }
 
-  static async findById(id) {
+  static async findByName({ data }) {
     try{
-      const [user, ] = await connection.query('SELECT * FROM users WHERE id=?', [id])
-      return user
-    } 
+      const [user, ] = await connection.query(`
+      SELECT id,username,password 
+      FROM users 
+      WHERE username=? AND password=?;`,
+      [data.username, data.password])
+      if(user.length === 0) return null
+      return user[0]
+    }
     catch(error) {
       console.error(`\x1b[31mOcurrió un error ${error}\x1b[0m`)
       return {error: error.message}

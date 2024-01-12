@@ -7,12 +7,15 @@ export class userController {
         return res.json(users)
     }
 
-    static async findById(req, res) {
-        const { id } = req.query
-        if (!id){
-            return res.status(404)
+    static async findByName(req, res) {
+        const results = userValidationPartial(req.body)
+        if (results.error){
+            return res.status(400)
         }
-        const users = await user.findById(id)
+        const users = await user.findByName({ data: results.data })
+        if (users === null) {
+            return res.status(404).json({error: 'incorrect credentials'});
+        }
         return res.json(users)
     }
 
@@ -23,7 +26,7 @@ export class userController {
         }
         const data = await user.createUser({ data: results.data })
         if (data.error) {
-            return res.status(400).json({message: "register error"})
+            return res.status(400).json({error: "register error"})
         }
         return res.status(201).json({success: data, data: results.data})
     }
@@ -35,7 +38,7 @@ export class userController {
         }
         const data = await user.editUser({id: 1, data: results.data})
         if (data.error){
-            return res.status(400).json({message: "error when modifying"})
+            return res.status(400).json({error: "error when modifying"})
         }
         return res.json({success: data, data: results.data})
     }
