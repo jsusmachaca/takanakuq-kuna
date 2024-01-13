@@ -1,6 +1,8 @@
-import { connection } from "../config/config.js";
-import bcrypt, { hash } from 'bcrypt'
+import { dbConnection } from "../config/config.js";
+import bcrypt from 'bcrypt'
 
+
+const connection = await dbConnection()
 const saltRounds = 10
 
 

@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken'
 
 dotenv.config()
 
-
 const config = {
     host: process.env.DB_HOST ?? 'localhost',
     port: process.env.DB_PORT ?? 3306,
@@ -14,7 +13,14 @@ const config = {
     password: process.env.DB_PASSWORD ?? 'godylody',
     database: process.env.DB_NAME ?? 'luchadores_test'
 }
-export const connection = await mysql.createConnection(config)
+
+export const dbConnection = async () => {
+    try {
+        return await mysql.createConnection(config)
+    } catch {
+        console.error('\x1b[31merror connecting to database\x1b[0m')
+    }
+}
 
 
 export const ACCEPTED_ORIGINS = [
