@@ -40,3 +40,24 @@ export const validateToken = (token) => {
         return null
     }
 }
+
+
+export const dateNow = () => {
+    const fechaHoraUtc = new Date();
+
+    const zonaHorariaLima = 'America/Lima';
+
+    const formatoFechaHora = new Intl.DateTimeFormat('es-PE', {
+    timeZone: zonaHorariaLima,
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    });
+
+    return fechaHoraUtc.toISOString().slice(0, 19).replace("T", " ");
+
+
+    return formatoFechaHora.format(fechaHoraUtc);
+}

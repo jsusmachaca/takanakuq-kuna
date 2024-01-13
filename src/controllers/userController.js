@@ -29,7 +29,7 @@ export class userController {
             return res.status(404).json({error: 'incorrect credentials'});
         }
         const userForToken = {
-            id: users.id,
+            user_id: users.id,
             username: users.username
         }
 

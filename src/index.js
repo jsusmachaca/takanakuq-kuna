@@ -5,6 +5,7 @@ import { corsMiddleware } from './middlewares/cors.js'
 import express, { json } from 'express'
 import { users } from './routes/users.js'
 import dotenv from 'dotenv'
+import { posts } from './routes/posts.js'
 
 dotenv.config()
 const app = express()
@@ -14,6 +15,7 @@ app.use(corsMiddleware())
 
 
 app.use('/api/user', users)
+app.use('/api/posts', posts)
 
 
 

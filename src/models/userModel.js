@@ -2,8 +2,9 @@ import { dbConnection } from "../config/config.js";
 import bcrypt from 'bcrypt'
 
 
-const connection = await dbConnection()
+
 const saltRounds = 10
+const connection = await dbConnection()
 
 
 export class user {
@@ -13,7 +14,7 @@ export class user {
       return users
     } 
     catch(error) {
-      console.error(`\x1b[31mOcurrió un error ${error}\x1b[0m`)
+      console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return {error: error.message}
     }
   }
@@ -32,7 +33,7 @@ export class user {
       return user[0]
     }
     catch(error) {
-      console.error(`\x1b[31mOcurrió un error ${error}\x1b[0m`)
+      console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return {error: error.message}
     }
   }
@@ -50,7 +51,7 @@ export class user {
       return true
     }
     catch(error) {
-      console.error(`\x1b[31mOcurrió un error ${error}\x1b[0m`)
+      console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return {error: error.message}
     }
   }
@@ -62,7 +63,7 @@ export class user {
       return true
     } 
     catch(error) {
-      console.error(`\x1b[31mOcurrió un error ${error}\x1b[0m`)
+      console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return {error: error.message}
     }
   }
@@ -74,7 +75,7 @@ export class user {
       return true
     }
     catch(error) {
-      console.error(`\x1b[31mOcurrió un error ${error}\x1b[0m`)
+      console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return {error :error.message}
     }
   }
