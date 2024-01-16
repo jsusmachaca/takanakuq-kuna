@@ -20,8 +20,8 @@ CREATE TABLE posts (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    post TEXT NOT NULL,
-    image VARCHAR(255) DEFAULT NULL,
+    post TEXT,
+    image VARCHAR(255),
     date_publish TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 
