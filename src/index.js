@@ -2,17 +2,24 @@
 * Author: jsusmachaca
 */
 import { corsMiddleware } from './middlewares/cors.js'
-import express, { json } from 'express'
+import express, { json, static as static_ } from 'express'
 import { users } from './routes/users.js'
 import dotenv from 'dotenv'
 import { posts } from './routes/posts.js'
+import path from 'node:path'
+import { fileURLToPath  } from 'node:url'
+
+
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 dotenv.config()
 const app = express()
 
 app.use(json())
 app.use(corsMiddleware())
-
+app.use(static_(path.join(__dirname, 'public')))
 
 app.use('/api/user', users)
 app.use('/api/posts', posts)

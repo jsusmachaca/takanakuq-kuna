@@ -55,7 +55,10 @@ export class postController {
             token = authorization.substring(7)
             const decodeToken = validateToken(token)
             if (decodeToken === null) throw new Error('invalid token')
-
+            
+            if(req.file) {
+                req.body.image = req.file.filename
+            }
             const results = postValidation(req.body)
 
             if(results.error) return res.status(400).json({error: results.error.issues[0].message})

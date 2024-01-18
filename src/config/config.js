@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 import mysql from 'mysql2/promise'
 import jwt from 'jsonwebtoken'
+import multer from 'multer'
 
 
 
@@ -27,6 +28,8 @@ export const ACCEPTED_ORIGINS = [
     'http://localhost:8080',
     'http://localhost:9000',
     'http://localhost:8000',
+    'http://localhost',
+    'http://127.0.0.1:5501'
 ]
 
 
@@ -57,7 +60,12 @@ export const dateNow = () => {
     });
 
     return fechaHoraUtc.toISOString().slice(0, 19).replace("T", " ");
-
-
-    return formatoFechaHora.format(fechaHoraUtc);
 }
+
+
+export const multerStorage = dest => multer.diskStorage({
+        filename: (req, file, callback) => {
+            callback(null, file.originalname)
+        },
+        destination: dest
+})

@@ -1,9 +1,17 @@
 import { Router } from "express";
 import { postController } from "../controllers/postController.js";
+import { multerMiddleware } from "../middlewares/multer.js";
+import path from 'node:path'
+import { fileURLToPath  } from 'node:url'
+
+
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 export const posts = Router()
 
 posts.get('/', postController.getAllPosts)
 posts.get('/post', postController.getPost)
 posts.get('/user', postController.getUserPosts)
-posts.post('/publish', postController.createPost)
+posts.post('/publish', multerMiddleware(__dirname), postController.createPost)
