@@ -10,9 +10,9 @@ const multerStorage = dest => multer.diskStorage({
     destination: dest
 })
 
-export const multerMiddleware = dirname => multer({
-    storage: multerStorage(path.join(dirname, '..', 'public', 'uploads')),
-    dest: path.join(dirname, 'public', 'uploads'),
+export const multerMiddleware = (dirname, destination) => multer({
+    storage: multerStorage(path.join(dirname, '..', 'public', destination)),
+    // dest: path.join(dirname, '..', 'public', 'uploads'),
     fileFilter: (req, file, callback) => {
         const fileType = /jpeg|jpg|png|gif|webp/
         const mimetype = fileType.test(file.mimetype)
