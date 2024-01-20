@@ -7,9 +7,16 @@ import { postValidation } from "../schemas/postSchema.js";
 export class postController {
     static async getAllPosts(req, res) {
         try {
-            const posts = await post.getAll()
+            let posts = await post.getAll()
             if (posts.error) throw new Error('error to show posts')
+            posts = posts.map(post => {
+                return {
+                    ...post,
+                    post_image: post.post_image && `${req.protocol}://${req.get('host')}/${post.post_image}`
+                }
+            })
             return res.json(posts)
+            
         } catch(error){
             return res.status(401).json({error: error.message})
         }
@@ -23,8 +30,18 @@ export class postController {
             token = authorization.substring(7)
             const decodeToken = validateToken(token)
             if (decodeToken === null) throw new Error('invalid token')
-            const posts = await post.findByUser(decodeToken.user_id)
+
+            let posts = await post.findByUser(decodeToken.user_id)
+            if (posts.error) throw new Error('error to show posts')
+
+            posts = posts.map(post => {
+                return {
+                    ...post,
+                    post_image: post.post_image && `${req.protocol}://${req.get('host')}/${post.post_image}`
+                }
+            })
             return res.json(posts)
+
         } catch(error) {
             return res.status(401).json({error: error.message})
         }
@@ -36,10 +53,14 @@ export class postController {
 
             if (id === undefined) throw new Error('must provide id')
 
-            const posts = await post.findById(id)
+            let posts = await post.findById(id)
             if(posts === null) throw new Error('post not found') 
             if(posts.error) throw new Error('error to get post')
 
+            posts = {
+                ...posts,
+                post_image: posts.post_image && `${req.protocol}://${req.get('host')}/${posts.post_image}`
+            }
             return res.json(posts)
         
         } catch(error) {
@@ -57,7 +78,7 @@ export class postController {
             if (decodeToken === null) throw new Error('invalid token')
             
             if(req.file) {
-                req.body.post_image = `/uploads/${req.file.filename}`
+                req.body.post_image = `uploads/${req.file.filename}`
             }
             const results = postValidation(req.body)
 

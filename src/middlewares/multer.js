@@ -23,4 +23,4 @@ export const multerMiddleware = (dirname, destination) => multer({
             callback(new Error('the file must be an image'))
         }
     }
-}).single('image')
+}).single('post_image')
