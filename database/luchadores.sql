@@ -21,7 +21,7 @@ CREATE TABLE posts (
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     post TEXT,
-    image VARCHAR(255),
+    post_image VARCHAR(255),
     date_publish TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 

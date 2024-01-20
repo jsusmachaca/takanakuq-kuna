@@ -7,7 +7,7 @@ export class post {
     static async getAll() {
         try {
             const [posts, ] = await connection.query(`
-            SELECT posts.id, users.username, posts.post, posts.image, posts.date_publish
+            SELECT posts.id, users.username, posts.post, posts.post_image, posts.date_publish
             FROM posts 
             JOIN users 
             ON posts.user_id=users.id
@@ -23,7 +23,7 @@ export class post {
     static async findByUser(id) {
         try {
             const [post, ] = await connection.query(`
-            SELECT post, image, date_publish
+            SELECT post, post_image, date_publish
             FROM posts
             WHERE user_id=?;
             `,
@@ -38,7 +38,7 @@ export class post {
     static async findById(id) {
         try {
             const [post, ] = await connection.query(`
-            SELECT users.username, posts.post, posts.image, posts.date_publish
+            SELECT users.username, posts.post, posts.post_image, posts.date_publish
             FROM posts
             JOIN users
             ON posts.user_id=users.id
@@ -57,11 +57,11 @@ export class post {
     static async createPost({ user_id, post }) {
         try {
             const [data, ] = await connection.query(`
-            INSERT INTO posts(user_id, post, image)
+            INSERT INTO posts(user_id, post, post_image)
             VALUES
             (?, ?, ?);
             `,
-            [user_id, post.post, post.image])
+            [user_id, post.post, post.post_image])
             return true
         } catch(error) {
             console.error(`\x1b[31man error occurred ${error}\x1b[0m`)

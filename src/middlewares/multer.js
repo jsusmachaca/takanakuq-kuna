@@ -1,7 +1,14 @@
 import multer from "multer";
 import path from 'node:path'
-import { multerStorage } from "../config/config.js";
+import { randomUUID } from "node:crypto";
 
+
+const multerStorage = dest => multer.diskStorage({
+    filename: (req, file, callback) => {
+        callback(null, randomUUID() + path.extname(file.originalname).toLowerCase())
+    },
+    destination: dest
+})
 
 export const multerMiddleware = dirname => multer({
     storage: multerStorage(path.join(dirname, '..', 'public', 'uploads')),

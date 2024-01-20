@@ -61,11 +61,3 @@ export const dateNow = () => {
 
     return fechaHoraUtc.toISOString().slice(0, 19).replace("T", " ");
 }
-
-
-export const multerStorage = dest => multer.diskStorage({
-        filename: (req, file, callback) => {
-            callback(null, file.originalname)
-        },
-        destination: dest
-})

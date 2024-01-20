@@ -57,7 +57,7 @@ export class postController {
             if (decodeToken === null) throw new Error('invalid token')
             
             if(req.file) {
-                req.body.image = req.file.filename
+                req.body.post_image = `/uploads/${req.file.filename}`
             }
             const results = postValidation(req.body)
 
@@ -82,7 +82,7 @@ export class postController {
             const decodeToken = validateToken(token)
             if (decodeToken === null) throw new Error('invalid token')
 
-            const { id } = req.qury
+            const { id } = req.query
 
             if (id === undefined) throw new Error('must provide id')
 
