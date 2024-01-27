@@ -44,13 +44,13 @@
 - **GET [/api/posts/post?id=*id*]()**
 - **DELETE [/api/posts/delete?id=*id*]()** *with token*
 - **POST [/api/posts/publish]()** *with token*  
-    optionals fields:
-        ```json
-        {
-            "post": "your post",
-            "image": "file"
-        }
-        ```
+  optionals fields:
+  ```json
+  {
+      "post": "your post",
+      "image": "file"
+  }
+  ```
 
 
 # Execution
