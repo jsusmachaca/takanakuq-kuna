@@ -18,7 +18,7 @@
 ## API EndPoints
 
 ### Auth EndPoints
-    * **POST [/api/user/register]()**  
+- **POST [/api/user/register]()**  
         body: 
         ```json
         {
@@ -39,11 +39,11 @@
         }
         ```
 ### Community EndPonts
-    * **GET [/api/posts]()**
-    * **GET [/api/posts/user]()** *with token*
-    * **GET [/api/posts/post?id=*id*]()**
-    * **DELETE [/api/posts/delete?id=*id*]()** *with token*
-    * **POST [/api/posts/publish]()** *with token*  
+- **GET [/api/posts]()**
+- **GET [/api/posts/user]()** *with token*
+- **GET [/api/posts/post?id=*id*]()**
+- **DELETE [/api/posts/delete?id=*id*]()** *with token*
+- **POST [/api/posts/publish]()** *with token*  
     optionals fields:
         ```json
         {
