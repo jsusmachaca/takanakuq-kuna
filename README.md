@@ -4,7 +4,7 @@
 
 ## Project Description
 
-> .[!IMPORTANT].
+> [!IMPORTANT]
 > API for Luchadores Platform, a opensource project designed to 
 
 **help people with neoplastic diseases (canser)**
@@ -51,7 +51,7 @@
         ```json
         {
             "post": "your post",
-            "image": :rice_scene:
+            "image": "file"
         }
         ```
 
@@ -60,7 +60,7 @@
 
 create database:
 ```sql
-SOURCE database/luchadores.sql
+SOURCE ./database/luchadores.sql
 ```
 install dependences and execute server:
 ```sh
