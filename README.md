@@ -5,15 +5,17 @@
 ## Project Description
 
 > .[!IMPORTANT].
-> API for Luchadores Platform, a opensource project designed to **help people with neoplastic diseases (canser)**
+> API for Luchadores Platform, a opensource project designed to 
+
+**help people with neoplastic diseases (canser)**
 
 ## Functions ✔️
 - [x] User Registration.
-- [ ] User authentication.
-- [ ] Community center.
-- [ ] Publications for the community.
-- [ ] Medical prescription record.
-- [ ] Personalized alerts when taking any medication.
+- [x] User authentication.
+- [x] Community center.
+- [x] Publications for the community.
+- [x] Medical prescription record.
+- [x] Personalized alerts when taking any medication.
 
 
 ## API EndPoints
@@ -39,7 +41,7 @@
             "password": "your_password"
         }
         ```
-* Community EndPonts :rice_scene:
+* Community EndPonts
     * **GET [/api/posts]()**
     * **GET [/api/posts/user]()** *with token*
     * **GET [/api/posts/post?id=*id*]()**
@@ -49,7 +51,7 @@
         ```json
         {
             "post": "your post",
-            "image": "file"
+            "image": :rice_scene:
         }
         ```
 
