@@ -31,13 +31,13 @@
   }
   ```
 - **POST [/api/user/login]()**  
-    body: 
-        ```json
-        {
-            "username": "your_username",
-            "password": "your_password"
-        }
-        ```
+  body: 
+  ```json
+  {
+      "username": "your_username",
+      "password": "your_password"
+  }
+  ```
 ### Community EndPonts
 - **GET [/api/posts]()**
 - **GET [/api/posts/user]()** *with token*
