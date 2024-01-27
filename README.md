@@ -5,9 +5,7 @@
 ## Project Description
 
 > [!IMPORTANT]
-> API for Luchadores Platform, a opensource project designed to 
-
-**help people with neoplastic diseases (canser)**
+> API for Luchadores Platform, a opensource project designed to **help people with neoplastic diseases (canser)**
 
 ## Functions ✔️
 - [x] User Registration.
