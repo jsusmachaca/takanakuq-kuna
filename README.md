@@ -17,7 +17,7 @@
 
 ## API EndPoints
 
-* Auth EndPoints
+### Auth EndPoints
     * **POST [/api/user/register]()**  
         body: 
         ```json
@@ -38,7 +38,7 @@
             "password": "your_password"
         }
         ```
-* Community EndPonts
+### Community EndPonts
     * **GET [/api/posts]()**
     * **GET [/api/posts/user]()** *with token*
     * **GET [/api/posts/post?id=*id*]()**
