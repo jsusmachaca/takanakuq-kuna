@@ -19,17 +19,17 @@
 
 ### Auth EndPoints
 - **POST [/api/user/register]()**  
-        body: 
-        ```json
-        {
-            "username": "your_username",
-            "password": "your_password",
-            "confirm_password": "your_password",
-            "first_name": "Your First Name",
-            "last_name": "Your Last Name",
-            "email": "your@email.com"
-        }
-        ```
+  body: 
+  ```json
+  {
+      "username": "your_username",
+      "password": "your_password",
+      "confirm_password": "your_password",
+      "first_name": "Your First Name",
+      "last_name": "Your Last Name",
+      "email": "your@email.com"
+  }
+  ```
 - **POST [/api/user/login]()**  
     body: 
         ```json
