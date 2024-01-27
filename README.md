@@ -30,7 +30,7 @@
             "email": "your@email.com"
         }
         ```
-    * **POST [/api/user/login]()**  
+- **POST [/api/user/login]()**  
     body: 
         ```json
         {
