@@ -16,6 +16,15 @@ CREATE TABLE users (
     date_joined TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 
+CREATE TABLE profile (
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    user_id INT UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    description TEXT,
+    profile_image VARCHAR(255),
+    date TIMESTAMP NOT NULL DEFAULT (NOW())
+);
+
 CREATE TABLE posts (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     user_id INT NOT NULL,

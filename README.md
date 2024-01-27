@@ -7,19 +7,19 @@
 > .[!IMPORTANT].
 > API for Luchadores Platform, a opensource project designed to **help people with neoplastic diseases (canser)**
 
-## Functions
-* User Registration.
-* User authentication.
-* Community center.
-* Publications for the community.
-* Medical prescription record.
-* Personalized alerts when taking any medication.
+## Functions ✔️
+- [x] User Registration.
+- [ ] User authentication.
+- [ ] Community center.
+- [ ] Publications for the community.
+- [ ] Medical prescription record.
+- [ ] Personalized alerts when taking any medication.
 
 
 ## API EndPoints
 
-* User EndPoints
-    * POST [/api/user/register]()  
+* Auth EndPoints
+    * **POST [/api/user/register]()**  
         body: 
         ```json
         {
@@ -31,7 +31,7 @@
             "email": "your@email.com"
         }
         ```
-    * POST [/api/user/login]()  
+    * **POST [/api/user/login]()**  
     body: 
         ```json
         {
@@ -39,11 +39,12 @@
             "password": "your_password"
         }
         ```
-* Posts EndPonts :rice_scene:
-    * GET [/api/posts]()
-    * GET [/api/posts/user]() *with token*
-    * GET [/api/posts/post?id=*id*]()
-    * POST [/api/posts/publish]() *with token*
+* Community EndPonts :rice_scene:
+    * **GET [/api/posts]()**
+    * **GET [/api/posts/user]()** *with token*
+    * **GET [/api/posts/post?id=*id*]()**
+    * **DELETE [/api/posts/delete?id=*id*]()** *with token*
+    * **POST [/api/posts/publish]()** *with token*  
     optionals fields:
         ```json
         {
@@ -51,4 +52,16 @@
             "image": "file"
         }
         ```
-    * DELETE [/api/posts/delete?id=*id*]() *with token*
+
+
+# Execution
+
+create database:
+```sql
+SOURCE database/luchadores.sql
+```
+install dependences and execute server:
+```sh
+npm install
+npm run dev
+```

@@ -21,6 +21,7 @@ app.use(json())
 app.use(corsMiddleware())
 app.use(static_(path.join(__dirname, 'public')))
 
+
 app.use('/api/user', users)
 app.use('/api/posts', posts)
 
