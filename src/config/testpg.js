@@ -25,14 +25,6 @@ const dbConnectionPg = async () => {
 
 const con = await dbConnectionPg()
 
-try {
-
-    const result = await con.query(`
-    INSERT INTO users(username, first_name, last_name, email, password)
-    VALUES
-    ($1, $2, $3, $4, $5);`,
-    ['lindo', 'pepe', 'juanito', 'puto', 'aadsadasasdas42'])
-    console.log(result)
-} catch (error) {
-    console.log('hay un erro bro' + error)
-}
+const { rows } = await con.query('SELECT * FROM users;')
+console.log(rows)
+con.release()
