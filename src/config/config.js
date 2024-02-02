@@ -26,7 +26,7 @@ export const dbConnectionPg = async () => {
     }
 }
 
-export const dbConnection = async () => {
+export const dbConnectionMysql = async () => {
     try {
         return await mysql.createConnection(config)
     } catch {

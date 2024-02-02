@@ -39,7 +39,7 @@
       "password": "your_password"
   }
   ```
-- **POST [/api/user/add-profile]()**  
+- **POST [/api/user/add-profile]()** *with token*  
   optionals fields:
   ```json
   {
@@ -47,7 +47,7 @@
       "profile_image": "your_profile_photo"
   }
   ```
-- **PUT [/api/user/edit-profile]()**  
+- **PUT [/api/user/edit-profile]()** *with token*  
   optionals fields:
   ```json
   {
@@ -57,7 +57,7 @@
   ```
 
 
-### Community EndPonts
+### Community EndPoints
 - **GET [/api/posts]()**
 - **GET [/api/posts/user]()** *with token*
 - **GET [/api/posts/post?id=*id*]()**
@@ -71,15 +71,41 @@
   }
   ```
 
+### Recipes EndPoints
+- **GET [/api/recipe/medicines]()** *with token*
+- **DELETE [/api/recipe/del]()** *with token*
+- **POST [/api/recipe/create]()** *with token*  
+  body:
+  ```json
+  {
+    "start_date": "timedate",
+    "end_date": "timedate"
+  }
+  ```
+- **POST [/api/recipes/add]()** *with token*  
+  body:
+  ```json
+  {
+    "medicine_name": "your medicine name",
+    "amount": int,
+    "hours": int
+  }
+  ```
+
 
 # Execution
 
-create database:
+### create database:
+mysql:
 ```sql
-SOURCE ./database/luchadores.sql
+SOURCE ./database/mysql/luchadores.sql
 ```
-install dependences and execute server:
+postgresql
+```sql
+\i ./database/postgres/luchadores.sql
+```
+install dependences and execute server (with pnpm):
 ```sh
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```

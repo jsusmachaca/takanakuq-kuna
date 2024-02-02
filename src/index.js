@@ -25,7 +25,7 @@ app.use(static_(path.join(__dirname, 'public')))
 
 app.use('/api/user', users)
 app.use('/api/posts', posts)
-app.use('/api/recipes', recipes)
+app.use('/api/recipe', recipes)
 
 
 
