@@ -1,4 +1,4 @@
-import { dbConnection } from "../config/config.js";
+import { dbConnection } from "../../config/config.js";
 import bcrypt from 'bcrypt'
 
 

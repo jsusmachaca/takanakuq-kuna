@@ -1,5 +1,5 @@
 import { validateToken } from "../config/config.js";
-import { post } from "../models/postModel.js";
+import { post } from "../models/pg/postModel.js";
 import { postValidation } from "../schemas/postSchema.js";
 
 
@@ -12,7 +12,8 @@ export class postController {
             posts = posts.map(post => {
                 return {
                     ...post,
-                    post_image: post.post_image && `${req.protocol}://${req.get('host')}/${post.post_image}`
+                    post_image: post.post_image && `${req.protocol}://${req.get('host')}/${post.post_image}`,
+                    profile_image: post.profile_image && `${req.protocol}://${req.get('host')}/${post.profile_image}`
                 }
             })
             return res.json(posts)
@@ -37,7 +38,8 @@ export class postController {
             posts = posts.map(post => {
                 return {
                     ...post,
-                    post_image: post.post_image && `${req.protocol}://${req.get('host')}/${post.post_image}`
+                    post_image: post.post_image && `${req.protocol}://${req.get('host')}/${post.post_image}`,
+                    profile_image: post.profile_image && `${req.protocol}://${req.get('host')}/${post.profile_image}`
                 }
             })
             return res.json(posts)
@@ -59,7 +61,8 @@ export class postController {
 
             posts = {
                 ...posts,
-                post_image: posts.post_image && `${req.protocol}://${req.get('host')}/${posts.post_image}`
+                post_image: posts.post_image && `${req.protocol}://${req.get('host')}/${posts.post_image}`,
+                profile_image: posts.profile_image && `${req.protocol}://${req.get('host')}/${posts.profile_image}`
             }
             return res.json(posts)
         

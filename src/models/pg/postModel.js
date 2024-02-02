@@ -1,19 +1,22 @@
-import { dbConnection } from "../config/config.js";
+import { dbConnectionPg } from "../../config/config.js";
 
-const connection = await dbConnection()
+const connection = await dbConnectionPg()
 
 
 export class post {
     static async getAll() {
         try {
-            const [posts, ] = await connection.query(`
-            SELECT posts.id, users.username, posts.post, posts.post_image, posts.date_publish
+            const { rows } = await connection.query(`
+            SELECT posts.id, users.username, profile.profile_image, posts.post, posts.post_image, posts.date_publish
             FROM posts 
             JOIN users 
             ON posts.user_id=users.id
+            JOIN profile
+            ON posts.user_id=profile.user_id
+
             ORDER BY posts.id;
             `)
-            return posts
+            return rows
         } catch(error) {
             console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
             return {error: error.message}
@@ -22,13 +25,15 @@ export class post {
 
     static async findByUser(id) {
         try {
-            const [post, ] = await connection.query(`
-            SELECT post, post_image, date_publish
+            const { rows } = await connection.query(`
+            SELECT profile.profile_image, posts.post, posts.post_image, posts.date_publish
             FROM posts
-            WHERE user_id=?;
+            JOIN profile
+            ON posts.user_id=profile.user_id
+            WHERE posts.user_id=$1;
             `,
             [id])
-            return post
+            return rows
         } catch(error) {
             console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
             return {error: error.message}
@@ -37,16 +42,18 @@ export class post {
 
     static async findById(id) {
         try {
-            const [post, ] = await connection.query(`
-            SELECT users.username, posts.post, posts.post_image, posts.date_publish
+            const { rows } = await connection.query(`
+            SELECT users.username, profile.profile_image, posts.post, posts.post_image, posts.date_publish
             FROM posts
             JOIN users
             ON posts.user_id=users.id
-            WHERE posts.id=?;
+            JOIN profile
+            ON posts.user_id=profile.user_id
+            WHERE posts.id=$1;
             `,
             [id])
-            if (post.length === 0) return null
-            return post[0]
+            if (rows.length === 0) return null
+            return rows[0]
 
         } catch(error) {
             console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
@@ -56,10 +63,10 @@ export class post {
 
     static async createPost({ user_id, post }) {
         try {
-            const [data, ] = await connection.query(`
+            const { rows } = await connection.query(`
             INSERT INTO posts(user_id, post, post_image)
             VALUES
-            (?, ?, ?);
+            ($1, $2, $3);
             `,
             [user_id, post.post, post.post_image])
             return true
@@ -71,9 +78,9 @@ export class post {
 
     static async deletePost({id, user_id}) {
         try {
-            const [data, ] = await connection.query(`
+            const { rows } = await connection.query(`
             DELETE FROM posts
-            WHERE id=? AND user_id=?;`,
+            WHERE id=$1 AND user_id=$2;`,
             [id, user_id])
             return true
         } catch(error) {
