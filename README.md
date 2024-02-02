@@ -1,25 +1,28 @@
-# Luchadores
+# Luchadores 💪
 
 * Author: *Jesus Gonzalo Machaca Hancco* (**jsusmachaca**)
 
+**Language**
+* [Español](./README.es.md)
+* English
 
 > [!IMPORTANT]
-> API for Luchadores Platform, a opensource project designed to **help people with neoplastic diseases (cancer)**
+> API for the "Luchadores platform", a open source project designed to **help people with neoplastic diseases (cancer)**
 
-## Functions ✔️
+## Functions ✅
 - [x] User Registration.
 - [x] User authentication.
-- [x] Community center.
+- [x] Social media.
 - [x] Publications for the community.
 - [x] Medical prescription record.
-- [x] Personalized alerts when taking any medication.
+- [ ] Personalized alerts when taking any medication.
 
 
-## API EndPoints
+# API EndPoints 🌐
 
-### Auth EndPoints
-- **GET [/api/user]()**
-- **POST [/api/user/register]()**  
+## Auth and profile information EndPoints 👤
+- **GET [BASE_URL/api/user]()**
+- **POST [BASE_URL/api/user/register]()**  
   body: 
   ```json
   {
@@ -31,7 +34,7 @@
       "email": "your@email.com"
   }
   ```
-- **POST [/api/user/login]()**  
+- **POST [BASE_URL/api/user/login]()**  
   body: 
   ```json
   {
@@ -39,7 +42,7 @@
       "password": "your_password"
   }
   ```
-- **POST [/api/user/add-profile]()** *with token*  
+- **POST [BASE_URL/api/user/add-profile]()** *with token*  
   optionals fields:
   ```json
   {
@@ -47,7 +50,7 @@
       "profile_image": "your_profile_photo"
   }
   ```
-- **PUT [/api/user/edit-profile]()** *with token*  
+- **PUT [BASE_URL/api/user/edit-profile]()** *with token*  
   optionals fields:
   ```json
   {
@@ -57,24 +60,24 @@
   ```
 
 
-### Community EndPoints
-- **GET [/api/posts]()**
-- **GET [/api/posts/user]()** *with token*
-- **GET [/api/posts/post?id=*id*]()**
-- **DELETE [/api/posts/delete?id=*id*]()** *with token*
-- **POST [/api/posts/publish]()** *with token*  
+## Social Media EndPoints 🧑‍🤝‍🧑🧑‍🤝‍🧑
+- **GET [BASE_URL/api/posts]()**
+- **GET [BASE_URL/api/posts/user]()** *with token*
+- **GET [BASE_URL/api/posts/post?id=*id*]()**
+- **DELETE [BASE_URL/api/posts/delete?id=*id*]()** *with token*
+- **POST [BASE_URL/api/posts/publish]()** *with token*  
   optionals fields:
   ```json
   {
       "post": "your post",
-      "image": "file"
+      "post_image": "file"
   }
   ```
 
-### Recipes EndPoints
-- **GET [/api/recipe/medicines]()** *with token*
-- **DELETE [/api/recipe/del]()** *with token*
-- **POST [/api/recipe/create]()** *with token*  
+## Recipes EndPoints 🗒️
+- **GET [BASE_URL/api/recipe/medicines]()** *with token*
+- **DELETE [BASE_URL/api/recipe/del]()** *with token*
+- **POST [BASE_URL/api/recipe/create]()** *with token*  
   body:
   ```json
   {
@@ -82,7 +85,7 @@
     "end_date": "timedate"
   }
   ```
-- **POST [/api/recipes/add]()** *with token*  
+- **POST [BASE_URL/api/recipes/add]()** *with token*  
   body:
   ```json
   {
@@ -93,14 +96,14 @@
   ```
 
 
-# Execution
+# Execution ✅
 
 ### create database:
 mysql:
 ```sql
 SOURCE ./database/mysql/luchadores.sql
 ```
-postgresql
+postgresql:
 ```sql
 \i ./database/postgres/luchadores.sql
 ```
