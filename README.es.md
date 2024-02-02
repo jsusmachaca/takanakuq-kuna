@@ -9,7 +9,7 @@
 > [!IMPORTANT]
 > API para la "plataforma Luchadores", un proyecto de código abierto diseñado para **ayudar a personas con enfermedades neoplásicas (cáncer)**
 
-## Functions ✅
+## Funciones ✅
 - [x] Registro de usuario.
 - [x] Autenticacion de usuario.
 - [x] Red social.
@@ -112,3 +112,21 @@ instala las dependencias y ejecuta el servidor (con pnpm):
 pnpm install
 pnpm run dev
 ```
+
+# ESTRUCTURA DEL PROYECTO
+
+## Base de datos: 
+![dbstructure](./images/schema.png)
+
+## Estructura de directorios:
+![dirstructure](./images/tree1.png)
+### Descripción:
+
+- **config:** Contiene archivos de configuración importantes, incluyendo ajustes para la conexión a la base de datos, fuentes permitidas para CORS, creación y validación de tokens, y configuraciones de fecha y hora.
+- **controllers:** Contiene controladores responsables de manejar validaciones, autenticación, registro de usuarios y la creación de nuevos registros en la base de datos.
+- **middlewares:** Contiene middlewares encargados de CORS y servicios multer para manejar archivos multimedia (multipart/form-data).
+- **models:** Contiene los modelos responsables de definir la estructura e interacciones con la base de datos.
+- **public:** Se utiliza para almacenar archivos multimedia.
+- **routes:** Contiene las rutas de la aplicación, responsables de servir los controladores.
+- **schemas:** Contiene esquemas de validación que describen la estructura y reglas de validación para la base de datos.
+- **index.js:** El archivo principal encargado de la construcción y ejecución del proyecto.

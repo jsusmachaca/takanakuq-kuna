@@ -112,3 +112,21 @@ install dependences and execute server (with pnpm):
 pnpm install
 pnpm run dev
 ```
+
+# PROJECT STRUCTURE
+
+## Database: 
+![dbstructure](./images/schema.png)
+
+## Directorys Structure:
+![dirstructure](./images/tree1.png)
+### Description:
+
+- **config:** Holds important configuration files, including settings for database connection, CORS sources, token creation and validation, and date/time settings.
+- **controllers:** Contains controllers responsible for handling validations, authentication, user registration, and creating new records in the database.
+- **middlewares:** Contains middlewares handling CORS and multer services for managing multimedia files (multipart/form-data).
+- **models:** Houses models responsible for defining the structure and interactions with the database.
+- **public:** Used for storing multimedia files.
+- **routes:** Contains application routes responsible for serving the controllers.
+- **schemas:** Holds validation schemes that describe the structure and validation rules for the database.
+- **index.js:** The main file responsible for constructing and executing the project.
