@@ -8,6 +8,7 @@ import dotenv from 'dotenv'
 import { posts } from './routes/posts.js'
 import path from 'node:path'
 import { fileURLToPath  } from 'node:url'
+import { recipes } from './routes/recipes.js'
 
 
 
@@ -24,6 +25,7 @@ app.use(static_(path.join(__dirname, 'public')))
 
 app.use('/api/user', users)
 app.use('/api/posts', posts)
+app.use('/api/recipes', recipes)
 
 
 

@@ -18,6 +18,7 @@
 ## API EndPoints
 
 ### Auth EndPoints
+- **GET [/api/user]()**
 - **POST [/api/user/register]()**  
   body: 
   ```json
@@ -38,6 +39,24 @@
       "password": "your_password"
   }
   ```
+- **POST [/api/user/add-profile]()**  
+  optionals fields:
+  ```json
+  {
+      "description": "your_description",
+      "profile_image": "your_profile_photo"
+  }
+  ```
+- **PUT [/api/user/edit-profile]()**  
+  optionals fields:
+  ```json
+  {
+      "description": "your_description",
+      "profile_image": "your_profile_photo"
+  }
+  ```
+
+
 ### Community EndPonts
 - **GET [/api/posts]()**
 - **GET [/api/posts/user]()** *with token*

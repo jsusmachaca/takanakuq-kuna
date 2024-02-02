@@ -29,10 +29,18 @@ CREATE TABLE posts (
     date_publish TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 
+CREATE TABLE recipes (
+    id SERIAL PRIMARY KEY NOT NULL,
+    user_id INT NOT NULL UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    start_date TIMESTAMP NOT NULL DEFAULT (NOW()),
+    end_date TIMESTAMP NOT NULL DEFAULT (NOW())
+);
+
 CREATE TABLE medicines (
     id SERIAL PRIMARY KEY NOT NULL,
-    user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    recipe_id INT NOT NULL,
+    FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
     medicine_name VARCHAR(60) NOT NULL,
     amount INT NOT NULL,
     hours INT NOT NULL

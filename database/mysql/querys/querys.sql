@@ -14,7 +14,14 @@ VALUES
 (3, 'Cómo están todos, espero que se encuentren muy bien, aqui yo luchando contra esta enfermedad. Solo quiero decirles y pedires que no se rindan, por nada del mundo, l@s quiero mucho'),
 (2, 'Cómo están todos, espero que se encuentren muy bien, aqui yo luchando contra esta enfermedad. Solo quiero decirles y pedires que no se rindan, por nada del mundo, l@s quiero mucho');
 
-INSERT INTO medicines(user_id, medicine_name, amount, hours)
+INSERT INTO recipes(user_id)
+VALUES 
+(1),
+(1),
+(1);
+
+
+INSERT INTO medicines(recipe_id, medicine_name, amount, hours)
 VALUES 
 (1, 'Diclofenaco', 1, 8),
 (1, 'Oxycodona', 1, 8),
@@ -22,9 +29,6 @@ VALUES
 (2, 'Diclofenaco', 1, 8),
 (2, 'Oxycodona', 1, 8),
 (2, 'Ibuprofeno', 1, 12),
-(3, 'Diclofenaco', 1, 8),
-(3, 'Oxycodona', 1, 8),
-(3, 'Ibuprofeno', 1, 12);
 
 INSERT INTO vital_signs(user_id, temperature, heart_rate)
 VALUES
@@ -54,3 +58,11 @@ FROM posts
 JOIN users
 on posts.user_id=users.id
 WHERE users.id=1;
+
+
+SELECT recipes.id, users.username, medicines.medicine_name 
+FROM recipes 
+JOIN medicines 
+ON recipes.id=medicines.recipe_id 
+JOIN users ON recipes.user_id=users.id 
+WHERE user_id=2;
