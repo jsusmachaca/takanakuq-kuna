@@ -13,7 +13,8 @@ const config = {
     port: process.env.DB_PORT ?? 5432,
     user: process.env.DB_USER ?? 'root',
     password: process.env.DB_PASSWORD ?? '',
-    database: process.env.DB_NAME ?? 'luchadores_test'
+    database: process.env.DB_NAME ?? 'luchadores_test',
+    ssl: 'require'
 }
 
 const pool = new Pool(config)
