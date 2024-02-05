@@ -14,7 +14,11 @@ const config = {
     user: process.env.DB_USER ?? 'root',
     password: process.env.DB_PASSWORD ?? '',
     database: process.env.DB_NAME ?? 'luchadores_test',
-    ssl: 'require'
+    // to production
+    ssl: 'require',
+    connection: {
+        options: `project=${process.env.ENDPOINT_ID}`,
+    },
 }
 
 const pool = new Pool(config)
