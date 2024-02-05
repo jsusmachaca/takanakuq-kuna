@@ -8,17 +8,28 @@ const { Pool } = pkg
 
 dotenv.config()
 
-const config = {
-    host: process.env.DB_HOST ?? 'localhost',
-    port: process.env.DB_PORT ?? 5432,
-    user: process.env.DB_USER ?? 'root',
-    password: process.env.DB_PASSWORD ?? '',
-    database: process.env.DB_NAME ?? 'luchadores_test',
-    // to production
-    ssl: 'require',
-    connection: {
-        options: `project=${process.env.ENDPOINT_ID}`,
-    },
+let config
+
+if (!!process.env.DEBUG) {
+    config = {
+        host: process.env.DB_HOST ?? 'localhost',
+        port: process.env.DB_PORT ?? 5432,
+        user: process.env.DB_USER ?? 'root',
+        password: process.env.DB_PASSWORD ?? '',
+        database: process.env.DB_NAME ?? 'luchadores_test',
+    }
+} else {
+    config = {
+        host: process.env.DB_HOST ?? 'localhost',
+        port: process.env.DB_PORT ?? 5432,
+        user: process.env.DB_USER ?? 'root',
+        password: process.env.DB_PASSWORD ?? '',
+        database: process.env.DB_NAME ?? 'luchadores_test',
+        // to production
+        ssl: {
+            require: true,
+        },
+    }
 }
 
 const pool = new Pool(config)
@@ -27,7 +38,7 @@ export const dbConnectionPg = async () => {
     try {
         return await pool.connect()
     } catch (error) {
-        console.error('\x1b[31merror connecting to database\x1b[0m' + error)
+        console.error('\x1b[31merror connecting to database \x1b[0m' + error)
     }
 }
 
@@ -35,7 +46,7 @@ export const dbConnectionMysql = async () => {
     try {
         return await mysql.createConnection(config)
     } catch {
-        console.error('\x1b[31merror connecting to database\x1b[0m')
+        console.error('\x1b[31merror connecting to database \x1b[0m')
     }
 }
 
