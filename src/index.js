@@ -29,7 +29,7 @@ app.use('/api/recipe', recipes)
 
 
 
-const PORT = process.env.SERVER_PORT
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`\x1b[33mserver listening on port ${PORT}\x1b[0m`)
 })
