@@ -1,0 +1,9 @@
+.env
+.env.example
+node_modules
+LICENSE
+pnpm-lock.yaml
+README.md
+README.es.md
+.gitignore
+./images

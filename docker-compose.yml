@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      - SECRET_KEY=
+      - PORT=80
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=luchadores
+      - DB_USER=userPGSQL
+      - DB_PASSWORD=passPGSQL
+    networks:
+      - luchadores-net
+    depends_on:
+      - db
+  
+  db:  
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=passPGSQL
+    networks:
+      - luchadores-net
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/postgres/luchadores.sql:/docker-entrypoint-initdb.d/luchadores.sql
+
+volumes:
+  postgres-data:
+
+networks:
+  luchadores-net:

@@ -10,43 +10,36 @@ dotenv.config()
 
 let config
 
-if (!!process.env.DEBUG) {
-    config = {
-        host: process.env.DB_HOST ?? 'localhost',
-        port: process.env.DB_PORT ?? 5432,
-        user: process.env.DB_USER ?? 'root',
-        password: process.env.DB_PASSWORD ?? '',
-        database: process.env.DB_NAME ?? 'luchadores_test',
-    }
-} else {
-    config = {
-        host: process.env.DB_HOST ?? 'localhost',
-        port: process.env.DB_PORT ?? 5432,
-        user: process.env.DB_USER ?? 'root',
-        password: process.env.DB_PASSWORD ?? '',
-        database: process.env.DB_NAME ?? 'luchadores_test',
-        // to production
-        ssl: {
-            require: true,
-        },
-    }
+config = {
+    host: process.env.DB_HOST ?? 'localhost',
+    port: process.env.DB_PORT ?? 5432,
+    user: process.env.DB_USER ?? 'root',
+    password: process.env.DB_PASSWORD ?? '',
+    database: process.env.DB_NAME ?? 'luchadores_test',
 }
 
 const pool = new Pool(config)
 
 export const dbConnectionPg = async () => {
-    try {
-        return await pool.connect()
-    } catch (error) {
-        console.error('\x1b[31merror connecting to database \x1b[0m' + error)
+    let retries = 5
+
+    while (retries > 0) {
+        try {
+            return await pool.connect()
+        } catch (error) {
+            retries--
+            console.error(`\x1b[33mTrying to establish a connection to the database\x1b[0m => ${error}`)
+            await new Promise(resolve => setTimeout(resolve, 6000))
+        }
     }
+    console.error('\x1b[31m\nCould not establish connection after attempts\n\x1b[0m')
 }
 
 export const dbConnectionMysql = async () => {
     try {
         return await mysql.createConnection(config)
-    } catch {
-        console.error('\x1b[31merror connecting to database \x1b[0m')
+    } catch (error) {
+        console.error(`\x1b[31mError connecting to mysql database \x1b[0m => ${error}`)
     }
 }
 
@@ -61,12 +54,13 @@ export const ACCEPTED_ORIGINS = [
     'http://127.0.0.1:19006'
 ]
 
+const SECRET_KEY = process.env.SECRET_KEY
 
-export const generateToken = ({ data }) => jwt.sign(data, process.env.SECRET_KEY, {expiresIn: '1y'})
+export const generateToken = ({ data }) => jwt.sign(data, SECRET_KEY, {expiresIn: '1y'})
 
 export const validateToken = (token) => {
     try{
-        const decodedToken = jwt.verify(token, process.env.SECRET_KEY)
+        const decodedToken = jwt.verify(token, SECRET_KEY)
         return decodedToken 
     } catch (error) {
         return null
