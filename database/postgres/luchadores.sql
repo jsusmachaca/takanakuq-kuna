@@ -1,14 +1,9 @@
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'luchadores') THEN
-        CREATE DATABASE luchadores;
-    END IF;
-END $$;
+CREATE DATABASE luchadores;
 
 \c luchadores;
 
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
     id SERIAL PRIMARY KEY NOT NULL,
     username VARCHAR(100) UNIQUE NOT NULL,
     first_name VARCHAR(255) NOT NULL,
@@ -21,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
     date_joined TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 
-CREATE TABLE IF NOT EXISTS profile (
+CREATE TABLE profile (
     id SERIAL PRIMARY KEY NOT NULL,
     user_id INT UNIQUE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -30,7 +25,7 @@ CREATE TABLE IF NOT EXISTS profile (
     date TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 
-CREATE TABLE IF NOT EXISTS posts (
+CREATE TABLE posts (
     id SERIAL PRIMARY KEY NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -39,7 +34,7 @@ CREATE TABLE IF NOT EXISTS posts (
     date_publish TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 
-CREATE TABLE IF NOT EXISTS recipes (
+CREATE TABLE recipes (
     id SERIAL PRIMARY KEY NOT NULL,
     user_id INT NOT NULL UNIQUE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -47,7 +42,7 @@ CREATE TABLE IF NOT EXISTS recipes (
     end_date TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 
-CREATE TABLE IF NOT EXISTS medicines (
+CREATE TABLE medicines (
     id SERIAL PRIMARY KEY NOT NULL,
     recipe_id INT NOT NULL,
     FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
@@ -56,7 +51,7 @@ CREATE TABLE IF NOT EXISTS medicines (
     hours INT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS vital_signs (
+CREATE TABLE vital_signs (
     id SERIAL PRIMARY KEY NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
