@@ -53,7 +53,7 @@ export class userController {
 
             const data = await user.findUser(validation.user_id)
             if (data.error){
-                return res.status(400).json({error: "error when modifying"})
+                return res.status(400).json({error: "error when showing user"})
             }
             return res.json(data)
 
@@ -70,6 +70,9 @@ export class userController {
         }
         const data = await user.createUser({ data: results.data })
         if (data.error) {
+            if (data.error.startsWith('llave duplicada')) {
+                return res.status(400).json({error: 'the user you are trying to register already exists'})
+            }
             return res.status(400).json({error: "register error"})
         }
         return res.status(201).json({success: data, data: results.data})
