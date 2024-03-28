@@ -1,34 +1,35 @@
 version: '3.9'
 services:
-  web:
+  app:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
     environment:
-      - SECRET_KEY=
+      - SECRET_KEY=base64
       - PORT=3000
       - DB_HOST=db
       - DB_PORT=5432
       - DB_NAME=luchadores
-      - DB_USER=postgres
+      - DB_USER=psqlUser
       - DB_PASSWORD=passPGSQL
     networks:
       - luchadores-net
-    depends_on:
-      - db
+    ports:
+      - "3000:3000"
     volumes:
       - .:/app
+    depends_on:
+      - db
   
   db:  
-    image: postgres:latest
-    ports:
-      - "5432:5432"
+    image: postgres:16.2
     environment:
+      - POSTGRES_USER=psqlUser
       - POSTGRES_PASSWORD=passPGSQL
     networks:
       - luchadores-net
+    ports:
+      - "5432:5432"
     volumes:
       - ./database/postgres/luchadores.sql:/docker-entrypoint-initdb.d/luchadores.sql
 
