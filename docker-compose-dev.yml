@@ -9,11 +9,11 @@ services:
       - PORT=3000
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_NAME=luchadores
+      - DB_NAME=takanakuq
       - DB_USER=psqlUser
       - DB_PASSWORD=passPGSQL
     networks:
-      - luchadores-net
+      - takanakuq-net
     ports:
       - "3000:3000"
     volumes:
@@ -27,11 +27,11 @@ services:
       - POSTGRES_USER=psqlUser
       - POSTGRES_PASSWORD=passPGSQL
     networks:
-      - luchadores-net
+      - takanakuq-net
     ports:
       - "5432:5432"
     volumes:
-      - ./database/postgres/luchadores.sql:/docker-entrypoint-initdb.d/luchadores.sql
+      - ./database/postgres/takanakuq.sql:/docker-entrypoint-initdb.d/takanakuq.sql
 
 networks:
-  luchadores-net:
+  takanakuq-net:

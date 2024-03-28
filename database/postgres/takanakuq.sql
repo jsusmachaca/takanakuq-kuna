@@ -1,6 +1,6 @@
-CREATE DATABASE luchadores;
+CREATE DATABASE takanakuq;
 
-\c luchadores;
+\c takanakuq;
 
 
 CREATE TABLE users (
