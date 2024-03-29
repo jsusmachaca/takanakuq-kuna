@@ -7,16 +7,16 @@ import { postValidation } from "../schemas/postSchema.js";
 export class postController {
     static async getAllPosts(req, res) {
         try {
-            let posts = await post.getAll()
-            if (posts.error) throw new Error('error to show posts')
-            posts = posts.map(post => {
+            let data = await post.getAll()
+            if (data.error) throw new Error('error to show posts')
+            data = data.map(post => {
                 return {
                     ...post,
                     post_image: post.post_image && `${req.protocol}://${req.get('host')}/${post.post_image}`,
                     profile_image: post.profile_image && `${req.protocol}://${req.get('host')}/${post.profile_image}`
                 }
             })
-            return res.json(posts)
+            return res.json(data)
             
         } catch(error){
             return res.status(401).json({error: error.message})
@@ -32,17 +32,17 @@ export class postController {
             const decodeToken = validateToken(token)
             if (decodeToken === null) throw new Error('invalid token')
 
-            let posts = await post.findByUser(decodeToken.user_id)
-            if (posts.error) throw new Error('error to show posts')
+            let data = await post.findByUser(decodeToken.user_id)
+            if (data.error) throw new Error('error to show posts')
 
-            posts = posts.map(post => {
+            data = data.map(post => {
                 return {
                     ...post,
                     post_image: post.post_image && `${req.protocol}://${req.get('host')}/${post.post_image}`,
                     profile_image: post.profile_image && `${req.protocol}://${req.get('host')}/${post.profile_image}`
                 }
             })
-            return res.json(posts)
+            return res.json(data)
 
         } catch(error) {
             return res.status(401).json({error: error.message})
@@ -55,16 +55,16 @@ export class postController {
 
             if (id === undefined) throw new Error('must provide id')
 
-            let posts = await post.findById(id)
-            if(posts === null) throw new Error('post not found') 
-            if(posts.error) throw new Error('error to get post')
+            let data = await post.findById(id)
+            if(data === null) throw new Error('post not found') 
+            if(data.error) throw new Error('error to get post')
 
-            posts = {
-                ...posts,
-                post_image: posts.post_image && `${req.protocol}://${req.get('host')}/${posts.post_image}`,
-                profile_image: posts.profile_image && `${req.protocol}://${req.get('host')}/${posts.profile_image}`
+            data = {
+                ...data,
+                post_image: data.post_image && `${req.protocol}://${req.get('host')}/${data.post_image}`,
+                profile_image: data.profile_image && `${req.protocol}://${req.get('host')}/${data.profile_image}`
             }
-            return res.json(posts)
+            return res.json(data)
         
         } catch(error) {
             return res.status(401).json({error: error.message})
@@ -87,9 +87,9 @@ export class postController {
 
             if(results.error) return res.status(400).json({error: results.error.issues[0].message})
 
-            const posts = await post.createPost({user_id: decodeToken.user_id, post: results.data})
-            if(posts.error) throw new Error('error to publish post')
-            return res.json(posts)
+            const data = await post.createPost({user_id: decodeToken.user_id, post: results.data})
+            if(data.error) throw new Error('error to publish post')
+            return res.json(data)
         
         } catch(error) {
             return res.status(401).json({error: error.message})
@@ -110,10 +110,10 @@ export class postController {
 
             if (id === undefined) throw new Error('must provide id')
 
-            const posts = await post.deletePost({id: id, user_id: decodeToken.user_id})
-            if(posts.error) throw new Error('error to delete post')
+            const data = await post.deletePost({id: id, user_id: decodeToken.user_id})
+            if(data.error) throw new Error('error to delete post')
 
-            return res.json(posts)
+            return res.json(data)
         
         } catch(error) {
             return res.status(401).json({error: error.message})

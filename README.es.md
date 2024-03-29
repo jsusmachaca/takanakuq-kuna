@@ -77,7 +77,7 @@ Para obtener las publicaciones de un usuario
 - **GET [BASE_URL/api/posts/user]()** *con token*
 
 Para obtener una publicación especifica
-- **GET [BASE_URL/api/posts/post?id=*id*]()**
+- **GET [BASE_URL/api/posts/get-post?id=*id*]()**
 
 Para eliminar una publicación especifica
 - **DELETE [BASE_URL/api/posts/delete?id=*id*]()** *con token*

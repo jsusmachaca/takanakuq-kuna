@@ -74,7 +74,7 @@ In order to obtain the posts of each user
 - **GET [BASE_URL/api/posts/user]()** *with token*
 
 In order to obtain a specific post
-- **GET [BASE_URL/api/posts/post?id=*id*]()**
+- **GET [BASE_URL/api/posts/get-post?id=*id*]()**
 
 To be able to delete a post
 - **DELETE [BASE_URL/api/posts/delete?id=*id*]()** *with token*

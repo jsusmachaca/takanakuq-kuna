@@ -12,8 +12,8 @@ export class userController {
             token = authorization.substring(7)
             const validation = validateToken(token)
             if (validation === null) throw new Error('invalid token')
-            const users = await user.getAll()
-            return res.json(users)
+            const data = await user.getAll()
+            return res.json(data)
         } catch(error) {
             return res.status(401).json({error: error.message})
         }
@@ -25,19 +25,19 @@ export class userController {
         if (results.error){
             return res.status(400)
         }
-        const users = await user.findByName({ data: results.data })
-        if (users === null) {
-            return res.status(404).json({error: 'incorrect credentials'});
+        const data = await user.findByName({ data: results.data })
+        if (data === null) {
+            return res.status(404).json({ error: 'incorrect credentials' });
         }
-        if (users.error) return res.status(404).json({error: 'incorrect credentials'})
+        if (data.error) return res.status(404).json({ error: 'incorrect credentials' })
         
         const userForToken = {
-            user_id: users.id,
-            username: users.username
+            user_id: data.id,
+            username: data.username
         }
 
-        const token = generateToken({data: userForToken})
-        return res.json({access_token: token})
+        const token = generateToken({ data: userForToken })
+        return res.json({ access_token: token })
     }
 
     // Show user profile data

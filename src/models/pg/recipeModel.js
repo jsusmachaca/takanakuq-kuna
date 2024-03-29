@@ -83,6 +83,20 @@ export class recipe {
       }
   }
 
+  static async deleteMedicine({ recipe_id, medicine_id }) {
+    try {
+      const { rows } = await connection.query(`
+      DELETE FROM medicines
+      WHERE recipe_id=$1 AND id=$2;`,
+      [recipe_id, medicine_id])
+      return true
+    }
+    catch(error) {
+      console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
+      return {error: error.message}
+    }
+  }
+
   static async deleteRecipe(user_id) {
     try {
       const { rows } = await connection.query(`
