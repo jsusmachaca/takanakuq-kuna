@@ -20,7 +20,7 @@ export class recipeController {
       if(recipeId === null) throw new Error("recipe don't created") 
 
       let data = await recipe.findMedicines(decodeToken.user_id)
-      if (data === null) throw new Error('there are no registered medications yet.')
+      if (data === null) throw new Error('there are no registered medicines yet.')
       if (data.error) throw new Error('error to show medicines ')
       return res.json(data)
 
