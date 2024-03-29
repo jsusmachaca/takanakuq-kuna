@@ -94,7 +94,7 @@ To fill all prescription medications.
 - **GET [BASE_URL/api/recipe/medicines]()** *with token*
 
 To delete a recipe
-- **DELETE [BASE_URL/api/recipe/del]()** *with token*
+- **DELETE [BASE_URL/api/recipe/delete]()** *with token*
 
 To create a new recipe
 - **POST [BASE_URL/api/recipe/create]()** *with token*  

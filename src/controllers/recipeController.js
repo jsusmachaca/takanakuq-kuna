@@ -16,8 +16,12 @@ export class recipeController {
       const decodeToken = validateToken(token)
       if (decodeToken === null) throw new Error('invalid token')
 
+      const recipeId = await recipe.getId(decodeToken.user_id)
+      if(recipeId === null) throw new Error("recipe don't created") 
+
       let data = await recipe.findMedicines(decodeToken.user_id)
-      if (data.error) throw new Error('error to show medicines')
+      if (data === null) throw new Error('there are no registered medications yet.')
+      if (data.error) throw new Error('error to show medicines ')
       return res.json(data)
 
     } catch(error) {

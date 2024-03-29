@@ -97,7 +97,7 @@ Para obtener los medicamentos de la receta
 - **GET [BASE_URL/api/recipe/medicines]()** *con token*
 
 Para eliminar una receta
-- **DELETE [BASE_URL/api/recipe/del]()** *con token*
+- **DELETE [BASE_URL/api/recipe/delete]()** *con token*
 
 Para crear una nueva receta
 - **POST [BASE_URL/api/recipe/create]()** *con token*  

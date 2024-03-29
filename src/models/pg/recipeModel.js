@@ -21,7 +21,7 @@ export class recipe {
       JOIN users ON recipes.user_id=users.id 
       WHERE user_id=$1;`,
       [user_id])
-      // if (rows.length === 0) return null
+      if (rows.length === 0) return null
       const data = {
         recipe_id: rows[0].recipe_id,
         username: rows[0].username,
