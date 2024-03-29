@@ -11,7 +11,7 @@ export const users = Router()
 
 
 // users.get('/', userController.getAll)
-users.get('/', userController.findUser)
+users.get('/data', userController.findUser)
 users.post('/register', userController.createUser)
 users.post('/login', userController.findByName)
 users.post('/add-profile', multerMiddlewareProfile(__dirname, 'profiles') , userController.createProfile)

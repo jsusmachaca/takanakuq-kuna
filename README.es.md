@@ -21,7 +21,10 @@
 # Puntos finales de API 🌐
 
 ## Puntos finales de autenticación y información del perfil 👤
-- **GET [BASE_URL/api/user]()**
+Para obtener los datos del usuario
+- **GET [BASE_URL/api/user]()** *with token*
+
+Para registrar un nuevo usuario
 - **POST [BASE_URL/api/user/register]()**  
   cuerpo: 
   ```json
@@ -34,6 +37,8 @@
     "email": "tu_correo@email.com"
   }
   ```
+
+Para iniciar sesión
 - **POST [BASE_URL/api/user/login]()**  
   cuerpo: 
   ```json
@@ -42,6 +47,8 @@
     "password": "tu_contraseña"
   }
   ```
+
+Para agregar información del usuario
 - **POST [BASE_URL/api/user/add-profile]()** *con token*  
   campos opcionales:
   ```json
@@ -50,6 +57,8 @@
     "profile_image": "tu_foto_de_perfil"
   }
   ```
+
+Para editar la información del usuario
 - **PUT [BASE_URL/api/user/edit-profile]()** *con token*  
   campos opcionales:
   ```json
@@ -61,10 +70,19 @@
 
 
 ## Puntos finales de redes sociales 🧑‍🤝‍🧑🧑‍🤝‍🧑
+Para obtener todas las publicaciones
 - **GET [BASE_URL/api/posts]()**
+
+Para obtener las publicaciones de un usuario
 - **GET [BASE_URL/api/posts/user]()** *con token*
+
+Para obtener una publicación especifica
 - **GET [BASE_URL/api/posts/post?id=*id*]()**
+
+Para eliminar una publicación especifica
 - **DELETE [BASE_URL/api/posts/delete?id=*id*]()** *con token*
+
+Para realizar una publicación
 - **POST [BASE_URL/api/posts/publish]()** *con token*  
   campos opcionales:
   ```json
@@ -75,8 +93,13 @@
   ```
 
 ## Puntos finales de recetas 🗒️
+Para obtener los medicamentos de la receta
 - **GET [BASE_URL/api/recipe/medicines]()** *con token*
+
+Para eliminar una receta
 - **DELETE [BASE_URL/api/recipe/del]()** *con token*
+
+Para crear una nueva receta
 - **POST [BASE_URL/api/recipe/create]()** *con token*  
   cuerpo:
   ```json
@@ -85,6 +108,8 @@
     "end_date": "timedate"
   }
   ```
+
+Para agregar medicamentos en la receta
 - **POST [BASE_URL/api/recipes/add]()** *con token*  
   cuerpo:
   ```json

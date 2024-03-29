@@ -21,7 +21,10 @@
 # API EndPoints 🌐
 
 ## Auth and profile information EndPoints 👤
-- **GET [BASE_URL/api/user]()**
+To get user data
+- **GET [BASE_URL/api/user/data]()** *with token* 
+
+In order to register the user
 - **POST [BASE_URL/api/user/register]()**  
   body: 
   ```json
@@ -34,6 +37,7 @@
       "email": "your@email.com"
   }
   ```
+To be able to log in
 - **POST [BASE_URL/api/user/login]()**  
   body: 
   ```json
@@ -42,6 +46,7 @@
       "password": "your_password"
   }
   ```
+To be able to add user information
 - **POST [BASE_URL/api/user/add-profile]()** *with token*  
   optionals fields:
   ```json
@@ -50,6 +55,7 @@
       "profile_image": "your_profile_photo"
   }
   ```
+In order to edit the information
 - **PUT [BASE_URL/api/user/edit-profile]()** *with token*  
   optionals fields:
   ```json
@@ -61,10 +67,19 @@
 
 
 ## Social Media EndPoints 🧑‍🤝‍🧑🧑‍🤝‍🧑
-- **GET [BASE_URL/api/posts]()**
+To be able to get all the posts
+- **GET [BASE_URL/api/posts/all]()**
+
+In order to obtain the posts of each user
 - **GET [BASE_URL/api/posts/user]()** *with token*
+
+In order to obtain a specific post
 - **GET [BASE_URL/api/posts/post?id=*id*]()**
+
+To be able to delete a post
 - **DELETE [BASE_URL/api/posts/delete?id=*id*]()** *with token*
+
+To be able to make posts
 - **POST [BASE_URL/api/posts/publish]()** *with token*  
   optionals fields:
   ```json
@@ -75,8 +90,13 @@
   ```
 
 ## Recipes EndPoints 🗒️
+To fill all prescription medications.
 - **GET [BASE_URL/api/recipe/medicines]()** *with token*
+
+To delete a recipe
 - **DELETE [BASE_URL/api/recipe/del]()** *with token*
+
+To create a new recipe
 - **POST [BASE_URL/api/recipe/create]()** *with token*  
   body:
   ```json
@@ -85,7 +105,8 @@
     "end_date": "timedate"
   }
   ```
-- **POST [BASE_URL/api/recipes/add]()** *with token*  
+To add medications to the prescription
+- **POST [BASE_URL/api/recipe/medicines/add]()** *with token*  
   body:
   ```json
   {

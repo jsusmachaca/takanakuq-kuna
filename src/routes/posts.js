@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename)
 
 export const posts = Router()
 
-posts.get('/', postController.getAllPosts)
+posts.get('/all', postController.getAllPosts)
 posts.get('/post', postController.getPost)
 posts.get('/user', postController.getUserPosts)
 posts.post('/publish', multerMiddleware(__dirname, 'uploads'), postController.createPost)

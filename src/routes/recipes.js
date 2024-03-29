@@ -5,5 +5,5 @@ export const recipes = Router()
 
 recipes.get('/medicines', recipeController.findMedicines)
 recipes.post('/create', recipeController.createRecipe)
-recipes.post('/add', recipeController.createMedicines)
+recipes.post('/medicines/add', recipeController.createMedicines)
 recipes.delete('/del', recipeController.deleteRecipe)
