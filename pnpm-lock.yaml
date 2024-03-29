@@ -27,7 +27,7 @@ dependencies:
     specifier: 3.7.0
     version: 3.7.0
   pg:
-    specifier: ^8.11.3
+    specifier: 8.11.3
     version: 8.11.3
   zod:
     specifier: 3.22.4

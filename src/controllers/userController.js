@@ -51,9 +51,13 @@ export class userController {
 
             if (validation === null) throw new Error('invalid token')
 
-            const data = await user.findUser(validation.user_id)
+            let data = await user.findUser(validation.user_id)
             if (data.error){
                 return res.status(400).json({error: "error when showing user"})
+            }
+            data = {
+                ...data,
+                profile_image: data.profile_image && `${req.protocol}://${req.get('host')}/${data.profile_image}`
             }
             return res.json(data)
 
