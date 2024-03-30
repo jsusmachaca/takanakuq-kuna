@@ -1,4 +1,4 @@
-import { validateToken } from "../config/config.js";
+import { cryptoNamed, getS3Images, uploadS3Images, validateToken } from "../config/config.js";
 import { post } from "../models/pg/postModel.js";
 import { postValidation } from "../schemas/postSchema.js";
 
@@ -9,13 +9,17 @@ export class postController {
     try {
       let data = await post.getAll()
       if (data.error) throw new Error('error to show posts')
-      data = data.map(post => {
+      
+      console.log(data)
+      data = await Promise.all(data.map(async post => {
+        const urlImage = await getS3Images({ filename: post.post_image, carpet: 'posts'})
+        const urlProfileImage = await getS3Images({ filename: post.profile_image, carpet: 'profiles' })
         return {
           ...post,
-          post_image: post.post_image && `${req.protocol}://${req.get('host')}/${post.post_image}`,
-          profile_image: post.profile_image && `${req.protocol}://${req.get('host')}/${post.profile_image}`
+          post_image: post.post_image && urlImage,
+          profile_image: post.profile_image && urlProfileImage
         }
-      })
+      }))
       return res.json(data)
       
     } catch(error){
@@ -35,13 +39,15 @@ export class postController {
       let data = await post.findByUser(decodeToken.user_id)
       if (data.error) throw new Error('error to show posts')
 
-      data = data.map(post => {
+      data = await Promise.all(data.map(async post => {
+        const urlImage = await getS3Images({ filename: post.post_image, carpet: 'posts' })
+        const urlProfileImage = await getS3Images({ filename: post.profile_image, carpet: 'profiles' })
         return {
           ...post,
-          post_image: post.post_image && `${req.protocol}://${req.get('host')}/${post.post_image}`,
-          profile_image: post.profile_image && `${req.protocol}://${req.get('host')}/${post.profile_image}`
+          post_image: post.post_image && urlImage,
+          profile_image: post.profile_image && urlProfileImage
         }
-      })
+      }))
       return res.json(data)
 
     } catch(error) {
@@ -61,8 +67,8 @@ export class postController {
 
       data = {
         ...data,
-        post_image: data.post_image && `${req.protocol}://${req.get('host')}/${data.post_image}`,
-        profile_image: data.profile_image && `${req.protocol}://${req.get('host')}/${data.profile_image}`
+        post_image: data.post_image && await getS3Images({ filename: data.post_image, carpet: 'posts' }),
+        profile_image: data.profile_image && await getS3Images({ filename: data.profile_image, carpet: 'profiles' })
       }
       return res.json(data)
   
@@ -81,7 +87,9 @@ export class postController {
       if (decodeToken === null) throw new Error('invalid token')
       
       if(req.file) {
-        req.body.post_image = `uploads/${req.file.filename}`
+        const filename = cryptoNamed(req.file.originalname)
+        await uploadS3Images({ filename: filename, carpet: 'posts', buffer: req.file.buffer})
+        req.body.post_image = filename
       }
       const results = postValidation(req.body)
 

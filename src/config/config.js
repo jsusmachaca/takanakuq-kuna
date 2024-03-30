@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken'
 import pkg from 'pg'
 import { randomUUID } from 'node:crypto'
 import { extname } from 'node:path'
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
 
 // CORS ORIGINS
@@ -70,7 +72,37 @@ export const validateToken = (token) => {
 }
 
 
+// AWS CONFIG
 export const cryptoNamed = (originalName) => {
   const newName = randomUUID().replace(/-/g, '') + extname(originalName).toLowerCase()
   return newName
+}
+
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  }
+})
+
+export const uploadS3Images = async ({ filename, carpet, buffer }) => {
+  const params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: `${carpet}/${filename}`,
+    Body: buffer
+  }
+  const command = new PutObjectCommand(params)
+  const result = await s3.send(command)
+  return result
+}
+
+export const getS3Images = async ({ filename, carpet }) => {
+  const params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: `${carpet}/${filename}`,
+  }
+  const command = new GetObjectCommand(params)
+  const urlImage = await getSignedUrl(s3, command)
+  return urlImage
 }

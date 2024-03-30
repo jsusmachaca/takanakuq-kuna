@@ -1,6 +1,6 @@
 import { user } from "../models/pg/userModel.js";
 import { userProfileValidation, userValidation, userValidationPartial } from "../schemas/userSchema.js";
-import { generateToken, validateToken } from "../config/config.js";
+import { cryptoNamed, generateToken, uploadS3Images, validateToken } from "../config/config.js";
 
 
 export class userController {
@@ -142,7 +142,9 @@ export class userController {
       if (decodeToken === null) throw new Error('invalid token')
 
       if(req.file) {
-        req.body.profile_image = `profiles/${req.file.filename}`
+        const filename = cryptoNamed(req.file.originalname)
+        await uploadS3Images({ filename: filename, buffer: req.file.buffer, carpet: 'profiles' })
+        req.body.profile_image = filename
       }
       
       const results = userProfileValidation(req.body)
@@ -171,7 +173,9 @@ export class userController {
       if (decodeToken === null) throw new Error('invalid token') 
 
       if(req.file) { // extract file 
-          req.body.profile_image = `profiles/${req.file.filename}`
+        const filename = cryptoNamed(req.file.originalname)
+        await uploadS3Images({ filename: filename, buffer: req.file.buffer, carpet: 'profiles' })
+        req.body.profile_image = filename
       }
 
       const results = userProfileValidation(req.body)

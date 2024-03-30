@@ -1,18 +1,11 @@
 import multer from "multer";
 import path from 'node:path'
-import { randomUUID } from "node:crypto";
 
 
-const multerStorage = dest => multer.diskStorage({
-  filename: (req, file, callback) => {
-    callback(null, randomUUID() + path.extname(file.originalname).toLowerCase())
-  },
-  destination: dest
-})
+const multerStorage = () => multer.memoryStorage()
 
-export const multerMiddleware = (dirname, destination) => multer({
-  storage: multerStorage(path.join(dirname, '..', 'public', destination)),
-  // dest: path.join(dirname, '..', 'public', 'uploads'),
+export const multerMiddleware = () => multer({
+  storage: multerStorage(),
   fileFilter: (req, file, callback) => {
     const fileType = /jpeg|jpg|png|gif|webp/
     const mimetype = fileType.test(file.mimetype)
@@ -25,9 +18,8 @@ export const multerMiddleware = (dirname, destination) => multer({
   }
 }).single('post_image')
 
-export const multerMiddlewareProfile = (dirname, destination) => multer({
-  storage: multerStorage(path.join(dirname, '..', 'public', destination)),
-  // dest: path.join(dirname, '..', 'public', 'uploads'),
+export const multerMiddlewareProfile = () => multer({
+  storage: multerStorage(),
   fileFilter: (req, file, callback) => {
     const fileType = /jpeg|jpg|png|gif|webp/
     const mimetype = fileType.test(file.mimetype)

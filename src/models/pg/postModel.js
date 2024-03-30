@@ -13,6 +13,7 @@ export class post {
       ON posts.user_id=users.id
       JOIN profile
       ON posts.user_id=profile.user_id
+      
       ORDER BY posts.id;
       `)
       return rows
