@@ -23,7 +23,8 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "standard": "^17.1.0"
+    "standard": "^17.1.0",
+    "supertest": "^6.3.4"
   },
   "eslintConfig": {
     "extends": "standard"
