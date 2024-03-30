@@ -85,4 +85,19 @@ export class post {
       return { error: error.message }
     }
   }
+
+  static async getDeletedImage({ id, user_id }) {
+    try {
+      const { rows } = await connection.query(`
+      SELECT post_image FROM posts
+      WHERE id=$1 AND user_id=$2;`,
+      [id, user_id])
+      if (rows.length === 0) return null
+      return rows[0]
+
+    } catch (error) {
+      console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
+      return { error: error.message }
+    }
+  }
 }

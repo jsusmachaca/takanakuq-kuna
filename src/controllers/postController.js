@@ -1,4 +1,4 @@
-import { cryptoNamed, getS3Images, uploadS3Images, validateToken } from "../config/config.js";
+import { cryptoNamed, deleteS3Images, getS3Images, uploadS3Images, validateToken } from "../config/config.js";
 import { post } from "../models/pg/postModel.js";
 import { postValidation } from "../schemas/postSchema.js";
 
@@ -10,7 +10,6 @@ export class postController {
       let data = await post.getAll()
       if (data.error) throw new Error('error to show posts')
       
-      console.log(data)
       data = await Promise.all(data.map(async post => {
         const urlImage = await getS3Images({ filename: post.post_image, carpet: 'posts'})
         const urlProfileImage = await getS3Images({ filename: post.profile_image, carpet: 'profiles' })
@@ -117,8 +116,11 @@ export class postController {
       const { id } = req.query
 
       if (id === undefined) throw new Error('must provide id')
+      
+      const filename = await post.getDeletedImage({ id: id, user_id: decodeToken.user_id })
+      await deleteS3Images({ filename: filename.post_image, carpet: 'posts' })
 
-      const data = await post.deletePost({id: id, user_id: decodeToken.user_id})
+      const data = await post.deletePost({ id: id, user_id: decodeToken.user_id })
       if(data.error) throw new Error('error to delete post')
 
       return res.json(data)
