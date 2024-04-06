@@ -4,14 +4,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    environment:
-      - SECRET_KEY=base64
-      - PORT=3000
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_NAME=takanakuq
-      - DB_USER=psqlUser
-      - DB_PASSWORD=passPGSQL
     networks:
       - takanakuq-net
     ports:
