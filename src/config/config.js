@@ -93,6 +93,8 @@ export const uploadS3Images = async ({ filename, carpet, buffer }) => {
     .jpeg({ quality: 80, progressive: true })
     .png({ compressionLevel: 8 })
     .webp({ quality: 80 })
+    .avif({ quality: 80})
+    .tiff({ quality: 80 })
     .toBuffer()
   
   const params = {
