@@ -22,8 +22,6 @@ services:
       - POSTGRES_PASSWORD=passPGSQL
     networks:
       - takanakuq-net
-    ports:
-      - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./database/postgres/takanakuq.sql:/docker-entrypoint-initdb.d/takanakuq.sql
