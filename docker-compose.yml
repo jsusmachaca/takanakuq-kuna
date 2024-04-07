@@ -4,12 +4,19 @@ services:
     build: .
     environment:
       - SECRET_KEY=base64
+
+      - AWS_REGION=
+      - AWS_ACCESS_KEY=
+      - AWS_SECRET_ACCESS_KEY=
+      - AWS_BUCKET_NAME=
+
       - PORT=3000
       - DB_HOST=db
       - DB_PORT=5432
       - DB_NAME=takanakuq
-      - DB_USER=psqlUser
-      - DB_PASSWORD=passPGSQL
+      - DB_USER=
+      - DB_PASSWORD=
+
     networks:
       - takanakuq-net
     depends_on:
@@ -18,8 +25,8 @@ services:
   db:  
     image: postgres:16.2
     environment:
-      - POSTGRES_USER=psqlUser
-      - POSTGRES_PASSWORD=passPGSQL
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
     networks:
       - takanakuq-net
     volumes:
