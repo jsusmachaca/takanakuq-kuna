@@ -7,7 +7,7 @@ const multerStorage = () => multer.memoryStorage()
 export const multerMiddleware = () => multer({
   storage: multerStorage(),
   fileFilter: (req, file, callback) => {
-    const fileType = /jpeg|jpg|png|gif|webp|avif|tiff/
+    const fileType = /jpeg|jpg|png|gif|webp|avif/
     const mimetype = fileType.test(file.mimetype)
     const extname = fileType.test(path.extname(file.originalname))
     if (mimetype && extname) {
@@ -21,7 +21,7 @@ export const multerMiddleware = () => multer({
 export const multerMiddlewareProfile = () => multer({
   storage: multerStorage(),
   fileFilter: (req, file, callback) => {
-    const fileType = /jpeg|jpg|png|gif|webp|avif|tiff/
+    const fileType = /jpeg|jpg|png|gif|webp|avif/
     const mimetype = fileType.test(file.mimetype)
     const extname = fileType.test(path.extname(file.originalname))
     if (mimetype && extname) {

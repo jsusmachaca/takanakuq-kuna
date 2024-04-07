@@ -6,7 +6,6 @@ import { randomUUID } from 'node:crypto'
 import { extname } from 'node:path'
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-import sharp from 'sharp'
 
 
 
@@ -89,18 +88,10 @@ const s3 = new S3Client({
 })
 
 export const uploadS3Images = async ({ filename, carpet, buffer }) => {
-  const compressImage = await sharp(buffer)
-    .jpeg({ quality: 80, progressive: true })
-    .png({ compressionLevel: 8 })
-    .webp({ quality: 80 })
-    .avif({ quality: 80})
-    .tiff({ quality: 80 })
-    .toBuffer()
-  
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: `${carpet}/${filename}`,
-    Body: compressImage
+    Body: buffer
   }
   const command = new PutObjectCommand(params)
   const result = await s3.send(command)
@@ -113,7 +104,7 @@ export const getS3Images = async ({ filename, carpet }) => {
     Key: `${carpet}/${filename}`,
   }
   const command = new GetObjectCommand(params)
-  const urlImage = await getSignedUrl(s3, command, { expiresIn: 3600 })
+  const urlImage = await getSignedUrl(s3, command, { expiresIn: 60 })
   return urlImage
 }
 
