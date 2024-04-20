@@ -1,9 +1,13 @@
 import { dbConnectionPg } from "../../config/config.js";
 
+
 const connection = await dbConnectionPg()
 
-
 export class post {
+  /**
+   * Encuentra todos los posts de la tabla
+   * @returns {Promise<posts[]|{error:string}>} All posts made by users
+   */
   static async getAll() {
     try {
       const { rows } = await connection.query(`
@@ -23,6 +27,11 @@ export class post {
     }
   }
 
+  /**
+   * Encuentra todos los posts asociados a un usuario por su ID en la base de datos.
+   * @param {number} id - El ID del usuario cuyos posts se desean encontrar.
+   * @returns {Promise<posts[]|{error:string}>} Una promesa que resuelve en una lista de objetos que representan los posts encontrados, o un objeto de error si ocurre algún problema.
+   */
   static async findByUser(id) {
     try {
       const { rows } = await connection.query(`
@@ -39,6 +48,11 @@ export class post {
     }
   }
 
+  /**
+   * Encuentra un post por su ID en la base de datos.
+   * @param {number} id - El ID del post que se desea encontrar.
+   * @returns {Promise<post|{error:string}>} Una promesa que resuelve en un objeto que representa el post encontrado, o nulo si no se encuentra ningún post con el ID dado.
+   */
   static async findById(id) {
     try {
       const { rows } = await connection.query(`
@@ -59,6 +73,15 @@ export class post {
     }
   }
 
+  /**
+   * Crea un nuevo post en la base de datos.
+   * @param {Object} options - Las opciones para crear el post.
+   * @param {number} options.user_id - El ID del usuario que crea el post.
+   * @param {Object} options.post - El objeto que contiene los detalles del post.
+   * @param {string} options.post.post - El contenido del post.
+   * @param {string} options.post.post_image - La imagen asociada al post (opcional).
+   * @returns {Promise<boolean>} Una promesa que resuelve en verdadero si el post se creó exitosamente, o un objeto de error si ocurrió algún problema.
+   */
   static async createPost({ user_id, post }) {
     try {
       const { rows } = await connection.query(`
@@ -73,6 +96,13 @@ export class post {
     }
   }
 
+  /**
+   * Elimina un post de la base de datos.
+   * @param {Object} options - Las opciones para eliminar el post.
+   * @param {number} options.id - El ID del post que se desea eliminar.
+   * @param {number} options.user_id - El ID del usuario que creó el post.
+   * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el post se elimina exitosamente, o un objeto de error si ocurre algún problema.
+   */
   static async deletePost({ id, user_id }) {
     try {
       const { rows } = await connection.query(`
@@ -86,6 +116,13 @@ export class post {
     }
   }
 
+  /**
+   * Elimina la imagen del post del "bucket" de S3.
+   * @param {Object} options - Las opciones para eliminar el post.
+   * @param {number} options.id - El ID del post que se desea eliminar.
+   * @param {number} options.user_id - El ID del usuario que creó el post.
+   * @returns {Promise<number|{error:string}>} Una promesa que resuelve en verdadero si el post se elimina exitosamente, o un objeto de error si ocurre algún problema.
+   */
   static async getDeletedImage({ id, user_id }) {
     try {
       const { rows } = await connection.query(`
