@@ -5,7 +5,7 @@ const connection = await dbConnectionPg()
 
 export class post {
   /**
-   * Encuentra todos los posts de la tabla.
+   * Encuentra todos los posts de la base de datos.
    * @returns {Promise<posts[]|{error:string}>} All posts made by users.
    */
   static async getAll() {
@@ -21,7 +21,7 @@ export class post {
       ORDER BY posts.id;
       `)
       return rows
-    } catch (error) {
+    } catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -42,7 +42,7 @@ export class post {
       WHERE posts.user_id=$1;`,
       [id])
       return rows
-    } catch (error) {
+    } catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -68,7 +68,7 @@ export class post {
       if (rows.length === 0) return null
 
       return rows[0]
-    } catch (error) {
+    } catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -91,7 +91,7 @@ export class post {
       ($1, $2, $3);`,
       [user_id, post.post, post.post_image])
       return true
-    } catch (error) {
+    } catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -111,7 +111,7 @@ export class post {
       WHERE id=$1 AND user_id=$2;`,
       [id, user_id])
       return true
-    } catch (error) {
+    } catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -135,7 +135,7 @@ export class post {
 
       return rows[0]
 
-    } catch (error) {
+    } catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }

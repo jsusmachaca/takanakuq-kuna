@@ -5,7 +5,7 @@ const connection = await dbConnectionPg()
 
 export class recipe {
   /**
-   * Devuelve la nueva receta (recipe) correspondiente a un usuario.
+   * Devuelve la nueva receta (recipe) correspondiente a un usuario de la base de datos.
    * @param {number} user_id - Del usuario que registra el dato.
    * @returns {Promise<recipe|null|{error:string}} Una promesa que resuelve en un objeto con los datos de la receta, o un error si ocurrió algún problema.
    */
@@ -40,12 +40,12 @@ export class recipe {
     }
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
   }
 
   /**
-   * Crea una nueva receta (recipe).
+   * Crea una nueva receta (recipe) en la base de datos.
    * @param {Object} options - Opciones para crear la receta (recipe).
    * @param {number} options.user_id - El ID del usuario que creará la receta (recipe).
    * @param {Object} options.data - El objeto que contandrá los datos para la receta (recipe).
@@ -64,12 +64,12 @@ export class recipe {
       }
       catch(error) {
         console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-        return {error: error.message}
+        return { error: error.message }
       }
   }
 
   /**
-   * Crea una nueva receta (recipe).
+   * Crea una nueva receta (recipe) en la base de datos.
    * @param {number} user_id - El id del usuario que obtiene el id de la receta.
    * @returns {Promise<number>|{error:string}} Una promesa que resuelve un id encontrado, o un error si ocurrió algún problema.
    */
@@ -87,12 +87,12 @@ export class recipe {
     }
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
   }
 
   /**
-   * Crea un nuevo medicamento para la receta (recipe).
+   * Crea un nuevo medicamento para la receta (recipe) en la base de datos.
    * @param {Object} options - Opciones para crear el medicamento.
    * @param {number} options.recipe_id - El ID de la receta en la cual se almacenará el medicamento.
    * @param {string} options.medicine_name - El nombre del nuevo medicamento (recipe).
@@ -111,7 +111,7 @@ export class recipe {
       }
       catch(error) {
         console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-        return {error: error.message}
+        return { error: error.message }
       }
   }
 
@@ -132,7 +132,7 @@ export class recipe {
     }
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
   }
 
@@ -151,7 +151,7 @@ export class recipe {
     }
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
 }    
 }

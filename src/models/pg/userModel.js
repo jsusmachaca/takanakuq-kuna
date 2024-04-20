@@ -18,7 +18,7 @@ export class user {
     } 
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
   }
 
@@ -48,7 +48,7 @@ export class user {
     }
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
   }
 
@@ -73,7 +73,7 @@ export class user {
     }
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
   }
 
@@ -101,7 +101,7 @@ export class user {
     }
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
   }
 
@@ -120,7 +120,7 @@ export class user {
     } 
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
   }
 
@@ -143,7 +143,7 @@ export class user {
     }
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error :error.message}
+      return { error :error.message }
     }
   }
 
@@ -166,7 +166,7 @@ export class user {
     }
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
   }
 
@@ -188,7 +188,7 @@ export class user {
     }
     catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return {error: error.message}
+      return { error: error.message }
     }
   }
 }
