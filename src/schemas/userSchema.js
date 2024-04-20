@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+
 const userSchema = z.object({
   username: z.string({ required_error: 'username field is required' }),
   first_name: z.string({ required_error: 'first_name field is required' }),
@@ -25,7 +26,6 @@ export const userValidation = (data) => {
 export const userValidationPartial = (data) => {
   return userSchema.partial().safeParse(data)
 }
-
 
 export const userProfileValidation = (data) => {
   return profileSchema.safeParse(data)

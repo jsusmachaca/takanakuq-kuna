@@ -5,7 +5,6 @@ import { recipeValidation } from "../schemas/recipeSchema.js";
 import { randomUUID } from "node:crypto";
 
 
-
 export class recipeController {
   static async findMedicines(req, res) {
     const authorization = req.headers.authorization

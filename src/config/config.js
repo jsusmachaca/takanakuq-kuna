@@ -8,7 +8,6 @@ import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } fro
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
 
-
 // CORS ORIGINS
 export const ACCEPTED_ORIGINS = [
   'http://localhost:8080',
@@ -21,22 +20,19 @@ export const ACCEPTED_ORIGINS = [
 ]
 
 // DATABASES CONFIG
-const { Pool } = pkg
-
-let config
-config = {
+const config = {
   host: process.env.DB_HOST ?? 'localhost',
   port: process.env.DB_PORT ?? 5432,
   user: process.env.DB_USER ?? 'root',
   password: process.env.DB_PASSWORD ?? '',
   database: process.env.DB_NAME ?? 'luchadores_test',
 }
-
+const { Pool } = pkg
 const pool = new Pool(config)
-
 
 export const dbConnectionPg = async () => {
   let retries = 5
+
   while (retries > 0) {
     try {
       return await pool.connect()
@@ -49,14 +45,14 @@ export const dbConnectionPg = async () => {
   console.error('\x1b[31m\nCould not establish connection after attempts\n\x1b[0m')
 }
 
-
 export const dbConnectionMysql = async () => {
   try {
     return await mysql.createConnection(config)
-  } catch (error) {
+  } catch(error) {
     console.error(`\x1b[31mError connecting to mysql database \x1b[0m => ${error}`)
   }
 }
+
 
 // JWT CONFIG
 const SECRET_KEY = process.env.SECRET_KEY

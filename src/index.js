@@ -11,14 +11,12 @@ import { fileURLToPath  } from 'node:url'
 import { recipes } from './routes/recipes.js'
 
 
-
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const app = express()
 
 app.disable('x-powered-by')
-
 app.use(json())
 app.use(corsMiddleware())
 app.use(static_(path.join(__dirname, 'public')))
@@ -29,8 +27,8 @@ app.use('/api/posts', posts)
 app.use('/api/recipe', recipes)
 
 
-
 const PORT = process.env.PORT
+
 app.listen(PORT, () => {
   console.log(`\x1b[32mserver listening on port ${PORT}\x1b[0m`)
 })
