@@ -5,8 +5,8 @@ const connection = await dbConnectionPg()
 
 export class post {
   /**
-   * Encuentra todos los posts de la tabla
-   * @returns {Promise<posts[]|{error:string}>} All posts made by users
+   * Encuentra todos los posts de la tabla.
+   * @returns {Promise<posts[]|{error:string}>} All posts made by users.
    */
   static async getAll() {
     try {
@@ -64,9 +64,10 @@ export class post {
       ON posts.user_id=profile.user_id
       WHERE posts.id=$1;`,
       [id])
-      if (rows.length === 0) return null
-      return rows[0]
 
+      if (rows.length === 0) return null
+
+      return rows[0]
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
@@ -129,7 +130,9 @@ export class post {
       SELECT post_image FROM posts
       WHERE id=$1 AND user_id=$2;`,
       [id, user_id])
+
       if (rows.length === 0) return null
+
       return rows[0]
 
     } catch (error) {
