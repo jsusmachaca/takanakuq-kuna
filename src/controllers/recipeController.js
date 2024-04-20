@@ -31,7 +31,7 @@ export class recipeController {
 
       return res.json(data)
     } catch(error) {
-      return res.status(401).json({error: error.message})
+      return res.status(401).json({ error: error.message })
     }
   }
 
@@ -50,15 +50,15 @@ export class recipeController {
       // req.body.id = id
       const results = recipeValidation(req.body)
 
-      if(results.error) return res.status(400).json({error: results.error.issues[0].message})
+      if(results.error) return res.status(400).json({ error: results.error.issues[0].message })
 
-      const data = await recipe.createRecipe({user_id: decodeToken.user_id, data: results.data})
+      const data = await recipe.createRecipe({ user_id: decodeToken.user_id, data: results.data })
 
       if(data.error) throw new Error('error to add recipe, you may already have one created')
 
       return res.json(data)
     } catch(error) {
-      return res.status(401).json({error: error.message})
+      return res.status(401).json({ error: error.message })
     }
   }
 
@@ -81,7 +81,7 @@ export class recipeController {
 
       return res.json(data)
     } catch(error) {
-      return res.status(401).json({error: error.message})
+      return res.status(401).json({ error: error.message })
     }
   }
 
@@ -100,7 +100,7 @@ export class recipeController {
       // req.body.id = id
       const results = medicineValidation(req.body)
 
-      if(results.error) return res.status(400).json({error: results.error.issues[0].message})
+      if(results.error) return res.status(400).json({ error: results.error.issues[0].message })
       
       const recipeId = await recipe.getId(decodeToken.user_id)
 
@@ -112,7 +112,7 @@ export class recipeController {
 
       return res.json(data)
     } catch(error) {
-      return res.status(401).json({error: error.message})
+      return res.status(401).json({ error: error.message })
     }
   }
 
@@ -140,7 +140,7 @@ export class recipeController {
 
       return res.json(data)
     } catch(error) {
-      return res.status(401).json({error: error.message})
+      return res.status(401).json({ error: error.message })
     }        
   }
 }
