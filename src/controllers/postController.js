@@ -21,7 +21,7 @@ export class postController {
       }))
       return res.json(data)
     } catch(error){
-      return res.status(401).json({error: error.message})
+      return res.status(401).json({ error: error.message })
     }
   }
 
@@ -51,7 +51,7 @@ export class postController {
       }))
       return res.json(data)
     } catch(error) {
-      return res.status(401).json({error: error.message})
+      return res.status(401).json({ error: error.message })
     }
   }
 
@@ -74,7 +74,7 @@ export class postController {
       }
       return res.json(data)
     } catch(error) {
-      return res.status(401).json({error: error.message})
+      return res.status(401).json({ error: error.message })
     }
   }
 
@@ -106,7 +106,7 @@ export class postController {
 
       return res.json(data)
     } catch(error) {
-      return res.status(401).json({error: error.message})
+      return res.status(401).json({ error: error.message })
     }
   }
 
@@ -135,7 +135,7 @@ export class postController {
 
       return res.json(data)
     } catch(error) {
-      return res.status(401).json({error: error.message})
+      return res.status(401).json({ error: error.message })
     }
   }
 }
