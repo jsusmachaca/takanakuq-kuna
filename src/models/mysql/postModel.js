@@ -1,7 +1,7 @@
-import { dbConnection } from "../../config/config.js";
+import { dbConnection } from '../../config/config.js'
+
 
 const connection = await dbConnection()
-
 
 export class post {
     static async getAll() {

@@ -1,11 +1,9 @@
-import { dbConnection } from "../../config/config.js";
+import { dbConnection } from '../../config/config.js'
 import bcrypt from 'bcrypt'
-
 
 
 const saltRounds = 10
 const connection = await dbConnection()
-
 
 export class user {
   static async getAll() {

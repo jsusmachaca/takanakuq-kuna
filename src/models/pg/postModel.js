@@ -1,4 +1,4 @@
-import { dbConnectionPg } from "../../config/config.js";
+import { dbConnectionPg } from '../../config/config.js'
 
 
 const connection = await dbConnectionPg()

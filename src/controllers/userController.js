@@ -1,6 +1,6 @@
-import { user } from "../models/pg/userModel.js";
-import { userProfileValidation, userValidation, userValidationPartial } from "../schemas/userSchema.js";
-import { cryptoNamed, generateToken, uploadS3Images, validateToken } from "../config/config.js";
+import { user } from '../models/pg/userModel.js'
+import { userProfileValidation, userValidation, userValidationPartial } from '../schemas/userSchema.js'
+import { cryptoNamed, generateToken, uploadS3Images, validateToken } from '../config/config.js'
 
 
 export class userController {
@@ -58,7 +58,7 @@ export class userController {
 
       let data = await user.findUser(validation.user_id)
 
-      if (data.error) return res.status(400).json({ error: "error when showing user" })
+      if (data.error) return res.status(400).json({ error: 'error when showing user' })
 
       data = {
         ...data,
@@ -82,7 +82,7 @@ export class userController {
       if (data.error.startsWith('llave duplicada')) {
         return res.status(400).json({ error: 'the user you are trying to register already exists' })
       }
-      return res.status(400).json({ error: "register error" })
+      return res.status(400).json({ error: 'register error' })
     }
 
     return res.status(201).json({ success: data, data: results.data })
@@ -110,7 +110,7 @@ export class userController {
       
       const data = await user.editUser({ id: id, data: results.data })
 
-      if (data.error) return res.status(400).json({ error: "error when modifying" })
+      if (data.error) return res.status(400).json({ error: 'error when modifying' })
 
       return res.json({ success: data, data: results.data })
     } catch(error) {
@@ -166,7 +166,7 @@ export class userController {
 
       const data = await user.createProfile({ user_id: decodeToken.user_id, data: results.data })
 
-      if (data.error) return res.status(400).json({ error: "save error" })
+      if (data.error) return res.status(400).json({ error: 'save error' })
 
       return res.status(201).json({ success: data, data: results.data })
     } catch(error) {
@@ -199,7 +199,7 @@ export class userController {
   
       const data = await user.editProfile({ user_id: decodeToken.user_id, data: results.data })
 
-      if (data.error) return res.status(400).json({ error: "error when modifying" })
+      if (data.error) return res.status(400).json({ error: 'error when modifying' })
 
       return res.json({ success: data, data: results.data })
     } catch(error) {

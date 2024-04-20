@@ -1,6 +1,6 @@
-import { cryptoNamed, deleteS3Images, getS3Images, uploadS3Images, validateToken } from "../config/config.js";
-import { post } from "../models/pg/postModel.js";
-import { postValidation } from "../schemas/postSchema.js";
+import { cryptoNamed, deleteS3Images, getS3Images, uploadS3Images, validateToken } from '../config/config.js'
+import { post } from '../models/pg/postModel.js'
+import { postValidation } from '../schemas/postSchema.js'
 
 
 export class postController {

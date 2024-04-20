@@ -1,4 +1,4 @@
-import multer from "multer";
+import multer from 'multer'
 import path from 'node:path'
 
 
@@ -25,7 +25,7 @@ export const multerMiddlewareProfile = () => multer({
     const fileType = /jpeg|jpg|png|gif|webp|avif/
     const mimetype = fileType.test(file.mimetype)
     const extname = fileType.test(path.extname(file.originalname))
-    
+
     if (mimetype && extname) {
       callback(null, true)
     } else {

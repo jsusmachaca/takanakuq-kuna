@@ -1,8 +1,8 @@
-import { validateToken } from "../config/config.js";
-import { recipe } from "../models/pg/recipeModel.js";
-import { medicineValidation } from "../schemas/medicinesSchema.js";
-import { recipeValidation } from "../schemas/recipeSchema.js";
-import { randomUUID } from "node:crypto";
+import { validateToken } from '../config/config.js'
+import { recipe } from '../models/pg/recipeModel.js'
+import { medicineValidation } from '../schemas/medicinesSchema.js'
+import { recipeValidation } from '../schemas/recipeSchema.js'
+import { randomUUID } from 'node:crypto'
 
 
 export class recipeController {

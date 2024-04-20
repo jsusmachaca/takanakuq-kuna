@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { recipeController } from "../controllers/recipeController.js";
+import { Router } from 'express'
+import { recipeController } from '../controllers/recipeController.js'
 
 
 export const recipes = Router()
