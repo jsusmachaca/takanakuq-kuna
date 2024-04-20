@@ -3,11 +3,11 @@ import { post } from "../models/pg/postModel.js";
 import { postValidation } from "../schemas/postSchema.js";
 
 
-
 export class postController {
   static async getAllPosts(req, res) {
     try {
       let data = await post.getAll()
+
       if (data.error) throw new Error('error to show posts')
       
       data = await Promise.all(data.map(async post => {
@@ -20,7 +20,6 @@ export class postController {
         }
       }))
       return res.json(data)
-      
     } catch(error){
       return res.status(401).json({error: error.message})
     }
@@ -31,11 +30,14 @@ export class postController {
     let token = null
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
+
       token = authorization.substring(7)
       const decodeToken = validateToken(token)
+
       if (decodeToken === null) throw new Error('invalid token')
 
       let data = await post.findByUser(decodeToken.user_id)
+
       if (data.error) throw new Error('error to show posts')
 
       data = await Promise.all(data.map(async post => {
@@ -48,7 +50,6 @@ export class postController {
         }
       }))
       return res.json(data)
-
     } catch(error) {
       return res.status(401).json({error: error.message})
     }
@@ -61,7 +62,9 @@ export class postController {
       if (id === undefined) throw new Error('must provide id')
 
       let data = await post.findById(id)
-      if(data === null) throw new Error('post not found') 
+
+      if(data === null) throw new Error('post not found')
+
       if(data.error) throw new Error('error to get post')
 
       data = {
@@ -70,7 +73,6 @@ export class postController {
         profile_image: data.profile_image && await getS3Images({ filename: data.profile_image, carpet: 'profiles' })
       }
       return res.json(data)
-  
     } catch(error) {
       return res.status(401).json({error: error.message})
     }
@@ -79,10 +81,13 @@ export class postController {
   static async createPost(req, res) {
     const authorization = req.headers.authorization
     let token = null
+
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
+
       token = authorization.substring(7)
       const decodeToken = validateToken(token)
+
       if (decodeToken === null) throw new Error('invalid token')
       
       if(req.file) {
@@ -90,14 +95,16 @@ export class postController {
         await uploadS3Images({ filename: filename, carpet: 'posts', buffer: req.file.buffer})
         req.body.post_image = filename
       }
+
       const results = postValidation(req.body)
 
       if(results.error) return res.status(400).json({error: results.error.issues[0].message})
 
       const data = await post.createPost({user_id: decodeToken.user_id, post: results.data})
+
       if(data.error) throw new Error('error to publish post')
+
       return res.json(data)
-  
     } catch(error) {
       return res.status(401).json({error: error.message})
     }
@@ -106,11 +113,14 @@ export class postController {
   static async deletePost(req, res) {
     const authorization = req.headers.authorization
     let token = null
+
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
+
       token = authorization.substring(7)
 
       const decodeToken = validateToken(token)
+
       if (decodeToken === null) throw new Error('invalid token')
 
       const { id } = req.query
@@ -119,12 +129,11 @@ export class postController {
       
       const filename = await post.getDeletedImage({ id: id, user_id: decodeToken.user_id })
       await deleteS3Images({ filename: filename.post_image, carpet: 'posts' })
-
       const data = await post.deletePost({ id: id, user_id: decodeToken.user_id })
+
       if(data.error) throw new Error('error to delete post')
 
       return res.json(data)
-  
     } catch(error) {
       return res.status(401).json({error: error.message})
     }

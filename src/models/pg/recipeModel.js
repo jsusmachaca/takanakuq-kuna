@@ -37,8 +37,7 @@ export class recipe {
         medicines: rows.map(({ start_date, end_date, recipe_id, username, ...rest }) => rest)
       }
       return data
-    }
-    catch(error) {
+    } catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -61,8 +60,7 @@ export class recipe {
         ($1, $2, $3);`,
         [user_id, data.start_date, data.end_date])
         return true
-      }
-      catch(error) {
+      } catch(error) {
         console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
         return { error: error.message }
       }
@@ -84,8 +82,7 @@ export class recipe {
       if (rows.length === 0) return null
 
       return rows[0]
-    }
-    catch(error) {
+    } catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -108,8 +105,7 @@ export class recipe {
         ($1, $2, $3, $4);`,
         [recipe_id, data.medicine_name, data.amount, data.hours])
         return true
-      }
-      catch(error) {
+      } catch(error) {
         console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
         return { error: error.message }
       }
@@ -129,8 +125,7 @@ export class recipe {
       WHERE recipe_id=$1 AND id=$2;`,
       [recipe_id, medicine_id])
       return true
-    }
-    catch(error) {
+    } catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -148,8 +143,7 @@ export class recipe {
       WHERE user_id=$1;`,
       [user_id])
       return true
-    }
-    catch(error) {
+    } catch(error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
