@@ -24,6 +24,10 @@ services:
       - "5432:5432"
     volumes:
       - ./database/postgres/takanakuq.sql:/docker-entrypoint-initdb.d/takanakuq.sql
+      - data:/var/lib/postgresql/data
 
 networks:
   takanakuq-net:
+
+volumes:
+  data:

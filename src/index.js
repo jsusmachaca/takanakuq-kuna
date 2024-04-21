@@ -1,6 +1,6 @@
 /*
-* Author: jsusmachaca
-*/
+ * Author: jsusmachaca
+ */
 import 'dotenv/config'
 import { corsMiddleware } from './middlewares/cors.js'
 import express, { json, static as static_ } from 'express'
