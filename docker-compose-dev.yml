@@ -17,7 +17,7 @@ services:
     image: postgres:16.2
     environment:
       - POSTGRES_USER=psqlUser
-      - POSTGRES_PASSWORD=passPGSQL
+      - POSTGRES_PASSWORD=psqlPass
     networks:
       - takanakuq-net
     ports:

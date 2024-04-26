@@ -34,6 +34,16 @@ CREATE TABLE posts (
     date_publish TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    post_id INT NOT NULL,
+    FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE,
+    comment TEXT,
+    date TIMESTAMP NOT NULL DEFAULT (NOW())
+);
+
 CREATE TABLE recipes (
     id SERIAL PRIMARY KEY NOT NULL,
     user_id INT NOT NULL UNIQUE,
