@@ -154,7 +154,7 @@ export class userController {
 
       if (decodeToken === null) throw new Error('invalid token')
 
-      if(req.file) {
+      if (req.file) {
         const filename = cryptoNamed(req.file.originalname)
         await uploadS3Images({ filename: filename, buffer: req.file.buffer, carpet: 'profiles' })
         req.body.profile_image = filename
@@ -187,7 +187,7 @@ export class userController {
 
       if (decodeToken === null) throw new Error('invalid token') 
 
-      if(req.file) { // extract file 
+      if (req.file) { // extract file 
         const filename = cryptoNamed(req.file.originalname)
         await uploadS3Images({ filename: filename, buffer: req.file.buffer, carpet: 'profiles' })
         req.body.profile_image = filename

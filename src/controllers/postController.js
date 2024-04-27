@@ -63,9 +63,9 @@ export class postController {
 
       let data = await post.findById(id)
 
-      if(data === null) throw new Error('post not found')
+      if (data === null) throw new Error('post not found')
 
-      if(data.error) throw new Error('error to get post')
+      if (data.error) throw new Error('error to get post')
 
       data = {
         ...data,
@@ -90,7 +90,7 @@ export class postController {
 
       if (decodeToken === null) throw new Error('invalid token')
       
-      if(req.file) {
+      if (req.file) {
         const filename = cryptoNamed(req.file.originalname)
         await uploadS3Images({ filename: filename, carpet: 'posts', buffer: req.file.buffer})
         req.body.post_image = filename
@@ -98,11 +98,11 @@ export class postController {
 
       const results = postValidation(req.body)
 
-      if(results.error) return res.status(400).json({error: results.error.issues[0].message})
+      if (results.error) return res.status(400).json({error: results.error.issues[0].message})
 
       const data = await post.createPost({user_id: decodeToken.user_id, post: results.data})
 
-      if(data.error) throw new Error('error to publish post')
+      if (data.error) throw new Error('error to publish post')
 
       return res.json(data)
     } catch(error) {
@@ -131,7 +131,7 @@ export class postController {
       await deleteS3Images({ filename: filename.post_image, carpet: 'posts' })
       const data = await post.deletePost({ id: id, user_id: decodeToken.user_id })
 
-      if(data.error) throw new Error('error to delete post')
+      if (data.error) throw new Error('error to delete post')
 
       return res.json(data)
     } catch(error) {
