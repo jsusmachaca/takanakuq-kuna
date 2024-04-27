@@ -1,8 +1,8 @@
+import { commentController } from '../controllers/commentController.js'
 import { Router } from 'express'
-
 
 export const comments = Router()
 
-comments.get('/get-comment', )
-comments.post('/publish', )
-comments.delete('/delete', )
+comments.get('/get-comments', commentController.getComments)
+comments.post('/publish-comment', commentController.publishComment)
+comments.delete('/delete-comment', commentController.deleteComment)
