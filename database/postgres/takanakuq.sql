@@ -10,7 +10,6 @@ CREATE TABLE users (
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(100) NOT NULL,
-    notify_token VARCHAR(100) NOT NULL,
     is_admin BOOLEAN,
     is_staff BOOLEAN,
     is_active BOOLEAN,
