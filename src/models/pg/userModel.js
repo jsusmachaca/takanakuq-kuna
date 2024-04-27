@@ -93,9 +93,9 @@ export class user {
       const salt = await bcrypt.genSalt(saltRounds)
       const hash = await bcrypt.hash(data.password, salt)
       const { rows } = await connection.query(`
-      INSERT INTO users(username, first_name, last_name, email, password)
+      INSERT INTO users(username, first_name, last_name, email, password, notify_token)
       VALUES
-      ($1, $2, $3, $4, $5);`,
+      ($1, $2, $3, $4, $5, 'asdas');`,
       [data.username, data.first_name, data.last_name, data.email, hash])
       return true
     }

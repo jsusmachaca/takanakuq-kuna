@@ -10,6 +10,7 @@ CREATE TABLE users (
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(100) NOT NULL,
+    notify_token VARCHAR(100) NOT NULL,
     is_admin BOOLEAN,
     is_staff BOOLEAN,
     is_active BOOLEAN,
@@ -48,8 +49,7 @@ CREATE TABLE recipes (
     id SERIAL PRIMARY KEY NOT NULL,
     user_id INT NOT NULL UNIQUE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    start_date TIMESTAMP NOT NULL DEFAULT (NOW()),
-    end_date TIMESTAMP NOT NULL DEFAULT (NOW())
+    start_date TIMESTAMP NOT NULL DEFAULT (NOW())
 );
 
 CREATE TABLE medicines (
@@ -58,7 +58,8 @@ CREATE TABLE medicines (
     FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
     medicine_name VARCHAR(60) NOT NULL,
     amount INT NOT NULL,
-    hours INT NOT NULL
+    hours INT NOT NULL,
+    days INT NOT NULL
 );
 
 CREATE TABLE vital_signs (

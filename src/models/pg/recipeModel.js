@@ -18,11 +18,11 @@ export class recipe {
               medicines.medicine_name, 
               medicines.amount, 
               medicines.hours,
-              recipes.start_date,
-              recipes.end_date
-      FROM recipes 
-      JOIN medicines 
-      ON recipes.id=medicines.recipe_id 
+              medicines.days,
+              recipes.start_date
+      FROM recipes
+      JOIN medicines
+      ON recipes.id=medicines.recipe_id
       JOIN users ON recipes.user_id=users.id 
       WHERE user_id=$1;`,
       [user_id])
@@ -33,8 +33,7 @@ export class recipe {
         recipe_id: rows[0].recipe_id,
         username: rows[0].username,
         start_date: rows[0].start_date,
-        end_date: rows[0].end_date,
-        medicines: rows.map(({ start_date, end_date, recipe_id, username, ...rest }) => rest)
+        medicines: rows.map(({ start_date, recipe_id, username, ...rest }) => rest)
       }
       return data
     } catch(error) {
