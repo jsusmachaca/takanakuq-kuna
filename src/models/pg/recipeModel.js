@@ -48,16 +48,15 @@ export class recipe {
    * @param {number} options.user_id - El ID del usuario que creará la receta (recipe).
    * @param {Object} options.data - El objeto que contandrá los datos para la receta (recipe).
    * @param {string} options.data.start_date - La fecha de inicio de la receta (recipe).
-   * @param {string} options.data.end_date - La fecha de fin la receta (recipe).
    * @returns {Promise<boolean>|{error:string}} Una promesa que resuelve en verdadero si la receta se creó exitosamente, o un error si ocurrió algún problema.
    */
   static async createRecipe({ user_id, data }) {
       try {
         const { rows } = await connection.query(`
-        INSERT INTO recipes(user_id, start_date, end_date)
+        INSERT INTO recipes(user_id, start_date)
         VALUES
-        ($1, $2, $3);`,
-        [user_id, data.start_date, data.end_date])
+        ($1, $2);`,
+        [user_id, data.start_date])
         return true
       } catch(error) {
         console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
@@ -94,15 +93,16 @@ export class recipe {
    * @param {string} options.medicine_name - El nombre del nuevo medicamento (recipe).
    * @param {string} options.amount - La cantidad de tomas del medicamento.
    * @param {string} options.hours - El intervalo de horas en el cual consumir el medicamento.
+   * @param {string} options.days - Los dias de consumo en el cual consumir el medicamento.
    * @returns {Promise<boolean>|{error:string}} Una promesa que resuelve en verdadero si el medicamento se creó exitosamente, o un error si ocurrió algún problema.
    */
   static async createMedicine({ recipe_id, data }) {
       try {
         const { rows } = await connection.query(`
-        INSERT INTO medicines(recipe_id, medicine_name, amount, hours)
+        INSERT INTO medicines(recipe_id, medicine_name, amount, hours, days)
         VALUES
-        ($1, $2, $3, $4);`,
-        [recipe_id, data.medicine_name, data.amount, data.hours])
+        ($1, $2, $3, $4, $5);`,
+        [recipe_id, data.medicine_name, data.amount, data.hours, data.days])
         return true
       } catch(error) {
         console.error(`\x1b[31man error occurred ${error}\x1b[0m`)

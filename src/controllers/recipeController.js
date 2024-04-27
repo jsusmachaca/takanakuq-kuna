@@ -46,7 +46,6 @@ export class recipeController {
 
       if (decodeToken === null) throw new Error('invalid token')
       
-      // req.body.id = id
       const results = recipeValidation(req.body)
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
@@ -96,7 +95,6 @@ export class recipeController {
 
       if (decodeToken === null) throw new Error('invalid token')
       
-      // req.body.id = id
       const results = medicineValidation(req.body)
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
