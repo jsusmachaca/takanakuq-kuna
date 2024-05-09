@@ -1,15 +1,15 @@
 import { dbConnectionPg } from '../../config/config.js'
 
 
-const connection = await dbConnectionPg()
-
 export class post {
   /**
    * Encuentra todos los posts de la base de datos.
-   * @returns {Promise<posts[]|{error:string}>} All posts made by users.
+   * @returns {Promise<Object[]|{error:string}>} All posts made by users.
    */
   static async getAll() {
     try {
+      const connection = await dbConnectionPg()
+
       const { rows } = await connection.query(`
       SELECT posts.id, users.username, profile.profile_image, posts.post, posts.post_image, posts.date_publish
       FROM posts 
@@ -30,10 +30,12 @@ export class post {
   /**
    * Encuentra todos los posts asociados a un usuario por su ID en la base de datos.
    * @param {number} id - El ID del usuario cuyos posts se desean encontrar.
-   * @returns {Promise<posts[]|{error:string}>} Una promesa que resuelve en una lista de objetos que representan los posts encontrados, o un objeto de error si ocurre algún problema.
+   * @returns {Promise<Object[]|{error:string}>} Una promesa que resuelve en una lista de objetos que representan los posts encontrados, o un objeto de error si ocurre algún problema.
    */
   static async findByUser(id) {
     try {
+      const connection = await dbConnectionPg()
+
       const { rows } = await connection.query(`
       SELECT profile.profile_image, posts.post, posts.post_image, posts.date_publish
       FROM posts
@@ -55,6 +57,8 @@ export class post {
    */
   static async findById(id) {
     try {
+      const connection = await dbConnectionPg()
+
       const { rows } = await connection.query(`
       SELECT users.username, profile.profile_image, posts.post, posts.post_image, posts.date_publish
       FROM posts
@@ -85,7 +89,9 @@ export class post {
    */
   static async createPost({ user_id, post }) {
     try {
-      const { rows } = await connection.query(`
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
       INSERT INTO posts(user_id, post, post_image)
       VALUES
       ($1, $2, $3);`,
@@ -106,7 +112,9 @@ export class post {
    */
   static async deletePost({ id, user_id }) {
     try {
-      const { rows } = await connection.query(`
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
       DELETE FROM posts
       WHERE id=$1 AND user_id=$2;`,
       [id, user_id])
@@ -126,6 +134,8 @@ export class post {
    */
   static async getDeletedImage({ id, user_id }) {
     try {
+      const connection = await dbConnectionPg()
+      
       const { rows } = await connection.query(`
       SELECT post_image FROM posts
       WHERE id=$1 AND user_id=$2;`,
