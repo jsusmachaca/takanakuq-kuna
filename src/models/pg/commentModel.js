@@ -1,7 +1,7 @@
 import { dbConnectionPg } from '../../config/config.js'
 
 
-export class comment {
+export class Comment {
   /**
    * Obtiene los comentarios de un post por su ID.
    * @param {number} post_id - El ID del post del cual obtener los comentarios.

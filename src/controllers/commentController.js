@@ -1,5 +1,5 @@
 import { validateToken } from '../config/config.js'
-import { comment } from '../models/pg/commentModel.js'
+import { Comment } from '../models/pg/commentModel.js'
 import { commentValidation } from '../schemas/commentsSchema.js'
 
 
@@ -10,7 +10,7 @@ export class commentController {
       
       if (post === undefined) throw new Error('must provide post id')
 
-      const data = await comment.getComments(post)
+      const data = await Comment.getComments(post)
 
       if (data.error) throw new Error('error to show comments')
       
@@ -40,7 +40,7 @@ export class commentController {
 
       if (results.error) return res.status(400).json({error: results.error.issues[0].message})
 
-      const data = await comment.createComment({user_id: decodeToken.user_id, post_id: post, comment: results.data})
+      const data = await Comment.createComment({user_id: decodeToken.user_id, post_id: post, comment: results.data})
 
       if (data.error) throw new Error('error to publish comment')
 
@@ -66,7 +66,7 @@ export class commentController {
 
       if (id === undefined) throw new Error('must provide comment id')
 
-      const data = await comment.deleteComment({ comment_id: id, user_id: decodeToken.user_id})
+      const data = await Comment.deleteComment({ comment_id: id, user_id: decodeToken.user_id})
 
       if (data.error) throw new Error('error to delete comment')
 

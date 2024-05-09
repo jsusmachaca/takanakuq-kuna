@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt'
 
 const saltRounds = 10
 
-export class user {
+export class User {
   /**
    * Obtiene todos los usuarios de la base de datos.
    * @returns {Promise<Object[]|{error:string}>} Una promesa que resuelve en una lista de objetos que representan a los usuarios, o un objeto de error si ocurre algún problema.

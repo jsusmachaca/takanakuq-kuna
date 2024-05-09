@@ -1,7 +1,7 @@
 import { dbConnectionPg } from '../../config/config.js'
 
 
-export class recipe {
+export class Recipe {
   /**
    * Devuelve la nueva receta (recipe) correspondiente a un usuario de la base de datos.
    * @param {number} user_id - Del usuario que registra el dato.

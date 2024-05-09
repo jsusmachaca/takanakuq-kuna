@@ -1,7 +1,7 @@
 import { dbConnectionPg } from '../../config/config.js'
 
 
-export class post {
+export class Post {
   /**
    * Encuentra todos los posts de la base de datos.
    * @returns {Promise<Object[]|{error:string}>} All posts made by users.
@@ -135,7 +135,7 @@ export class post {
   static async getDeletedImage({ id, user_id }) {
     try {
       const connection = await dbConnectionPg()
-      
+
       const { rows } = await connection.query(`
       SELECT post_image FROM posts
       WHERE id=$1 AND user_id=$2;`,

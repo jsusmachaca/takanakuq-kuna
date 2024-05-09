@@ -1,4 +1,4 @@
-import { user } from '../models/pg/userModel.js'
+import { User } from '../models/pg/userModel.js'
 import { userProfileValidation, userValidation, userValidationPartial } from '../schemas/userSchema.js'
 import { cryptoNamed, generateToken, uploadS3Images, validateToken } from '../config/config.js'
 
@@ -16,7 +16,7 @@ export class userController {
 
       if (validation === null) throw new Error('invalid token')
 
-      const data = await user.getAll()
+      const data = await User.getAll()
       return res.json(data)
     } catch(error) {
       return res.status(401).json({ error: error.message })
@@ -29,7 +29,7 @@ export class userController {
 
     if (results.error) return res.status(400)
 
-    const data = await user.findByName({ data: results.data })
+    const data = await User.findByName({ data: results.data })
 
     if (data === null) return res.status(404).json({ error: 'incorrect credentials' })
 
@@ -56,7 +56,7 @@ export class userController {
 
       if (validation === null) throw new Error('invalid token')
 
-      let data = await user.findUser(validation.user_id)
+      let data = await User.findUser(validation.user_id)
 
       if (data.error) return res.status(400).json({ error: 'error when showing user' })
 
@@ -76,7 +76,7 @@ export class userController {
 
     if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
 
-    const data = await user.createUser({ data: results.data })
+    const data = await User.createUser({ data: results.data })
 
     if (data.error) {
       if (data.error.startsWith('llave duplicada')) {
@@ -108,7 +108,7 @@ export class userController {
 
       if (id === undefined) throw new Error('must provide id')
       
-      const data = await user.editUser({ id: id, data: results.data })
+      const data = await User.editUser({ id: id, data: results.data })
 
       if (data.error) return res.status(400).json({ error: 'error when modifying' })
 
@@ -134,7 +134,7 @@ export class userController {
 
       if (id === undefined) throw new Error('must provide id')
       
-      const data = await user.deleteUser(id)
+      const data = await User.deleteUser(id)
       return res.json({ success: data })
     } catch(error) {
       return res.status(401).json({ error: error.message })
@@ -164,7 +164,7 @@ export class userController {
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
 
-      const data = await user.createProfile({ user_id: decodeToken.user_id, data: results.data })
+      const data = await User.createProfile({ user_id: decodeToken.user_id, data: results.data })
 
       if (data.error) return res.status(400).json({ error: 'save error' })
 
@@ -197,7 +197,7 @@ export class userController {
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
   
-      const data = await user.editProfile({ user_id: decodeToken.user_id, data: results.data })
+      const data = await User.editProfile({ user_id: decodeToken.user_id, data: results.data })
 
       if (data.error) return res.status(400).json({ error: 'error when modifying' })
 

@@ -1,12 +1,12 @@
 import { cryptoNamed, deleteS3Images, getS3Images, uploadS3Images, validateToken } from '../config/config.js'
-import { post } from '../models/pg/postModel.js'
+import { Post } from '../models/pg/postModel.js'
 import { postValidation } from '../schemas/postSchema.js'
 
 
 export class postController {
   static async getAllPosts(req, res) {
     try {
-      let data = await post.getAll()
+      let data = await Post.getAll()
 
       if (data.error) throw new Error('error to show posts')
       
@@ -36,7 +36,7 @@ export class postController {
 
       if (decodeToken === null) throw new Error('invalid token')
 
-      let data = await post.findByUser(decodeToken.user_id)
+      let data = await Post.findByUser(decodeToken.user_id)
 
       if (data.error) throw new Error('error to show posts')
 
@@ -61,7 +61,7 @@ export class postController {
 
       if (id === undefined) throw new Error('must provide id')
 
-      let data = await post.findById(id)
+      let data = await Post.findById(id)
 
       if (data === null) throw new Error('post not found')
 
@@ -100,7 +100,7 @@ export class postController {
 
       if (results.error) return res.status(400).json({error: results.error.issues[0].message})
 
-      const data = await post.createPost({user_id: decodeToken.user_id, post: results.data})
+      const data = await Post.createPost({user_id: decodeToken.user_id, post: results.data})
 
       if (data.error) throw new Error('error to publish post')
 
@@ -127,7 +127,7 @@ export class postController {
 
       if (id === undefined) throw new Error('must provide id')
       
-      const filename = await post.getDeletedImage({ id: id, user_id: decodeToken.user_id })
+      const filename = await Post.getDeletedImage({ id: id, user_id: decodeToken.user_id })
       await deleteS3Images({ filename: filename.post_image, carpet: 'posts' })
       const data = await post.deletePost({ id: id, user_id: decodeToken.user_id })
 

@@ -1,8 +1,7 @@
 import { validateToken } from '../config/config.js'
-import { recipe } from '../models/pg/recipeModel.js'
+import { Recipe } from '../models/pg/recipeModel.js'
 import { medicineValidation } from '../schemas/medicinesSchema.js'
 import { recipeValidation } from '../schemas/recipeSchema.js'
-import { randomUUID } from 'node:crypto'
 
 
 export class recipeController {
@@ -18,7 +17,7 @@ export class recipeController {
 
       if (decodeToken === null) throw new Error('invalid token')
 
-      const recipeId = await recipe.getId(decodeToken.user_id)
+      const recipeId = await Recipe.getId(decodeToken.user_id)
 
       if (recipeId === null) throw new Error("recipe don't created") 
 
@@ -50,7 +49,7 @@ export class recipeController {
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
 
-      const data = await recipe.createRecipe({ user_id: decodeToken.user_id, data: results.data })
+      const data = await Recipe.createRecipe({ user_id: decodeToken.user_id, data: results.data })
 
       if (data.error) throw new Error('error to add recipe, you may already have one created')
 
@@ -73,7 +72,7 @@ export class recipeController {
 
       if (decodeToken === null) throw new Error('invalid token')
 
-      const data = await recipe.deleteRecipe(decodeToken.user_id)
+      const data = await Recipe.deleteRecipe(decodeToken.user_id)
 
       if (data.error) throw new Error('error to delete recipe')
 
@@ -99,11 +98,11 @@ export class recipeController {
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
       
-      const recipeId = await recipe.getId(decodeToken.user_id)
+      const recipeId = await Recipe.getId(decodeToken.user_id)
 
       if (recipeId === null) throw new Error("recipe don't created") 
       
-      const data = await recipe.createMedicine({ recipe_id: recipeId.id, data: results.data })
+      const data = await Recipe.createMedicine({ recipe_id: recipeId.id, data: results.data })
 
       if (data.error) throw new Error('error to add medicine')
 
@@ -129,9 +128,9 @@ export class recipeController {
 
       if (id === undefined) throw new Error('must provide id')
 
-      const recipeId = await recipe.getId(decodeToken.user_id)
+      const recipeId = await Recipe.getId(decodeToken.user_id)
       
-      const data = await recipe.deleteMedicine({ recipe_id: recipeId.id, medicine_id: id})
+      const data = await Recipe.deleteMedicine({ recipe_id: recipeId.id, medicine_id: id})
 
       if (data.error) throw new Error('error to delete medicine')
 
