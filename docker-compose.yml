@@ -2,20 +2,22 @@ version: '3.9'
 services:
   app:
     build: .
+    env_file:
+      - .env
     environment:
-      - SECRET_KEY=base64
+      - SECRET_KEY=${SECRET_KEY}
 
-      - AWS_REGION=
-      - AWS_ACCESS_KEY=
-      - AWS_SECRET_ACCESS_KEY=
-      - AWS_BUCKET_NAME=
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
 
-      - PORT=3000
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_NAME=takanakuq
-      - DB_USER=
-      - DB_PASSWORD=
+      - PORT=${PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
 
     networks:
       - takanakuq-net
@@ -25,8 +27,8 @@ services:
   db:  
     image: postgres:16.2
     environment:
-      - POSTGRES_USER=
-      - POSTGRES_PASSWORD=
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     networks:
       - takanakuq-net
     volumes:
