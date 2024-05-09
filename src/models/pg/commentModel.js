@@ -1,16 +1,16 @@
 import { dbConnectionPg } from '../../config/config.js'
 
 
-const connection = await dbConnectionPg()
-
 export class comment {
   /**
    * Obtiene los comentarios de un post por su ID.
    * @param {number} post_id - El ID del post del cual obtener los comentarios.
-   * @returns {Promise<Array<Object>|{error:string}>} Una promesa que resuelve en un array de objetos representando los comentarios o un objeto de error si ocurre algún problema.
+   * @returns {Promise<Object[] | {error:string}>} Una promesa que resuelve en un array de objetos representando los comentarios o un objeto de error si ocurre algún problema.
    */
   static async getComments(post_id) {
     try {
+      const connection = await dbConnectionPg()
+
       const { rows } = await connection.query(`
       SELECT comments.id, users.username, profile.profile_image, comments.comment, comments.date
       FROM comments 
@@ -38,7 +38,9 @@ export class comment {
    */
   static async createComment({ user_id, post_id, comment }) {
     try {
-      const { rows } = await connection.query(`
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
       INSERT INTO comments(user_id, post_id, comment)
       VALUES
       ($1, $2, $3);`,
@@ -59,7 +61,9 @@ export class comment {
    */
   static async deleteComment({ comment_id, user_id }) {
     try {
-      const { rows } = await connection.query(`
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
       DELETE FROM comments
       WHERE id=$1 AND user_id=$2;`,
       [comment_id, user_id])
