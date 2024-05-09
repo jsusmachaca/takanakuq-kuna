@@ -1,8 +1,6 @@
 import { dbConnectionPg } from '../../config/config.js'
 
 
-const connection = await dbConnectionPg()
-
 export class recipe {
   /**
    * Devuelve la nueva receta (recipe) correspondiente a un usuario de la base de datos.
@@ -11,6 +9,8 @@ export class recipe {
    */
   static async findMedicines(user_id) {
     try {
+      const connection = await dbConnectionPg()
+
       const { rows } = await connection.query(`
       SELECT recipes.id AS recipe_id, 
               users.username, 
@@ -51,17 +51,19 @@ export class recipe {
    * @returns {Promise<boolean>|{error:string}} Una promesa que resuelve en verdadero si la receta se creó exitosamente, o un error si ocurrió algún problema.
    */
   static async createRecipe({ user_id, data }) {
-      try {
-        const { rows } = await connection.query(`
-        INSERT INTO recipes(user_id, start_date)
-        VALUES
-        ($1, $2);`,
-        [user_id, data.start_date])
-        return true
-      } catch(error) {
-        console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-        return { error: error.message }
-      }
+    try {
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
+      INSERT INTO recipes(user_id, start_date)
+      VALUES
+      ($1, $2);`,
+      [user_id, data.start_date])
+      return true
+    } catch(error) {
+      console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
+      return { error: error.message }
+    }
   }
 
   /**
@@ -71,6 +73,8 @@ export class recipe {
    */
   static async getId(user_id) {
     try {
+      const connection = await dbConnectionPg()
+
       const { rows } = await connection.query(`
       SELECT id
       FROM recipes 
@@ -97,17 +101,19 @@ export class recipe {
    * @returns {Promise<boolean>|{error:string}} Una promesa que resuelve en verdadero si el medicamento se creó exitosamente, o un error si ocurrió algún problema.
    */
   static async createMedicine({ recipe_id, data }) {
-      try {
-        const { rows } = await connection.query(`
-        INSERT INTO medicines(recipe_id, medicine_name, amount, hours, days)
-        VALUES
-        ($1, $2, $3, $4, $5);`,
-        [recipe_id, data.medicine_name, data.amount, data.hours, data.days])
-        return true
-      } catch(error) {
-        console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-        return { error: error.message }
-      }
+    try {
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
+      INSERT INTO medicines(recipe_id, medicine_name, amount, hours, days)
+      VALUES
+      ($1, $2, $3, $4, $5);`,
+      [recipe_id, data.medicine_name, data.amount, data.hours, data.days])
+      return true
+    } catch(error) {
+      console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
+      return { error: error.message }
+    }
   }
 
   /**
@@ -119,7 +125,9 @@ export class recipe {
    */
   static async deleteMedicine({ recipe_id, medicine_id }) {
     try {
-      const { rows } = await connection.query(`
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
       DELETE FROM medicines
       WHERE recipe_id=$1 AND id=$2;`,
       [recipe_id, medicine_id])
@@ -137,7 +145,9 @@ export class recipe {
    */
   static async deleteRecipe(user_id) {
     try {
-      const { rows } = await connection.query(`
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
       DELETE FROM recipes 
       WHERE user_id=$1;`,
       [user_id])
