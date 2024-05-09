@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "jest --verbose --silent --detectOpenHandles",
-    "dev": "ts-node-dev src/index.ts",
-    "start": "node dist/index.js"
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js"
   },
   "author": "jsusmachaca",
   "license": "MIT",
@@ -27,9 +27,7 @@
     "dotenv": "^16.3.1",
     "jest": "^29.7.0",
     "standard": "^17.1.0",
-    "supertest": "^6.3.4",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.4.5"
+    "supertest": "^6.3.4"
   },
   "eslintConfig": {
     "extends": "standard"
