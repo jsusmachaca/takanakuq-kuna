@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt'
 
 
 const saltRounds = 10
-const connection = await dbConnectionPg()
 
 export class user {
   /**
@@ -13,6 +12,8 @@ export class user {
    */
   static async getAll() {
     try {
+      const connection = await dbConnectionPg()
+
       const { rows } = await connection.query('SELECT * FROM users')
       return rows
     } 
@@ -32,6 +33,8 @@ export class user {
    */
   static async findByName({ data }) {
     try{
+      const connection = await dbConnectionPg()
+
       const { rows } = await connection.query(`
       SELECT id, username, password 
       FROM users 
@@ -59,6 +62,8 @@ export class user {
    */
   static async findUser(user_id) {
     try{
+      const connection = await dbConnectionPg()
+
       const { rows } = await connection.query(`
       SELECT users.id, users.username, users.first_name, users.last_name, users.email, profile.profile_image, profile.description
       FROM users 
@@ -90,9 +95,11 @@ export class user {
    */
   static async createUser({ data }) {
     try {
+      const connection = await dbConnectionPg()
+
       const salt = await bcrypt.genSalt(saltRounds)
       const hash = await bcrypt.hash(data.password, salt)
-      const { rows } = await connection.query(`
+      await connection.query(`
       INSERT INTO users(username, first_name, last_name, email, password)
       VALUES
       ($1, $2, $3, $4, $5);`,
@@ -112,7 +119,9 @@ export class user {
    */
   static async deleteUser(id) {
     try {
-      const [ result, ] = await connection.query(`
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
       DELETE FROM users
       WHERE id=$1`,
       [id])
@@ -135,7 +144,9 @@ export class user {
    */
   static async editUser({ id, data }) {
     try {
-      const [ result, ] = await   connection.query(`
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
       UPDATE users SET first_name=$1, last_name=$2 
       WHERE id=$3`,
       [data.first_name, data.last_name, id]) 
@@ -157,7 +168,9 @@ export class user {
    */
   static async createProfile({ user_id, data }) {
     try {
-      const { rows } = await connection.query(`
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
       INSERT INTO profile(user_id, description, profile_image)
       VALUES
       ($1, $2, $3);`,
@@ -180,7 +193,9 @@ export class user {
    */
   static async editProfile({ user_id, data }) {
     try {
-      const { rows } = await connection.query(`
+      const connection = await dbConnectionPg()
+
+      await connection.query(`
       UPDATE profile SET description=$1, profile_image=$2
       WHERE user_id=$3`,
       [data.description, data.profile_image, user_id])
