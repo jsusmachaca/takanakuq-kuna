@@ -6,12 +6,12 @@ import { cryptoNamed, generateToken, uploadS3Images, validateToken } from '../co
 export class userController {
   static async getAll(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const validation = validateToken(token)
 
       if (validation === null) throw new Error('invalid token')
@@ -46,12 +46,12 @@ export class userController {
   // Show user profile data
   static async findUser(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const validation = validateToken(token)
 
       if (validation === null) throw new Error('invalid token')
@@ -90,12 +90,12 @@ export class userController {
 
   static async editUser(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const validation = validateToken(token)
 
       if (validation === null) throw new Error('invalid token')
@@ -120,12 +120,12 @@ export class userController {
 
   static async deleteUser(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const validation = validateToken(token)
 
       if (validation === null) throw new Error('invalid Token')
@@ -144,12 +144,12 @@ export class userController {
   // Add profile data for users
   static async createProfile(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
       if (decodeToken === null) throw new Error('invalid token')
@@ -177,12 +177,12 @@ export class userController {
   // Edit profile data to users
   static async editProfile(req, res) {
     const authorization = req.headers.authorization // extract token of header
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided') // validate token
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
       if (decodeToken === null) throw new Error('invalid token') 

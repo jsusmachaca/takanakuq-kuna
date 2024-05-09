@@ -27,11 +27,11 @@ export class postController {
 
   static async getUserPosts(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
       if (decodeToken === null) throw new Error('invalid token')
@@ -80,12 +80,12 @@ export class postController {
 
   static async createPost(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
       if (decodeToken === null) throw new Error('invalid token')
@@ -112,12 +112,12 @@ export class postController {
 
   static async deletePost(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
 
       const decodeToken = validateToken(token)
 
@@ -129,7 +129,7 @@ export class postController {
       
       const filename = await Post.getDeletedImage({ id: id, user_id: decodeToken.user_id })
       await deleteS3Images({ filename: filename.post_image, carpet: 'posts' })
-      const data = await post.deletePost({ id: id, user_id: decodeToken.user_id })
+      const data = await Post.deletePost({ id: id, user_id: decodeToken.user_id })
 
       if (data.error) throw new Error('error to delete post')
 

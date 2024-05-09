@@ -22,12 +22,12 @@ export class commentController {
 
   static async publishComment(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
       if (decodeToken === null) throw new Error('invalid token')
@@ -52,12 +52,12 @@ export class commentController {
 
   static async deleteComment(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
       if (decodeToken === null) throw new Error('invalid token')

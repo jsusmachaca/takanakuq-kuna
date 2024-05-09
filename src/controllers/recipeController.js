@@ -7,12 +7,12 @@ import { recipeValidation } from '../schemas/recipeSchema.js'
 export class recipeController {
   static async findMedicines(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
       if (decodeToken === null) throw new Error('invalid token')
@@ -21,7 +21,7 @@ export class recipeController {
 
       if (recipeId === null) throw new Error("recipe don't created") 
 
-      let data = await recipe.findMedicines(decodeToken.user_id)
+      let data = await Recipe.findMedicines(decodeToken.user_id)
 
       if (data === null) throw new Error('there are no registered medicines yet.')
 
@@ -35,12 +35,12 @@ export class recipeController {
 
   static async createRecipe(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
       if (decodeToken === null) throw new Error('invalid token')
@@ -61,12 +61,12 @@ export class recipeController {
 
   static async deleteRecipe(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
 
       const decodeToken = validateToken(token)
 
@@ -84,12 +84,12 @@ export class recipeController {
 
   static async createMedicines(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
       if (decodeToken === null) throw new Error('invalid token')
@@ -114,12 +114,12 @@ export class recipeController {
 
   static async deleteMedicine(req, res) {
     const authorization = req.headers.authorization
-    let token = null
+    let token = ''
 
     try {
       if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
 
-      token = authorization.substring(7)
+      token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
       if (decodeToken === null) throw new Error('invalid token')
