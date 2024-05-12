@@ -56,13 +56,17 @@ export class userController {
 
       if (validation === null) throw new Error('invalid token')
 
-      let data = await User.findUser(validation.user_id)
+      const { id } = req.query
+
+      if (id === undefined) throw new Error('must provide id')
+  
+      let data = await User.findUser(id)
 
       if (data.error) return res.status(400).json({ error: 'error when showing user' })
 
       data = {
         ...data,
-        profile_image: data.profile_image && `${req.protocol}://${req.get('host')}/${data.profile_image}`
+        profile_image: data.profile_image && await getS3Images({ filename: data.profile_image, carpet: 'profiles' })
       }
       return res.json(data)
     } catch(error) {
