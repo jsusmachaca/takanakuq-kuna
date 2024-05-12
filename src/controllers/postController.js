@@ -36,7 +36,11 @@ export class postController {
 
       if (decodeToken === null) throw new Error('invalid token')
 
-      let data = await Post.findByUser(decodeToken.user_id)
+      const { id } = req.query
+
+      if (id === undefined) throw new Error('must provide id')
+  
+      let data = await Post.findByUser(id)
 
       if (data.error) throw new Error('error to show posts')
 

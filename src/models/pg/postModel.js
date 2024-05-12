@@ -11,7 +11,7 @@ export class Post {
       const connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
-      SELECT posts.id, users.username, profile.profile_image, posts.post, posts.post_image, posts.date_publish
+      SELECT posts.id, users.id as user_id, users.username, profile.profile_image, posts.post, posts.post_image, posts.date_publish
       FROM posts 
       JOIN users 
       ON posts.user_id=users.id
@@ -37,10 +37,12 @@ export class Post {
       const connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
-      SELECT profile.profile_image, posts.post, posts.post_image, posts.date_publish
+      SELECT users.id as user_id, profile.profile_image, posts.post, posts.post_image, posts.date_publish
       FROM posts
       JOIN profile
       ON posts.user_id=profile.user_id
+      JOIN users
+      ON posts.user_id=users.id
       WHERE posts.user_id=$1;`,
       [id])
       return rows
