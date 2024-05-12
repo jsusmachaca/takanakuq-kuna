@@ -6,11 +6,12 @@
   "type": "module",
   "scripts": {
     "test": "jest --verbose --silent --detectOpenHandles",
+    "gen-key": "sed -i \"s/^SECRET_KEY=.*/SECRET_KEY=$(uuidgen | base64)/\" .env",
     "dev": "node --watch src/index.js",
     "start": "node src/index.js"
   },
   "author": "jsusmachaca",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "@aws-sdk/client-s3": "3.540.0",
     "@aws-sdk/s3-request-presigner": "3.540.0",
