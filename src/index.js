@@ -11,7 +11,7 @@ import { users } from './routes/users.js'
 import { posts } from './routes/posts.js'
 import { recipes } from './routes/recipes.js'
 import { comments } from './routes/comments.js'
-
+import { index } from './routes/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -22,11 +22,14 @@ app.disable('x-powered-by')
 app.use(json())
 app.use(corsMiddleware())
 app.use(static_(path.join(__dirname, 'public')))
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))
 
 app.use('/api/user', users)
 app.use('/api/posts', posts)
 app.use('/api/recipe', recipes)
 app.use('/api/comments', comments)
+app.use('/', index)
 
 
 const PORT = process.env.PORT
