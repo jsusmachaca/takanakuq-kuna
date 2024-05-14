@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import mysql from 'mysql2/promise'
+// import mysql from 'mysql2/promise'
 import jwt from 'jsonwebtoken'
 import pkg from 'pg'
 import { randomUUID } from 'node:crypto'
@@ -45,6 +45,7 @@ export const dbConnectionPg = async () => {
   console.error('\x1b[31m\nCould not establish connection after attempts\n\x1b[0m')
 }
 
+/*
 export const dbConnectionMysql = async () => {
   try {
     return await mysql.createConnection(config)
@@ -52,6 +53,7 @@ export const dbConnectionMysql = async () => {
     console.error(`\x1b[31mError connecting to mysql database \x1b[0m => ${error}`)
   }
 }
+*/
 
 
 // JWT CONFIG
