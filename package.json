@@ -11,7 +11,7 @@
     "start": "node src/index.js"
   },
   "author": "jsusmachaca",
-  "license": "GPL-3.0-only",
+  "license": "GPL-3.0",
   "dependencies": {
     "@aws-sdk/client-s3": "3.540.0",
     "@aws-sdk/s3-request-presigner": "3.540.0",
