@@ -1,10 +1,9 @@
 import { User } from '../models/pg/userModel.js'
 import { userProfileValidation, userValidation, userValidationPartial } from '../schemas/userSchema.js'
-import { cryptoNamed, generateToken, uploadS3Images, validateToken } from '../config/config.js'
-
+import { cryptoNamed, generateToken, uploadS3Images, validateToken, getS3Images } from '../config/config.js'
 
 export class userController {
-  static async getAll(req, res) {
+  static async getAll (req, res) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -18,13 +17,13 @@ export class userController {
 
       const data = await User.getAll()
       return res.json(data)
-    } catch(error) {
+    } catch (error) {
       return res.status(401).json({ error: error.message })
     }
   }
 
   // Login Controller
-  static async findByName(req, res) {
+  static async findByName (req, res) {
     const results = userValidationPartial(req.body)
 
     if (results.error) return res.status(400)
@@ -34,7 +33,7 @@ export class userController {
     if (data === null) return res.status(404).json({ error: 'incorrect credentials' })
 
     if (data.error) return res.status(404).json({ error: 'incorrect credentials' })
-    
+
     const userForToken = {
       user_id: data.id,
       username: data.username
@@ -44,7 +43,7 @@ export class userController {
   }
 
   // Show user profile data
-  static async findUser(req, res) {
+  static async findUser (req, res) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -59,7 +58,7 @@ export class userController {
       const { id } = req.query
 
       if (id === undefined) throw new Error('must provide id')
-  
+
       let data = await User.findUser(id)
 
       if (data.error) return res.status(400).json({ error: 'error when showing user' })
@@ -69,13 +68,13 @@ export class userController {
         profile_image: data.profile_image && await getS3Images({ filename: data.profile_image, carpet: 'profiles' })
       }
       return res.json(data)
-    } catch(error) {
+    } catch (error) {
       return res.status(401).json({ error: error.message })
-    }   
+    }
   }
 
   // Register controller
-  static async createUser(req, res) {
+  static async createUser (req, res) {
     const results = userValidation(req.body)
 
     if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
@@ -92,7 +91,7 @@ export class userController {
     return res.status(201).json({ success: data, data: results.data })
   }
 
-  static async editUser(req, res) {
+  static async editUser (req, res) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -111,18 +110,18 @@ export class userController {
       const { id } = req.query
 
       if (id === undefined) throw new Error('must provide id')
-      
-      const data = await User.editUser({ id: id, data: results.data })
+
+      const data = await User.editUser({ id, data: results.data })
 
       if (data.error) return res.status(400).json({ error: 'error when modifying' })
 
       return res.json({ success: data, data: results.data })
-    } catch(error) {
+    } catch (error) {
       return res.status(401).json({ error: error.message })
-    }   
+    }
   }
 
-  static async deleteUser(req, res) {
+  static async deleteUser (req, res) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -133,20 +132,20 @@ export class userController {
       const validation = validateToken(token)
 
       if (validation === null) throw new Error('invalid Token')
-      
+
       const { id } = req.query
 
       if (id === undefined) throw new Error('must provide id')
-      
+
       const data = await User.deleteUser(id)
       return res.json({ success: data })
-    } catch(error) {
+    } catch (error) {
       return res.status(401).json({ error: error.message })
     }
   }
 
   // Add profile data for users
-  static async createProfile(req, res) {
+  static async createProfile (req, res) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -160,10 +159,10 @@ export class userController {
 
       if (req.file) {
         const filename = cryptoNamed(req.file.originalname)
-        await uploadS3Images({ filename: filename, buffer: req.file.buffer, carpet: 'profiles' })
+        await uploadS3Images({ filename, buffer: req.file.buffer, carpet: 'profiles' })
         req.body.profile_image = filename
       }
-      
+
       const results = userProfileValidation(req.body)
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
@@ -173,13 +172,13 @@ export class userController {
       if (data.error) return res.status(400).json({ error: 'save error' })
 
       return res.status(201).json({ success: data, data: results.data })
-    } catch(error) {
+    } catch (error) {
       return res.status(401).json({ error: error.message })
     }
   }
 
   // Edit profile data to users
-  static async editProfile(req, res) {
+  static async editProfile (req, res) {
     const authorization = req.headers.authorization // extract token of header
     let token = ''
 
@@ -189,25 +188,25 @@ export class userController {
       token += authorization.substring(7)
       const decodeToken = validateToken(token)
 
-      if (decodeToken === null) throw new Error('invalid token') 
+      if (decodeToken === null) throw new Error('invalid token')
 
-      if (req.file) { // extract file 
+      if (req.file) { // extract file
         const filename = cryptoNamed(req.file.originalname)
-        await uploadS3Images({ filename: filename, buffer: req.file.buffer, carpet: 'profiles' })
+        await uploadS3Images({ filename, buffer: req.file.buffer, carpet: 'profiles' })
         req.body.profile_image = filename
       }
 
       const results = userProfileValidation(req.body)
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
-  
+
       const data = await User.editProfile({ user_id: decodeToken.user_id, data: results.data })
 
       if (data.error) return res.status(400).json({ error: 'error when modifying' })
 
       return res.json({ success: data, data: results.data })
-    } catch(error) {
+    } catch (error) {
       return res.status(401).json({ error: error.message })
-    }   
+    }
   }
 }

@@ -4,7 +4,7 @@
 import 'dotenv/config'
 import express, { json, static as static_ } from 'express'
 import { corsMiddleware } from './middlewares/cors.js'
-import { fileURLToPath  } from 'node:url'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 import { users } from './routes/users.js'
@@ -30,7 +30,6 @@ app.use('/api/posts', posts)
 app.use('/api/recipe', recipes)
 app.use('/api/comments', comments)
 app.use('/', index)
-
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {

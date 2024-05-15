@@ -1,12 +1,11 @@
 import { dbConnectionPg } from '../../config/config.js'
 
-
 export class Post {
   /**
    * Encuentra todos los posts de la base de datos.
    * @returns {Promise<Object[]|{error:string}>} All posts made by users.
    */
-  static async getAll() {
+  static async getAll () {
     try {
       const connection = await dbConnectionPg()
 
@@ -21,7 +20,7 @@ export class Post {
       ORDER BY posts.id;
       `)
       return rows
-    } catch(error) {
+    } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -32,7 +31,7 @@ export class Post {
    * @param {number} id - El ID del usuario cuyos posts se desean encontrar.
    * @returns {Promise<Object[]|{error:string}>} Una promesa que resuelve en una lista de objetos que representan los posts encontrados, o un objeto de error si ocurre algún problema.
    */
-  static async findByUser(id) {
+  static async findByUser (id) {
     try {
       const connection = await dbConnectionPg()
 
@@ -46,7 +45,7 @@ export class Post {
       WHERE posts.user_id=$1;`,
       [id])
       return rows
-    } catch(error) {
+    } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -57,7 +56,7 @@ export class Post {
    * @param {number} id - El ID del post que se desea encontrar.
    * @returns {Promise<post|{error:string}>} Una promesa que resuelve en un objeto que representa el post encontrado, o nulo si no se encuentra ningún post con el ID dado.
    */
-  static async findById(id) {
+  static async findById (id) {
     try {
       const connection = await dbConnectionPg()
 
@@ -74,7 +73,7 @@ export class Post {
       if (rows.length === 0) return null
 
       return rows[0]
-    } catch(error) {
+    } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -89,7 +88,7 @@ export class Post {
    * @param {string} options.post.post_image - La imagen asociada al post (opcional).
    * @returns {Promise<boolean>} Una promesa que resuelve en verdadero si el post se creó exitosamente, o un objeto de error si ocurrió algún problema.
    */
-  static async createPost({ user_id, post }) {
+  static async createPost ({ user_id, post }) {
     try {
       const connection = await dbConnectionPg()
 
@@ -99,7 +98,7 @@ export class Post {
       ($1, $2, $3);`,
       [user_id, post.post, post.post_image])
       return true
-    } catch(error) {
+    } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -112,7 +111,7 @@ export class Post {
    * @param {number} options.user_id - El ID del usuario que creó el post.
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el post se elimina exitosamente, o un objeto de error si ocurre algún problema.
    */
-  static async deletePost({ id, user_id }) {
+  static async deletePost ({ id, user_id }) {
     try {
       const connection = await dbConnectionPg()
 
@@ -121,7 +120,7 @@ export class Post {
       WHERE id=$1 AND user_id=$2;`,
       [id, user_id])
       return true
-    } catch(error) {
+    } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }
@@ -134,7 +133,7 @@ export class Post {
    * @param {number} options.user_id - El ID del usuario que creó el post.
    * @returns {Promise<number|{error:string}>} Una promesa que resuelve en verdadero si el post se elimina exitosamente, o un objeto de error si ocurre algún problema.
    */
-  static async getDeletedImage({ id, user_id }) {
+  static async getDeletedImage ({ id, user_id }) {
     try {
       const connection = await dbConnectionPg()
 
@@ -146,8 +145,7 @@ export class Post {
       if (rows.length === 0) return null
 
       return rows[0]
-
-    } catch(error) {
+    } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
     }

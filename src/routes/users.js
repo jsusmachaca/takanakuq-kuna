@@ -2,7 +2,6 @@ import { Router } from 'express'
 import { userController } from '../controllers/userController.js'
 import { multerMiddlewareProfile } from '../middlewares/multer.js'
 
-
 export const users = Router()
 
 // users.get('/', userController.getAll)

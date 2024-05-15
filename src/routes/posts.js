@@ -2,7 +2,6 @@ import { Router } from 'express'
 import { postController } from '../controllers/postController.js'
 import { multerMiddleware } from '../middlewares/multer.js'
 
-
 export const posts = Router()
 
 posts.get('/all', postController.getAllPosts)

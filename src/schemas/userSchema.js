@@ -1,6 +1,5 @@
 import { z } from 'zod'
 
-
 const userSchema = z.object({
   username: z.string({ required_error: 'username field is required' }),
   first_name: z.string({ required_error: 'first_name field is required' }),
@@ -14,12 +13,12 @@ const profileSchema = z.object({
   description: z.string().nullable().default(null),
   profile_image: z.string().nullable().default(null)
 }).refine(data => data.description !== null || data.profile_image !== null, {
-  message: "at least one of the 'description' or 'profile_image' fields must be present.",
-});
+  message: "at least one of the 'description' or 'profile_image' fields must be present."
+})
 
 export const userValidation = (data) => {
   return userSchema.refine(data => data.password === data.confirm_password, {
-    message: "passwords  don't match",
+    message: "passwords  don't match"
   }).safeParse(data)
 }
 
