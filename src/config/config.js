@@ -7,7 +7,6 @@ import { extname } from 'node:path'
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
-
 // CORS ORIGINS
 export const ACCEPTED_ORIGINS = [
   'http://localhost:8080',
@@ -25,7 +24,7 @@ const config = {
   port: process.env.DB_PORT ?? '5432',
   user: process.env.DB_USER ?? 'root',
   password: process.env.DB_PASSWORD ?? '',
-  database: process.env.DB_NAME ?? 'luchadores_test',
+  database: process.env.DB_NAME ?? 'luchadores_test'
 }
 const { Pool } = pkg
 const pool = new Pool(config)
@@ -55,21 +54,19 @@ export const dbConnectionMysql = async () => {
 }
 */
 
-
 // JWT CONFIG
 const SECRET_KEY = process.env.SECRET_KEY
 
-export const generateToken = ({ data }) => jwt.sign(data, SECRET_KEY, {expiresIn: '1y'})
+export const generateToken = ({ data }) => jwt.sign(data, SECRET_KEY, { expiresIn: '1y' })
 
 export const validateToken = (token) => {
-  try{
+  try {
     const decodedToken = jwt.verify(token, SECRET_KEY)
-    return decodedToken 
+    return decodedToken
   } catch (error) {
     return null
   }
 }
-
 
 // AWS CONFIG
 export const cryptoNamed = (originalName) => {
@@ -99,7 +96,7 @@ export const uploadS3Images = async ({ filename, carpet, buffer }) => {
 export const getS3Images = async ({ filename, carpet }) => {
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
-    Key: `${carpet}/${filename}`,
+    Key: `${carpet}/${filename}`
   }
   const command = new GetObjectCommand(params)
   const urlImage = await getSignedUrl(s3, command, { expiresIn: 60 })
@@ -109,7 +106,7 @@ export const getS3Images = async ({ filename, carpet }) => {
 export const deleteS3Images = async ({ filename, carpet }) => {
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
-    Key: `${carpet}/${filename}`,
+    Key: `${carpet}/${filename}`
   }
   const command = new DeleteObjectCommand(params)
   const result = await s3.send(command)
