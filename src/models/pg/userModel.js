@@ -62,7 +62,7 @@ export class User {
       const connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
-      SELECT users.id, users.username, users.first_name, users.last_name, users.email, profile.profile_image, profile.description
+      SELECT users.id, users.username, users.first_name, users.last_name, profile.profile_image, profile.description
       FROM users 
       JOIN profile
       ON users.id=profile.user_id
