@@ -1,0 +1,116 @@
+<section>
+  <h2 class="endtitle">User Endpoints</h2>
+  <article>
+    <h3 class="subtitle-end">* GET <span class="url">/api/user/data?id=$id</span></h3>
+    <p class="guide">
+      Retrieves data for a specific user by ID. <strong>Requires session token</strong>.
+    </p>
+    <pre class="cli">
+GET /api/user/data?id=42223
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+               eyJkYXRhIjoiZXhhbSJ9.
+               SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Response: [
+  {
+    "id": 23434
+    "username": "john",
+    "first_name": "John",
+    "last_name": "Doe",
+    "profile_image": http://example.com/profile.jpg,
+    "description": "Lorem ipsum dolor"
+  }
+]</pre>
+
+    <h3 class="subtitle-end">* POST <span class="url">/api/user/register</span></h3>
+    <p class="guide">
+      Registers a new user.
+    </p>
+    <pre class="cli">
+POST /api/user/register
+Content-Type: application/json
+
+Body: {
+  "username": "your_username",
+  "password": "your_password",
+  "confirm_password": "your_password",
+  "first_name": "Your First Name",
+  "last_name": "Your Last Name",
+  "email": "your@email.com"
+}
+
+Response:
+{
+  "success": true,
+  "data": {
+    "username": "your_username",
+    "password": "your_password",
+    "confirm_password": "your_password",
+    "first_name": "Your First Name",
+    "last_name": "Your Last Name",
+    "email": "your@email.com"
+  }
+}</pre>
+
+    <h3 class="subtitle-end">* POST <span class="url">/api/user/login</span></h3>
+    <p class="guide">
+      Logs in a user and returns an access token.
+    </p>
+<pre class="cli">
+POST /api/posts/login
+Content-Type: application/json
+
+Body:
+{
+  "username": "doe",
+  "password": "your_password"
+}
+
+Response: {
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiZXhhbSJ9.
+    SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4" 
+}</pre>
+
+<h3 class="subtitle-end">* POST <span class="url">/api/user/add-profile</span></h3>
+<p class="guide">
+  Adds profile information for the authenticated user. <strong>Requires session token</strong>.
+</p>
+<pre class="cli">
+POST /api/user/add-profile
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Body: {
+  "description": "your description",
+  "profile_image": "file"
+}
+
+Response: true</pre>
+
+    <h3 class="subtitle-end">* PUT <span class="url">/api/user/edit-profile</span></h3>
+    <p class="guide">
+      Edits profile information for the authenticated user. <strong>Requires session token</strong>.
+    </p>
+<pre class="cli end-cli">
+PUT /api/user/edit-profile
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Body: {
+  "profile_image": "file"
+  "description": "your description",
+}
+
+Response: true
+</pre>
+
+  </article>
+</section>
