@@ -12,7 +12,9 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
+    position: relative;
 }
+
 
 #title {
     font-size: 60px;
@@ -21,15 +23,15 @@
     padding: 0;
 }
 
-ul {
+.nav-bar {
     list-style: none;
     margin: 0 0 20px 0;
     padding: 0;
 }
 
-li {
+.nav-item {
     display: inline;
-    margin: 100px;
+    margin: 60px;
     font-size: 22px;
 }
 

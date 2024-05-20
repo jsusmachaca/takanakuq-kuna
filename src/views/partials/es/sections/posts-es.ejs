@@ -1,0 +1,203 @@
+<section>
+  <h2 class="endtitle">Endpoints de Publicaciones</h2>
+  <p>
+    La API de Takanakuq-Kuna proporciona una serie de endpoints diseñados para facilitar la gestión de 
+    publicaciones en una red social destinada a apoyar a pacientes con cáncer. A través de estos 
+    endpoints, los usuarios pueden realizar acciones como obtener detalles de todas las publicaciones, 
+    agregar nuevas publicaciones, obtener publicaciones específicas, eliminar publicaciones existentes, 
+    agregar comentarios a las publicaciones y eliminarlos. Cada una de estas operaciones puede requerir 
+    autenticación mediante un token de sesión, asegurando que solo los usuarios autorizados puedan 
+    acceder y modificar sus publicaciones.
+  </p>
+  <article>
+    <h3 class="subtitle-end">* GET <span class="url">/api/posts/all</span></h3>
+    <p class="guide">
+      Recupera una lista de todas las publicaciones de pacientes.
+    </p>
+    <pre class="cli">
+GET /api/posts/all
+Content-Type: application/json
+
+Response: [
+  {
+    "id": 1123,
+    "user_id": 14345,
+    "username": "john",
+    "profile_image": http://example.com/profile.jpg,
+    "post": "
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+      Amet quas dolore quae a, soluta, porro eaque rerum quia excepturi 
+      ipsum, laborum unde facere corporis necessitatibus fugit 
+      asperiores nostrum quisquam? At.
+    ",
+    "post_image": null,
+    "date_publish": "2024-05-12T17:41:47.844Z"
+  },
+  {
+    "id": 22345,
+    "user_id": 1asd3,
+    "username": "doe",
+    "profile_image": http://example.com/profile.jpg,
+    "post": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "post_image": http://example.com/post.jpg,
+    "date_publish": "2024-05-12T17:46:17.895Z"
+  },
+  ...
+]</pre>
+
+    <h3 class="subtitle-end">* GET <span class="url">/api/posts/user?id=$id</span></h3>
+    <p class="guide">
+      Recupera una lista de todas las publicaciones para un único paciente. <strong>Requiere token de sesión</strong>.
+    </p>
+    <pre class="cli">
+GET /api/posts/user?id=41312591
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+               eyJkYXRhIjoiZXhhbSJ9.
+               SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Response: [
+  {
+    "id": 112242,
+    "user_id": 14446,
+    "username": "john",
+    "profile_image": http://example.com/profile.jpg,
+    "post": "
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+      Amet quas dolore quae a, soluta, porro eaque rerum quia excepturi 
+      ipsum, laborum unde facere corporis necessitatibus fugit 
+      asperiores nostrum quisquam? At.
+    ",
+    "post_image": null,
+    "date_publish": "2024-05-12T17:41:47.844Z"
+  },
+  {
+    "id": 22312,
+    "user_id": 1143543,
+    "username": "doe",
+    "profile_image": http://example.com/profile.jpg,
+    "post": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "post_image": http://example.com/post.jpg,
+    "date_publish": "2024-05-12T17:46:17.895Z"
+  },
+  ...
+]</pre>
+
+      <h3 class="subtitle-end">* GET <span class="url">/api/posts/get-post?id=$id</span></h3>
+      <p class="guide">
+        Recupera una publicación específica. <strong>Requiere token de sesión</strong>.
+      </p>
+<pre class="cli">
+GET /api/posts/get-post?id=324553
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Response:
+{
+  "id": 22433,
+  "user_id": 15321,
+  "username": "doe",
+  "profile_image": http://example.com/profile.jpg,
+  "post": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  "post_image": http://example.com/post.jpg,
+  "date_publish": "2024-05-12T17:46:17.895Z"
+}</pre>
+
+<h3 class="subtitle-end">* POST <span class="url">/api/posts/publish</span></h3>
+<p class="guide">
+  Agrega una nueva publicación. <strong>Requiere token de sesión</strong>.
+</p>
+<pre class="cli">
+POST /api/posts/publish
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Body: {
+  "post": "your post",
+  "post_image": "file"
+}
+
+Response: true
+</pre>
+
+    <h3 class="subtitle-end">* DELETE <span class="url">/api/posts/delete?id=$id</span></h3>
+    <p class="guide">
+      Elimina una publicación. <strong>Requiere token de sesión</strong>.
+    </p>
+<pre class="cli end-cli">
+DELETE /api/posts/delete?id=14436
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Response: true</pre>
+
+    <h3 class="subtitle-end">* GET <span class="url">/api/comments/get-comments?post=$id</span></h3>
+    <p class="guide">
+      Recupera todos los comentarios de una publicación.
+    </p>
+<pre class="cli">
+GET /api/comments/get-comments?post=354533
+Content-Type: application/json
+
+Response: [
+  {
+    "id": 32454,
+    "username": john,
+    "profile_image": http://example.com/profile.jpg,
+    "comment": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "date": "2024-05-12T17:46:17.895Z"
+  },
+  {
+    "id": 23453,
+    "username": john,
+    "profile_image": http://example.com/profile.jpg,
+    "comment": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "date": "2024-05-12T17:46:17.895Z"
+  },
+  ...
+]</pre>
+
+    <h3 class="subtitle-end">* POST <span class="url">/api/comments/publish-comment?post=$id</span></h3>
+    <p class="guide">
+      Agrega un nuevo comentario a una publicación. <strong>Requiere token de sesión</strong>.
+    </p>
+<pre class="cli">
+POST /api/comments/publish-comment?post=234523
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Body:
+{
+  "comment": "Lorem ipsum"
+}
+
+Response: true</pre>
+
+    <h3 class="subtitle-end">* DELETE <span class="url">/api/comments/delete-comment?post=$id</span></h3>
+    <p class="guide">
+      Elimina un comentario. <strong>Requiere token de sesión</strong>.
+    </p>
+<pre class="cli end-cli">
+DELETE /api/comments/delete-comment?id=23454
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Response: true</pre>
+  </article>
+</section>

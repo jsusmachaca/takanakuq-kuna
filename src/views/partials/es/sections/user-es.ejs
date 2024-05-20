@@ -1,0 +1,124 @@
+<section>
+  <h2 class="endtitle">Endpoints de Usuario</h2>
+  <p>
+    La API de Takanakuq-Kuna incluye varios endpoints destinados a la gestión de usuarios dentro de la 
+    plataforma.
+    Estos endpoints permiten a los desarrolladores registrar nuevos usuarios, iniciar sesión, recuperar 
+    datos específicos del usuario y agregar o editar información de perfil. La mayoría de estas operaciones 
+    requieren autenticación mediante un token de sesión para garantizar que solo los usuarios autorizados 
+    puedan acceder y modificar sus datos personales.
+  </p>
+  <article>
+    <h3 class="subtitle-end">* GET <span class="url">/api/user/data?id=$id</span></h3>
+    <p class="guide">
+      Recupera datos para un usuario específico por ID. <strong>Requiere token de sesión</strong>.
+    </p>
+    <pre class="cli">
+GET /api/user/data?id=42223
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+               eyJkYXRhIjoiZXhhbSJ9.
+               SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Response: [
+  {
+    "id": 23434
+    "username": "john",
+    "first_name": "John",
+    "last_name": "Doe",
+    "profile_image": http://example.com/profile.jpg,
+    "description": "Lorem ipsum dolor"
+  }
+]</pre>
+
+    <h3 class="subtitle-end">* POST <span class="url">/api/user/register</span></h3>
+    <p class="guide">
+      Registra un nuevo usuario.
+    </p>
+    <pre class="cli">
+POST /api/user/register
+Content-Type: application/json
+
+Body: {
+  "username": "your_username",
+  "password": "your_password",
+  "confirm_password": "your_password",
+  "first_name": "Your First Name",
+  "last_name": "Your Last Name",
+  "email": "your@email.com"
+}
+
+Response:
+{
+  "success": true,
+  "data": {
+    "username": "your_username",
+    "password": "your_password",
+    "confirm_password": "your_password",
+    "first_name": "Your First Name",
+    "last_name": "Your Last Name",
+    "email": "your@email.com"
+  }
+}</pre>
+
+    <h3 class="subtitle-end">* POST <span class="url">/api/user/login</span></h3>
+    <p class="guide">
+      Inicia sesión un usuario y devuelve un token de acceso.
+    </p>
+<pre class="cli">
+POST /api/posts/login
+Content-Type: application/json
+
+Body:
+{
+  "username": "doe",
+  "password": "your_password"
+}
+
+Response: {
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiZXhhbSJ9.
+    SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4" 
+}</pre>
+
+<h3 class="subtitle-end">* POST <span class="url">/api/user/add-profile</span></h3>
+<p class="guide">
+  Agrega información de perfil para el usuario autenticado. <strong>Requiere token de sesión</strong>.
+</p>
+<pre class="cli">
+POST /api/user/add-profile
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Body: {
+  "description": "your description",
+  "profile_image": "file"
+}
+
+Response: true</pre>
+
+    <h3 class="subtitle-end">* PUT <span class="url">/api/user/edit-profile</span></h3>
+    <p class="guide">
+      Edita información de perfil para el usuario autenticado. <strong>Requiere token de sesión</strong>.
+    </p>
+<pre class="cli end-cli">
+PUT /api/user/edit-profile
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Body: {
+  "profile_image": "file"
+  "description": "your description",
+}
+
+Response: true
+</pre>
+
+  </article>
+</section>

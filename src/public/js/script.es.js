@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-  if (window.location.href === `${window.location.protocol}//${window.location.host}/`) {
+  if (window.location.href === `${window.location.protocol}//${window.location.host}/es`) {
     const page = document.getElementById('about')
     page.classList.add('cur-page')
-  } else if (window.location.href === `${window.location.protocol}//${window.location.host}/docs`) {
+  } else if (window.location.href === `${window.location.protocol}//${window.location.host}/docs/es`) {
     const page = document.getElementById('docs')
     page.classList.add('cur-page')
   }
