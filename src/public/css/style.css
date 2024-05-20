@@ -1,11 +1,16 @@
-@import url(./header.css);
+@import url(/css/header.css);
 
+@font-face {
+    font-family: 'HackNerd';
+    src: url('/fonts/HackNerdFont-Regular.ttf');
+}
 
 body {
     background-color: #F0EDE3;
     box-sizing: border-box;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
 html, * {
     margin: 0;
     padding: 0;
@@ -34,8 +39,8 @@ section {
 
 p {
     margin: 0 22px 30px 22px;
-    color: #545454;
-    font-size: 19px;
+    color: #363636;
+    font-size: 20px;
 }
 
 .subtitle {
@@ -51,12 +56,14 @@ p {
     width: fit-content;
     height: fit-content;
     margin: 8px 0 3px 30px;
+    color: #464646;
     background-color: #f3f3f3;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
     border-radius: 5px;
     font-size: 14px;
     cursor: context-menu;
     padding: 5px 10px;
+    font-family: 'HackNerd';
 }
 
 .url {
@@ -64,8 +71,8 @@ p {
 }
 
 .guide {
-    margin: 7px 30px 2px 30px;
-    color: #545454;
+    margin: 6px 30px 2px 30px;
+    color: #363636;
 }
 
 .end-guide, .end-cli {
@@ -75,11 +82,11 @@ p {
 .subtitle-end {
     margin-left: 20px;
     margin-top: 30px;
-    font-size: 23px;
+    font-size: 24px;
 }
 
 .endtitle {
     color: #FF5733;
     margin: 20px;
-    font-size: 28px;
+    font-size: 30px;
 }

@@ -1,0 +1,119 @@
+<section>
+  <h2 class="endtitle">Recipes Endpoints</h2>
+  <p>
+    The Takanakuq-Kuna Prescription Management API provides a series of endpoints
+    designed to make it easier for users to manage their prescriptions 
+    and medications. 
+    Through these endpoints, users can do things like get details of 
+    their prescriptions, add new medicines, create new prescription actions, 
+    and delete medicines or entire prescriptions. Each of these operations 
+    requires authentication using a session token, ensuring that only 
+    authorized users can access and modify your medical information.
+  </p>
+  <article>
+    <h3 class="subtitle-end">* GET <span class="url">/api/recipe/medicines</span></h3>
+    <p class="guide">
+      Retrieves a list of medicines for the authenticated user. <strong>Requires session token</strong>.
+    </p>
+    <pre class="cli">
+GET /api/recipe/medicines
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+               eyJkYXRhIjoiZXhhbSJ9.
+               SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Response: {
+  "recipe_id": 23434
+  "username": "john",
+  "start_date": "2024-05-12T17:41:47.844Z"
+  "medicines": [
+    {
+      "medicine_id": 1212,
+      "medicine_name": "Medicine",
+      "amount": 1,
+      "hours": 8,
+      "days": 10
+    },
+    {
+      "medicine_id": 1212,
+      "medicine_name": "Medicine 2",
+      "amount": 1,
+      "hours": 8,
+      "days": 10
+    },
+    ...
+  ]
+}</pre>
+
+    <h3 class="subtitle-end">* POST <span class="url">/api/recipe/create</span></h3>
+    <p class="guide">
+      Creates a new recipe. <strong>Requires session token</strong>.
+    </p>
+    <pre class="cli">
+POST /api/recipe/create
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+               eyJkYXRhIjoiZXhhbSJ9.
+               SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Body: {
+  "start_date": "2024-05-12T17:41:47.844Z"
+}
+
+Response: true</pre>
+
+    <h3 class="subtitle-end">* POST <span class="url">/api/recipe/medicines/add</span></h3>
+    <p class="guide">
+      Adds a new medicine to the user's recipe. <strong>Requires session token</strong>.
+    </p>
+<pre class="cli">
+POST /api/recipe/medicines/add
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+               eyJkYXRhIjoiZXhhbSJ9.
+               SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Body:
+{
+  "medicine_name": "Medicine",
+  "amount": 1,
+  "hours": 8,
+  "days": 10
+}
+
+Response: true</pre>
+
+<h3 class="subtitle-end">* DELETE <span class="url">/api/recipe/medicines/delete?id=1231</span></h3>
+<p class="guide">
+  Deletes a specific medicine from the user's recipe by its ID. <strong>Requires session token</strong>.
+</p>
+<pre class="cli">
+DELETE /api/recipe/medicines/delete?id=1231
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Response: true</pre>
+
+    <h3 class="subtitle-end">* DELETE <span class="url">/api/recipe/delete</span></h3>
+    <p class="guide">
+      Deletes the entire recipe for the authenticated user. <strong>Requires session token</strong>.
+    </p>
+<pre class="cli end-cli">
+DELETE /api/recipe/delete
+Content-Type: application/json
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+           eyJkYXRhIjoiZXhhbSJ9.
+           SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
+
+Response: true
+</pre>
+
+  </article>
+</section>
