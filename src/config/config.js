@@ -16,7 +16,8 @@ export const ACCEPTED_ORIGINS = [
   'http://localhost',
   'http://127.0.0.1:5501',
   'http://localhost:19006',
-  'http://127.0.0.1:19006'
+  'http://127.0.0.1:19006',
+  'http://161.132.47.170'
 ]
 
 // DATABASES CONFIG
