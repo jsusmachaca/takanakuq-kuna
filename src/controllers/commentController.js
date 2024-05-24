@@ -43,7 +43,7 @@ export class commentController {
 
       if (data.error) throw new Error('error to publish comment')
 
-      return res.json(data)
+      return res.json({ success: data, data: results.data })
     } catch (error) {
       return res.status(401).json({ error: error.message })
     }
@@ -69,7 +69,7 @@ export class commentController {
 
       if (data.error) throw new Error('error to delete comment')
 
-      return res.json(data)
+      return res.json({ success: data })
     } catch (error) {
       return res.status(401).json({ error: error.message })
     }
