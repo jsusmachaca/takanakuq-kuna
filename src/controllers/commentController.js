@@ -61,11 +61,11 @@ export class commentController {
 
       if (decodeToken === null) throw new Error('invalid token')
 
-      const { id } = req.query
+      const { id, post } = req.query
 
-      if (id === undefined) throw new Error('must provide comment id')
+      if (id === undefined || post === undefined) throw new Error('must provide comment id or post')
 
-      const data = await Comment.deleteComment({ comment_id: id, user_id: decodeToken.user_id })
+      const data = await Comment.deleteComment({ comment_id: id, user_id: decodeToken.user_id, post_id: post })
 
       if (data.error) throw new Error('error to delete comment')
 

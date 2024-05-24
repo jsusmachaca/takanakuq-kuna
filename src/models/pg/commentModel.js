@@ -58,14 +58,14 @@ export class Comment {
    * @param {number} options.user_id - El ID del usuario que creó el comentario.
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el comentario se elimina exitosamente o un objeto de error si ocurre algún problema.
    */
-  static async deleteComment ({ comment_id, user_id }) {
+  static async deleteComment ({ comment_id, user_id, post_id }) {
     try {
       const connection = await dbConnectionPg()
 
       await connection.query(`
       DELETE FROM comments
-      WHERE id=$1 AND user_id=$2;`,
-      [comment_id, user_id])
+      WHERE id=$1 AND user_id=$2 AND post_id=$3;`,
+      [comment_id, user_id, post_id])
       return true
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
