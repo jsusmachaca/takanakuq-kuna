@@ -107,7 +107,7 @@ export class postController {
 
       if (data.error) throw new Error('error to publish post')
 
-      return res.json(data)
+      return res.json({ success: data, data: results.data })
     } catch (error) {
       return res.status(401).json({ error: error.message })
     }
@@ -136,7 +136,7 @@ export class postController {
 
       if (data.error) throw new Error('error to delete post')
 
-      return res.json(data)
+      return res.json({ success: data })
     } catch (error) {
       return res.status(401).json({ error: error.message })
     }
