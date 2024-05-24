@@ -52,7 +52,7 @@ export class recipeController {
 
       if (data.error) throw new Error('error to add recipe, you may already have one created')
 
-      return res.json(data)
+      return res.json({ success: data, data: results.data })
     } catch (error) {
       return res.status(401).json({ error: error.message })
     }
@@ -75,7 +75,7 @@ export class recipeController {
 
       if (data.error) throw new Error('error to delete recipe')
 
-      return res.json(data)
+      return res.json({ success: data })
     } catch (error) {
       return res.status(401).json({ error: error.message })
     }
@@ -105,7 +105,7 @@ export class recipeController {
 
       if (data.error) throw new Error('error to add medicine')
 
-      return res.json(data)
+      return res.json({ success: data, data: results.data })
     } catch (error) {
       return res.status(401).json({ error: error.message })
     }
@@ -133,7 +133,7 @@ export class recipeController {
 
       if (data.error) throw new Error('error to delete medicine')
 
-      return res.json(data)
+      return res.json({ success: data })
     } catch (error) {
       return res.status(401).json({ error: error.message })
     }
