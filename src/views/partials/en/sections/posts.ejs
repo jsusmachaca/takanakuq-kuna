@@ -127,8 +127,13 @@ Body: {
   "post_image": "file"
 }
 
-Response: true
-</pre>
+Response: {
+  "success": true,
+  "data": {
+      "post": "Lorem ipsum",
+      "post_image": "file"
+  }
+}</pre>
 
       <h3 class="subtitle-end">* DELETE <span class="url">/api/posts/delete?id=$id</span></h3>
       <p class="guide">
@@ -142,7 +147,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
            eyJkYXRhIjoiZXhhbSJ9.
            SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
 
-Response: true</pre>
+Response: {
+  "success": true
+}</pre>
 
     <h3 class="subtitle-end">* GET <span class="url">/api/comments/get-comments?post=$id</span></h3>
     <p class="guide">
@@ -187,7 +194,12 @@ Body:
   "comment": "Lorem ipsum"
 }
 
-Response: true</pre>
+Response: {
+  "success": true,
+  "data": {
+      "comment": "Lorem ipsum dolor
+  }
+}</pre>
 
     <h3 class="subtitle-end">* DELETE <span class="url">/api/comments/delete-comment?post=$id</span></h3>
     <p class="guide">
@@ -201,6 +213,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
            eyJkYXRhIjoiZXhhbSJ9.
            SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
 
-Response: true</pre>
+Response: {
+  "success": true
+}</pre>
   </article>
 </section>

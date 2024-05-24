@@ -62,7 +62,12 @@ Body: {
   "start_date": "2024-05-12T17:41:47.844Z"
 }
 
-Response: true</pre>
+Response: {
+  "success": true,
+  "data": {
+      "start_date": "2024-05-12T17:41:47.844Z"
+  }
+}</pre>
 
     <h3 class="subtitle-end">* POST <span class="url">/api/recipe/medicines/add</span></h3>
     <p class="guide">
@@ -84,7 +89,15 @@ Body:
   "days": 10
 }
 
-Response: true</pre>
+Response: {
+  "success": true,
+  "data": {
+      "medicine_name": "Medicine",
+      "amount": 1,
+      "hours": 8,
+      "days": 10
+  }
+}</pre>
 
 <h3 class="subtitle-end">* DELETE <span class="url">/api/recipe/medicines/delete?id=1231</span></h3>
 <p class="guide">
@@ -98,7 +111,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
            eyJkYXRhIjoiZXhhbSJ9.
            SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
 
-Response: true</pre>
+Response: {
+  "success": true
+}</pre>
 
     <h3 class="subtitle-end">* DELETE <span class="url">/api/recipe/delete</span></h3>
     <p class="guide">
@@ -112,8 +127,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
            eyJkYXRhIjoiZXhhbSJ9.
            SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
 
-Response: true
-</pre>
-
+Response: {
+  "success": true
+}</pre>
   </article>
 </section>
