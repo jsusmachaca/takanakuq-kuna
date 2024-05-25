@@ -7,8 +7,9 @@ export class Comment {
    * @returns {Promise<Object[] | {error:string}>} Una promesa que resuelve en un array de objetos representando los comentarios o un objeto de error si ocurre algún problema.
    */
   static async getComments (post_id) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
       SELECT comments.id, users.username, profile.profile_image, comments.comment, comments.date
@@ -23,6 +24,8 @@ export class Comment {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally { 
+      connection.release()
     }
   }
 
@@ -36,8 +39,9 @@ export class Comment {
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el comentario se creó exitosamente o un objeto de error si ocurrió algún problema.
    */
   static async createComment ({ user_id, post_id, comment }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       INSERT INTO comments(user_id, post_id, comment)
@@ -48,6 +52,8 @@ export class Comment {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -59,8 +65,9 @@ export class Comment {
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el comentario se elimina exitosamente o un objeto de error si ocurre algún problema.
    */
   static async deleteComment ({ comment_id, user_id, post_id }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       DELETE FROM comments
@@ -70,6 +77,8 @@ export class Comment {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 }
