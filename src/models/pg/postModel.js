@@ -6,8 +6,9 @@ export class Post {
    * @returns {Promise<Object[]|{error:string}>} All posts made by users.
    */
   static async getAll () {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
       SELECT posts.id, users.id as user_id, users.username, profile.profile_image, posts.post, posts.post_image, posts.date_publish
@@ -23,6 +24,8 @@ export class Post {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -32,8 +35,9 @@ export class Post {
    * @returns {Promise<Object[]|{error:string}>} Una promesa que resuelve en una lista de objetos que representan los posts encontrados, o un objeto de error si ocurre algún problema.
    */
   static async findByUser (id) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
       SELECT users.id as user_id, profile.profile_image, posts.post, posts.post_image, posts.date_publish
@@ -48,6 +52,8 @@ export class Post {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -57,8 +63,9 @@ export class Post {
    * @returns {Promise<post|{error:string}>} Una promesa que resuelve en un objeto que representa el post encontrado, o nulo si no se encuentra ningún post con el ID dado.
    */
   static async findById (id) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
       SELECT users.username, profile.profile_image, posts.post, posts.post_image, posts.date_publish
@@ -76,6 +83,8 @@ export class Post {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -89,8 +98,9 @@ export class Post {
    * @returns {Promise<boolean>} Una promesa que resuelve en verdadero si el post se creó exitosamente, o un objeto de error si ocurrió algún problema.
    */
   static async createPost ({ user_id, post }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       INSERT INTO posts(user_id, post, post_image)
@@ -101,6 +111,8 @@ export class Post {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -112,6 +124,7 @@ export class Post {
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el post se elimina exitosamente, o un objeto de error si ocurre algún problema.
    */
   static async deletePost ({ id, user_id }) {
+    let connection
     try {
       const connection = await dbConnectionPg()
 
@@ -123,6 +136,8 @@ export class Post {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -134,8 +149,9 @@ export class Post {
    * @returns {Promise<number|{error:string}>} Una promesa que resuelve en verdadero si el post se elimina exitosamente, o un objeto de error si ocurre algún problema.
    */
   static async getDeletedImage ({ id, user_id }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
       SELECT post_image FROM posts
@@ -148,6 +164,8 @@ export class Post {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 }
