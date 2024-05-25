@@ -4,6 +4,7 @@
 import 'dotenv/config'
 import express, { json, static as static_ } from 'express'
 import { corsMiddleware } from './middlewares/cors.js'
+import { errorHandler } from './middlewares/errorHandler.js'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
@@ -21,6 +22,7 @@ const app = express()
 app.disable('x-powered-by')
 app.use(json())
 app.use(corsMiddleware())
+app.use(errorHandler)
 app.use(static_(path.join(__dirname, 'public')))
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))

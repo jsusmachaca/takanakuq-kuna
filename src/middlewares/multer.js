@@ -11,9 +11,9 @@ export const multerMiddleware = () => multer({
     const extname = fileType.test(path.extname(file.originalname))
 
     if (mimetype && extname) {
-      callback(null, true)
+      return callback(null, true)
     } else {
-      callback(new Error('the file must be an image'))
+      return callback(new Error('the file must be an image'))
     }
   }
 }).single('post_image')
@@ -26,9 +26,9 @@ export const multerMiddlewareProfile = () => multer({
     const extname = fileType.test(path.extname(file.originalname))
 
     if (mimetype && extname) {
-      callback(null, true)
+      return callback(null, true)
     } else {
-      callback(new Error('the file must be an image'))
+      return callback(new Error('the file must be an image'))
     }
   }
 }).single('profile_image')
