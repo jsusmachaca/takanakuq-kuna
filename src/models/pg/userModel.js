@@ -10,14 +10,17 @@ export class User {
    * @returns {Promise<Object[]|{error:string}>} Una promesa que resuelve en una lista de objetos que representan a los usuarios, o un objeto de error si ocurre algún problema.
    */
   static async getAll () {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const { rows } = await connection.query('SELECT * FROM users')
       return rows
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -30,8 +33,9 @@ export class User {
    * @returns {Promise<Object|null|{error:string}>} Una promesa que resuelve en un objeto que representa al usuario encontrado, o nulo si no se encuentra ningún usuario con el nombre de usuario dado, o un objeto de error si ocurre algún problema.
    */
   static async findByName ({ data }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
       SELECT id, username, password 
@@ -49,6 +53,8 @@ export class User {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -58,8 +64,9 @@ export class User {
    * @returns {Promise<Object|null|{error:string}>} Una promesa que resuelve en un objeto que representa al usuario encontrado con su perfil asociado, o nulo si no se encuentra ningún usuario con el ID dado, o un objeto de error si ocurre algún problema.
    */
   static async findUser (user_id) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
       SELECT users.id, users.username, users.first_name, users.last_name, profile.profile_image, profile.description
@@ -75,6 +82,8 @@ export class User {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -90,8 +99,9 @@ export class User {
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el usuario se crea exitosamente, o un objeto de error si ocurre algún problema.
    */
   static async createUser ({ data }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const salt = await bcrypt.genSalt(saltRounds)
       const hash = await bcrypt.hash(data.password, salt)
@@ -104,6 +114,8 @@ export class User {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -113,8 +125,9 @@ export class User {
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el usuario se elimina exitosamente, o un objeto de error si ocurre algún problema.
    */
   static async deleteUser (id) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       DELETE FROM users
@@ -124,6 +137,8 @@ export class User {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -137,8 +152,9 @@ export class User {
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el usuario se edita exitosamente, o un objeto de error si ocurre algún problema.
    */
   static async editUser ({ id, data }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       UPDATE users SET first_name=$1, last_name=$2 
@@ -148,6 +164,8 @@ export class User {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -160,8 +178,9 @@ export class User {
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el perfil se crea exitosamente, o un objeto de error si ocurre algún problema.
    */
   static async createProfile ({ user_id, data }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       INSERT INTO profile(user_id, description, profile_image)
@@ -172,6 +191,8 @@ export class User {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -184,8 +205,9 @@ export class User {
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el perfil se edita exitosamente, o un objeto de error si ocurre algún problema.
    */
   static async editProfile ({ user_id, data }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       UPDATE profile SET description=$1, profile_image=$2
@@ -195,6 +217,8 @@ export class User {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 }

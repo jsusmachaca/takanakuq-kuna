@@ -126,7 +126,7 @@ export class Post {
   static async deletePost ({ id, user_id }) {
     let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       DELETE FROM posts
