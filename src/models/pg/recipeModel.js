@@ -7,8 +7,9 @@ export class Recipe {
    * @returns {Promise<recipe|null|{error:string}} Una promesa que resuelve en un objeto con los datos de la receta, o un error si ocurrió algún problema.
    */
   static async findMedicines (user_id) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
       SELECT recipes.id AS recipe_id, 
@@ -38,6 +39,8 @@ export class Recipe {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -50,8 +53,9 @@ export class Recipe {
    * @returns {Promise<boolean>|{error:string}} Una promesa que resuelve en verdadero si la receta se creó exitosamente, o un error si ocurrió algún problema.
    */
   static async createRecipe ({ user_id, data }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       INSERT INTO recipes(user_id, start_date)
@@ -62,6 +66,8 @@ export class Recipe {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -71,8 +77,9 @@ export class Recipe {
    * @returns {Promise<number>|{error:string}} Una promesa que resuelve un id encontrado, o un error si ocurrió algún problema.
    */
   static async getId (user_id) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
       SELECT id
@@ -86,6 +93,8 @@ export class Recipe {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -100,8 +109,9 @@ export class Recipe {
    * @returns {Promise<boolean>|{error:string}} Una promesa que resuelve en verdadero si el medicamento se creó exitosamente, o un error si ocurrió algún problema.
    */
   static async createMedicine ({ recipe_id, data }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       INSERT INTO medicines(recipe_id, medicine_name, amount, hours, days)
@@ -112,6 +122,8 @@ export class Recipe {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -123,8 +135,9 @@ export class Recipe {
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el medicamento se elimina exitosamente, o un objeto de error si ocurre algún problema.
    */
   static async deleteMedicine ({ recipe_id, medicine_id }) {
+    let connection
     try {
-      const connection = await dbConnectionPg()
+      connection = await dbConnectionPg()
 
       await connection.query(`
       DELETE FROM medicines
@@ -134,6 +147,8 @@ export class Recipe {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 
@@ -143,6 +158,7 @@ export class Recipe {
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si la receta se elimina exitosamente, o un objeto de error si ocurre algún problema.
    */
   static async deleteRecipe (user_id) {
+    let connection
     try {
       const connection = await dbConnectionPg()
 
@@ -154,6 +170,8 @@ export class Recipe {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
+    } finally {
+      connection.release()
     }
   }
 }
