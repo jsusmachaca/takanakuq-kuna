@@ -44,3 +44,87 @@
 .cur-page {
     text-decoration: underline;
 }
+
+.menu {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    list-style: none;
+    font-size: 18px;
+    text-align: center;
+    transition: ease-in 1s;
+    cursor: pointer;
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: #5e5e5e;
+}
+
+.menu-item {
+    opacity: 0;
+    transform: translateY(-25);
+}
+
+.menu-item.hover {
+    opacity: 1;
+    transform: translateY(0);
+    animation-name: scroll-down;
+    animation-duration: .4s;
+}
+
+@keyframes scroll-down {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    70% {
+        opacity: .1;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scroll-up {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}
+
+.arrow {
+    display: inline-block;
+    font-size: 22px;
+    transition: transform .3s;
+    margin-bottom: 5px;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.arrow-rotate {
+    transform: rotate(-180deg);
+}
+
+.translate-icon {
+    display: inline;
+    width: 30px;
+    margin-right: 5px;
+}
+
+.translate {
+    display: flex;
+    justify-content: center;
+}

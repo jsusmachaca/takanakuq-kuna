@@ -5,89 +5,37 @@ footer {
 
 #footer-p {
     font-size: 18px;
+    color: rgb(122, 122, 122);
 }
 
-.menu {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    list-style: none;
-    font-size: 18px;
-    text-align: center;
-    transition: ease-in 1s;
-    cursor: pointer;
-}
-
-.menu-item a {
-    text-decoration: none;
-    color: #5e5e5e;
-}
-
-.menu-item {
-    opacity: 0;
-    transform: translateY(-25);
-}
-
-.menu-item.hover {
+#logo {
+    width: 400px;
+    margin-bottom: 30px;
     opacity: 1;
-    transform: translateY(0);
-    animation-name: scroll-down;
-    animation-duration: .4s;
+    transition: opacity 2s ease-in-out; 
+
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
 }
 
-@keyframes scroll-down {
+@keyframes pulse {
     0% {
-        transform: translateY(-50px);
-        opacity: 0;
+        filter: drop-shadow(
+            0 0 0 rgba(255, 0, 98, 0)
+        );
     }
 
-    70% {
-        opacity: .1;
+    50% {
+        filter: drop-shadow(
+            0 0 10px rgba(255, 0, 98, .3)
+        );
     }
 
     100% {
-        transform: translateY(0);
-        opacity: 1;
+        filter: drop-shadow(
+            0 0 0 rgba(255, 0, 98, 0)
+        );
     }
 }
-
-@keyframes scroll-up {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
-    80% {
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-}
-
-.arrow {
-    display: inline-block;
-    font-size: 22px;
-    transition: transform .3s;
-    margin-bottom: 5px;
-    text-align: center;
-    padding-top: 5px;
-}
-
-.arrow-rotate {
-    transform: rotate(-180deg);
-}
-
-.translate-icon {
-    display: inline;
-    width: 30px;
-    margin-right: 5px;
-}
-
-.translate {
-    display: flex;
-    justify-content: center;
-}
-
