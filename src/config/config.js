@@ -11,10 +11,10 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 export const ACCEPTED_ORIGINS = [
   'http://localhost:8080',
   'http://localhost:3000',
-  'http://localhost:9000',
+  'http://localhost:4200',
   'http://localhost:8000',
   'http://localhost',
-  'http://127.0.0.1:5501',
+  'http://127.0.0.1:4200',
   'http://localhost:19006',
   'http://127.0.0.1:19006',
   'http://161.132.47.170'

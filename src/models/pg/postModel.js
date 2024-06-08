@@ -18,7 +18,7 @@ export class Post {
       JOIN profile
       ON posts.user_id=profile.user_id
       
-      ORDER BY posts.id;
+      ORDER BY posts.id DESC;
       `)
       return rows
     } catch (error) {
@@ -46,7 +46,9 @@ export class Post {
       ON posts.user_id=profile.user_id
       JOIN users
       ON posts.user_id=users.id
-      WHERE posts.user_id=$1;`,
+      WHERE posts.user_id=$1
+
+      ORDER BY posts.id DESC;`,
       [id])
       return rows
     } catch (error) {
