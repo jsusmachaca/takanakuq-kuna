@@ -40,7 +40,7 @@ export class User {
       const { rows } = await connection.query(`
       SELECT id, username, password 
       FROM users 
-      WHERE username=$1;`,
+      WHERE username=$1 OR email=$1;`,
       [data.username])
 
       if (rows.length === 0) return null
