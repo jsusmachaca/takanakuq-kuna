@@ -1,6 +1,7 @@
 import { cryptoNamed, deleteS3Images, getS3Images, uploadS3Images, validateToken } from '../config/config.js'
 import { Post } from '../models/pg/postModel.js'
 import { postValidation } from '../schemas/postSchema.js'
+import sharp from 'sharp'
 
 export class postController {
   static async getAllPosts (req, res) {
@@ -95,7 +96,46 @@ export class postController {
 
       if (req.file) {
         const filename = cryptoNamed(req.file.originalname)
-        await uploadS3Images({ filename, carpet: 'posts', buffer: req.file.buffer })
+        const mimetype = req.file.mimetype
+
+        let optimizedBuffer
+        switch (mimetype) {
+          case 'image/jpeg':
+          case 'image/jpg':
+            optimizedBuffer = await sharp(req.file.buffer)
+              .resize(800)
+              .jpeg({ quality: 70, mozjpeg: true })
+              .toBuffer()
+            break
+          case 'image/png':
+            optimizedBuffer = await sharp(req.file.buffer)
+              .resize(800)
+              .png({ compressionLevel: 8 })
+              .toBuffer()
+            break
+          case 'image/webp':
+            optimizedBuffer = await sharp(req.file.buffer)
+              .resize(800)
+              .webp({ quality: 70 })
+              .toBuffer()
+            break
+          case 'image/avif': 
+            optimizedBuffer = await sharp(req.file.buffer)
+              .resize(800)
+              .avif({ quality: 50 })
+              .toBuffer()
+            break
+          case 'image/gif':
+            optimizedBuffer = await sharp(req.file.buffer)
+                .resize(800)
+                .gif()
+                .toBuffer()
+            break
+          default:
+            return res.status(400).send({ message: 'image format not supported' });
+        }
+
+        await uploadS3Images({ filename, carpet: 'posts', buffer: optimizedBuffer })
         req.body.post_image = filename
       }
 
