@@ -63,18 +63,18 @@ export class User {
    * @param {number} user_id - El ID del usuario que se desea encontrar.
    * @returns {Promise<Object|null|{error:string}>} Una promesa que resuelve en un objeto que representa al usuario encontrado con su perfil asociado, o nulo si no se encuentra ningún usuario con el ID dado, o un objeto de error si ocurre algún problema.
    */
-  static async findUser (user_id) {
+  static async findUser (user) {
     let connection
     try {
       connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
-      SELECT users.id, users.username, users.first_name, users.last_name, profile.profile_image, profile.description
+      SELECT users.username, users.first_name, users.last_name, profile.profile_image, profile.description
       FROM users 
       JOIN profile
       ON users.id=profile.user_id
-      WHERE users.id=$1;`,
-      [user_id])
+      WHERE users.username=$1;`,
+      [user])
 
       if (rows.length === 0) return null
 
