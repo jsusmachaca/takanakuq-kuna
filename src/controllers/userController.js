@@ -161,7 +161,46 @@ export class userController {
 
       if (req.file) {
         const filename = cryptoNamed(req.file.originalname)
-        await uploadS3Images({ filename, buffer: req.file.buffer, carpet: 'profiles' })
+        const mimetype = req.file.mimetype
+
+        let optimizedBuffer
+        switch (mimetype) {
+          case 'image/jpeg':
+          case 'image/jpg':
+            optimizedBuffer = await sharp(req.file.buffer)
+              .resize(800)
+              .jpeg({ quality: 70, mozjpeg: true })
+              .toBuffer()
+            break
+          case 'image/png':
+            optimizedBuffer = await sharp(req.file.buffer)
+              .resize(800)
+              .png({ compressionLevel: 8 })
+              .toBuffer()
+            break
+          case 'image/webp':
+            optimizedBuffer = await sharp(req.file.buffer)
+              .resize(800)
+              .webp({ quality: 70 })
+              .toBuffer()
+            break
+          case 'image/avif': 
+            optimizedBuffer = await sharp(req.file.buffer)
+              .resize(800)
+              .avif({ quality: 50 })
+              .toBuffer()
+            break
+          case 'image/gif':
+            optimizedBuffer = await sharp(req.file.buffer)
+                .resize(800)
+                .gif()
+                .toBuffer()
+            break
+          default:
+            return res.status(400).send({ message: 'image format not supported' });
+        }
+
+        await uploadS3Images({ filename, buffer: optimizedBuffer, carpet: 'profiles' })
         req.body.profile_image = filename
       }
 
