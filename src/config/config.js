@@ -101,7 +101,7 @@ export const getS3Images = async ({ filename, carpet }) => {
     Key: `${carpet}/${filename}`
   }
   const command = new GetObjectCommand(params)
-  const urlImage = await getSignedUrl(s3, command, { expiresIn: 60 })
+  const urlImage = await getSignedUrl(s3, command, { expiresIn: 43200 })
   return urlImage
 }
 
