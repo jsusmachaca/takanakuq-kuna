@@ -56,11 +56,7 @@ export class userController {
 
       if (validation === null) throw new Error('invalid token')
 
-      const { username } = req.query
-
-      if (username === undefined) throw new Error('must provide username')
-
-      let data = await User.findUser(username)
+      let data = await User.findUser(validation.user_id)
 
       if (data === null) throw new Error("user not found")
 
