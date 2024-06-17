@@ -1,6 +1,7 @@
 import { User } from '../models/pg/userModel.js'
 import { userProfileValidation, userValidation, userValidationPartial } from '../schemas/userSchema.js'
 import { cryptoNamed, generateToken, uploadS3Images, validateToken, getS3Images } from '../config/config.js'
+import sharp from 'sharp'
 
 export class userController {
   static async getAll (req, res) {
