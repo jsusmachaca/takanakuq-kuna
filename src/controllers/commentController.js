@@ -1,4 +1,4 @@
-import { validateToken } from '../config/config.js'
+import { validateToken, getS3Images } from '../config/config.js'
 import { Comment } from '../models/pg/commentModel.js'
 import { commentValidation } from '../schemas/commentsSchema.js'
 
@@ -9,10 +9,17 @@ export class commentController {
 
       if (post === undefined) throw new Error('must provide post id')
 
-      const data = await Comment.getComments(post)
+      let data = await Comment.getComments(post)
 
       if (data.error) throw new Error('error to show comments')
 
+      data = await Promise.all(data.map(async commet => {
+        const urlProfileImage = await getS3Images({ filename: commet.profile_image, carpet: 'profiles' })
+        return {
+          ...commet,
+          profile_image: commet.profile_image && urlProfileImage
+        }
+      }))
       return res.json(data)
     } catch (error) {
       return res.status(401).json({ error: error.message })
