@@ -40,7 +40,7 @@ export class Post {
       connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
-      SELECT users.id as user_id, profile.profile_image, posts.post, posts.post_image, posts.date_publish
+      SELECT posts.id, users.id as user_id, profile.profile_image, posts.post, posts.post_image, posts.date_publish
       FROM posts
       JOIN profile
       ON posts.user_id=profile.user_id
