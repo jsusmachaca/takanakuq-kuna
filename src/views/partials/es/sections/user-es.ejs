@@ -14,23 +14,21 @@
       Recupera datos para un usuario específico por ID. <strong>Requiere token de sesión</strong>.
     </p>
     <pre class="cli">
-GET /api/user/data?id=42223
+GET /api/user/data
 Content-Type: application/json
 
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
                eyJkYXRhIjoiZXhhbSJ9.
                SB28SPYW_jB3gvLeX0QHR8FP3SpbxR9KkkmWWHg5yK4
 
-Response: [
-  {
+Response: {
     "id": 23434
     "username": "john",
     "first_name": "John",
     "last_name": "Doe",
     "profile_image": http://example.com/profile.jpg,
     "description": "Lorem ipsum dolor"
-  }
-]</pre>
+}</pre>
 
     <h3 class="subtitle-end">* POST <span class="url">/api/user/register</span></h3>
     <p class="guide">
