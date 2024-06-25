@@ -37,7 +37,8 @@ export class userController {
 
     const userForToken = {
       user_id: data.id,
-      username: data.username
+      username: data.username,
+      is_admin: data.is_admin
     }
     const token = generateToken({ data: userForToken })
     return res.json({ access_token: token })
