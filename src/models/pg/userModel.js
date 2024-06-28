@@ -38,7 +38,7 @@ export class User {
       connection = await dbConnectionPg()
 
       const { rows } = await connection.query(`
-      SELECT id, username, is_admin, password 
+      SELECT id, username, is_admin, is_staff, password
       FROM users 
       WHERE username=$1 OR email=$1;`,
       [data.username])
