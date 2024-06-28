@@ -43,6 +43,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ${CERTIFICATE_PATH}:/certs
     networks:
       - takanakuq-net
     depends_on:

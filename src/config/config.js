@@ -9,15 +9,9 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
 // CORS ORIGINS
 export const ACCEPTED_ORIGINS = [
-  'http://localhost:8080',
-  'http://localhost:3000',
-  'http://localhost:4200',
-  'http://localhost:8000',
-  'http://localhost',
-  'http://127.0.0.1:4200',
-  'http://localhost:19006',
-  'http://127.0.0.1:19006',
-  'http://161.132.47.170'
+  'https://takanakuqkuna.com',
+  'http://takanakuqkuna.com',
+  'http://161.132.47.170',
 ]
 
 // DATABASES CONFIG
