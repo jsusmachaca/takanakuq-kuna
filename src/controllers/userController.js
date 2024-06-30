@@ -83,7 +83,7 @@ export class userController {
     const data = await User.createUser({ data: results.data })
 
     if (data.error) {
-      if (data.error.startsWith('llave duplicada')) {
+      if (data.error.startsWith('llave duplicada') || data.error.startsWith('duplicate key')) {
         return res.status(400).json({ error: 'the user you are trying to register already exists' })
       }
       return res.status(400).json({ error: 'register error' })
