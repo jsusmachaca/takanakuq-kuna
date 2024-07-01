@@ -1,7 +1,7 @@
 /*
  * Author: jsusmachaca
  */
-import 'dotenv/config'
+import { PORT } from './config/config.js'
 import express, { json, static as static_ } from 'express'
 import { corsMiddleware } from './middlewares/cors.js'
 import { errorHandler } from './middlewares/errorHandler.js'
@@ -33,7 +33,6 @@ app.use('/api/recipe', recipes)
 app.use('/api/comments', comments)
 app.use('/', index)
 
-const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`\x1b[32mserver listening on port ${PORT}\x1b[0m`)
 })
