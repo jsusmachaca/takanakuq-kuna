@@ -54,8 +54,6 @@ services:
 
   bot:
     image: ollama/ollama
-    ports:
-      - "11434:11434"
     volumes:
       - ollama:/root/.ollama
       - ./Modelfile:/root/Modelfile
