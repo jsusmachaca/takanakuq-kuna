@@ -8,14 +8,12 @@ export const sockets = io => {
     console.log('user connected', socket.user)
 
     socket.on('chatbot', async (message) => {
-      console.log(message)
+      console.log(`user ${socket.user} say ${message}`)
       try {
         const botResponse = await ollama.chat({
           model: 'medic-bot',
           messages: [{ role: 'user', content: message }]
         })
-
-        console.log(`Bot response ${botResponse.message.content}`)
 
         socket.emit('bot', botResponse.message.content)
       } catch (error) {
