@@ -15,6 +15,8 @@ export const sockets = io => {
           messages: [{ role: 'user', content: message }]
         })
 
+        console.log(`Bot response ${botResponse.message.content}`)
+
         socket.emit('bot', botResponse.message.content)
       } catch (error) {
         console.log(error)
