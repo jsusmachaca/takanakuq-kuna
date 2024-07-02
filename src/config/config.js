@@ -7,7 +7,11 @@ import { extname } from 'node:path'
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
-export const PORT = process.env.PORT
+export const {
+  PORT,
+  LLM_SERVER
+} = process.env
+
  
 // CORS ORIGINS
 export const ACCEPTED_ORIGINS = [

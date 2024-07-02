@@ -52,8 +52,19 @@ services:
     depends_on:
       - app
 
+  bot:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+      - ./Modelfile:/root/Modelfile
+    networks:
+      - takanakuq-net
+
 volumes:
   postgres-data:
+  ollama:
 
 networks:
   takanakuq-net:
