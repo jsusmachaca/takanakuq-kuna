@@ -1,14 +1,15 @@
+import { Request, Response } from 'express'
 import { cryptoNamed, deleteS3Images, getS3Images, uploadS3Images, validateToken } from '../config/config'
-import { Post } from '../models/pg/postModel.js'
-import { postValidation } from '../schemas/postSchema.js'
+import { Post } from '../models/pg/postModel'
+import { postValidation } from '../schemas/postSchema'
 import sharp from 'sharp'
 
 export class postController {
-  static async getAllPosts (req, res) {
+  static async getAllPosts (_req: Request, res: Response) {
     try {
       let data = await Post.getAll()
 
-      if (data.error) throw new Error('error to show posts')
+      if ('error' in data) throw new Error('error to show posts')
 
       data = await Promise.all(data.map(async post => {
         const urlImage = await getS3Images(post.post_image, 'posts')
@@ -21,11 +22,11 @@ export class postController {
       }))
       return res.json(data)
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
-  static async getUserPosts (req, res) {
+  static async getUserPosts (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
     try {
@@ -40,9 +41,9 @@ export class postController {
 
       if (id === undefined) throw new Error('must provide id')
 
-      let data = await Post.findByUser(id)
+      let data = await Post.findByUser(parseInt(id as string))
 
-      if (data.error) throw new Error('error to show posts')
+      if ('error' in data) throw new Error('error to show posts')
 
       data = await Promise.all(data.map(async post => {
         const urlImage = await getS3Images(post.post_image, 'posts')
@@ -55,17 +56,17 @@ export class postController {
       }))
       return res.json(data)
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
-  static async getPost (req, res) {
+  static async getPost (req: Request, res: Response) {
     try {
       const { id } = req.query
 
       if (id === undefined) throw new Error('must provide id')
 
-      let data = await Post.findById(id)
+      let data = await Post.findById(parseInt(id as string))
 
       if (data === null) throw new Error('post not found')
 
@@ -78,11 +79,11 @@ export class postController {
       }
       return res.json(data)
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
-  static async createPost (req, res) {
+  static async createPost (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -149,11 +150,11 @@ export class postController {
 
       return res.json({ success: data, data: results.data })
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
-  static async deletePost (req, res) {
+  static async deletePost (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -170,15 +171,15 @@ export class postController {
 
       if (id === undefined) throw new Error('must provide id')
 
-      const filename = await Post.getDeletedImage({ id, user_id: decodeToken.user_id })
+      const filename = await Post.getDeletedImage({ id: parseInt(id as string), user_id: decodeToken.user_id })
       await deleteS3Images(filename.post_image, 'posts')
-      const data = await Post.deletePost({ id, user_id: decodeToken.user_id })
+      const data = await Post.deletePost({ id: parseInt(id as string), user_id: decodeToken.user_id })
 
       if (data.error) throw new Error('error to delete post')
 
       return res.json({ success: data })
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { postController } from '../controllers/postController.js'
+import { postController } from '../controllers/postController'
 import { multerMiddleware } from '../middlewares/multer.js'
 
 export const posts = Router()

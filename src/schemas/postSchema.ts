@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { PostRequest } from '../types/post'
 
 const postSchema = z.object({
   post: z.string().nullable().default(null),
@@ -7,6 +8,6 @@ const postSchema = z.object({
   message: "at least one of the 'post' or 'image' fields must be present."
 })
 
-export const postValidation = (data) => {
+export const postValidation = (data: PostRequest) => {
   return postSchema.safeParse(data)
 }

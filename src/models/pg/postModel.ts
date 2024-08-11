@@ -1,4 +1,6 @@
 import { dbConnectionPg } from '../../config/config'
+import pkg from 'pg'
+import { PostData, PostQuery } from '../../types/post'
 
 export class Post {
   /**
@@ -6,11 +8,11 @@ export class Post {
    * @returns {Promise<Object[]|{error:string}>} All posts made by users.
    */
   static async getAll () {
-    let connection
+    let connection: pkg.PoolClient | null = null
     try {
       connection = await dbConnectionPg()
 
-      const { rows } = await connection.query(`
+      const { rows } = await connection.query<PostQuery, number[]>(`
       SELECT posts.id, users.id as user_id, users.username, profile.profile_image, posts.post, posts.post_image, posts.date_publish
       FROM posts 
       JOIN users 
@@ -23,9 +25,11 @@ export class Post {
       return rows
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return { error: error.message }
+      return { error: (error as Error).message }
     } finally {
-      connection.release()
+      if (connection) {
+        connection.release()
+      }
     }
   }
 
@@ -34,12 +38,12 @@ export class Post {
    * @param {number} id - El ID del usuario cuyos posts se desean encontrar.
    * @returns {Promise<Object[]|{error:string}>} Una promesa que resuelve en una lista de objetos que representan los posts encontrados, o un objeto de error si ocurre algún problema.
    */
-  static async findByUser (id) {
-    let connection
+  static async findByUser (id: number) {
+    let connection: pkg.PoolClient | null = null
     try {
       connection = await dbConnectionPg()
 
-      const { rows } = await connection.query(`
+      const { rows } = await connection.query<PostQuery, number[]>(`
       SELECT posts.id, users.id as user_id, profile.profile_image, posts.post, posts.post_image, posts.date_publish
       FROM posts
       JOIN profile
@@ -53,9 +57,11 @@ export class Post {
       return rows
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return { error: error.message }
+      return { error: (error as Error).message }
     } finally {
-      connection.release()
+      if (connection) {
+        connection.release()
+      }
     }
   }
 
@@ -64,12 +70,12 @@ export class Post {
    * @param {number} id - El ID del post que se desea encontrar.
    * @returns {Promise<post|{error:string}>} Una promesa que resuelve en un objeto que representa el post encontrado, o nulo si no se encuentra ningún post con el ID dado.
    */
-  static async findById (id) {
-    let connection
+  static async findById (id: number) {
+    let connection: pkg.PoolClient | null = null
     try {
       connection = await dbConnectionPg()
 
-      const { rows } = await connection.query(`
+      const { rows } = await connection.query<PostQuery, number[]>(`
       SELECT users.username, profile.profile_image, posts.post, posts.post_image, posts.date_publish
       FROM posts
       JOIN users
@@ -84,9 +90,11 @@ export class Post {
       return rows[0]
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return { error: error.message }
+      return { error: (error as Error).message }
     } finally {
-      connection.release()
+      if (connection) {
+        connection.release()
+      }
     }
   }
 
@@ -99,22 +107,24 @@ export class Post {
    * @param {string} options.post.post_image - La imagen asociada al post (opcional).
    * @returns {Promise<boolean>} Una promesa que resuelve en verdadero si el post se creó exitosamente, o un objeto de error si ocurrió algún problema.
    */
-  static async createPost ({ user_id, post }) {
-    let connection
+  static async createPost ({ user_id, post }: PostData) {
+    let connection: pkg.PoolClient | null = null
     try {
       connection = await dbConnectionPg()
 
-      await connection.query(`
+      await connection.query<PostQuery, (string | number | null)[]>(`
       INSERT INTO posts(user_id, post, post_image)
       VALUES
       ($1, $2, $3);`,
-      [user_id, post.post, post.post_image])
-      return true
+      [user_id, post!.post, post!.post_image])
+      return { success: true }
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return { error: error.message }
+      return { error: (error as Error).message }
     } finally {
-      connection.release()
+      if (connection) {
+        connection.release()
+      }
     }
   }
 
@@ -125,21 +135,23 @@ export class Post {
    * @param {number} options.user_id - El ID del usuario que creó el post.
    * @returns {Promise<boolean|{error:string}>} Una promesa que resuelve en verdadero si el post se elimina exitosamente, o un objeto de error si ocurre algún problema.
    */
-  static async deletePost ({ id, user_id }) {
-    let connection
+  static async deletePost ({ id, user_id }: PostData) {
+    let connection: pkg.PoolClient | null = null
     try {
       connection = await dbConnectionPg()
 
-      await connection.query(`
+      await connection.query<PostQuery, (number | undefined)[]>(`
       DELETE FROM posts
       WHERE id=$1 AND user_id=$2;`,
       [id, user_id])
-      return true
+      return { success: true }
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return { error: error.message }
+      return { error: (error as Error).message }
     } finally {
-      connection.release()
+      if (connection) {
+        connection.release()
+      }
     }
   }
 
@@ -150,12 +162,12 @@ export class Post {
    * @param {number} options.user_id - El ID del usuario que creó el post.
    * @returns {Promise<number|{error:string}>} Una promesa que resuelve en verdadero si el post se elimina exitosamente, o un objeto de error si ocurre algún problema.
    */
-  static async getDeletedImage ({ id, user_id }) {
-    let connection
+  static async getDeletedImage ({ id, user_id }: PostData) {
+    let connection: pkg.PoolClient | null = null
     try {
       connection = await dbConnectionPg()
 
-      const { rows } = await connection.query(`
+      const { rows } = await connection.query<PostQuery, (number | undefined)[]>(`
       SELECT post_image FROM posts
       WHERE id=$1 AND user_id=$2;`,
       [id, user_id])
@@ -165,9 +177,11 @@ export class Post {
       return rows[0]
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
-      return { error: error.message }
+      return { error: (error as Error).message }
     } finally {
-      connection.release()
+      if (connection) {
+        connection.release()
+      }
     }
   }
 }
