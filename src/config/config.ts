@@ -6,7 +6,7 @@ import { randomUUID } from 'node:crypto'
 import { extname } from 'node:path'
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-import { jwtData } from '../types/jwtData'
+import { jwtData } from '../types/global'
 
 export const {
   PORT
@@ -45,7 +45,7 @@ export const dbConnectionPg = async () => {
     }
   }
   console.error('\x1b[31m\nCould not establish connection after attempts\n\x1b[0m')
-  return false
+  throw new Error('Could not establish connection after attempts')
 }
 
 /*
@@ -65,7 +65,7 @@ export const generateToken = (data : jwtData) => jwt.sign(data, SECRET_KEY, { ex
 
 export const validateToken = (token: string) => {
   try {
-    const decodedToken = jwt.verify(token, SECRET_KEY)
+    const decodedToken = jwt.verify(token, SECRET_KEY) as jwtData
     return decodedToken
   } catch (error) {
     return null
