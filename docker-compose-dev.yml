@@ -12,7 +12,7 @@ services:
       - .:/app
     depends_on:
       - db
-  
+
   db:  
     image: postgres:16.2
     environment:
@@ -26,15 +26,6 @@ services:
       - ./database/postgres/takanakuq.sql:/docker-entrypoint-initdb.d/takanakuq.sql
       - data:/var/lib/postgresql/data
 
-  bot:
-    image: ollama/ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama:/root/.ollama
-      - ./Modelfile:/root/Modelfile
-    networks:
-      - takanakuq-net
 
 networks:
   takanakuq-net:

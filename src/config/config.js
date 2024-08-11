@@ -8,8 +8,7 @@ import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } fro
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
 export const {
-  PORT,
-  LLM_SERVER
+  PORT
 } = process.env
 
  
@@ -17,7 +16,7 @@ export const {
 export const ACCEPTED_ORIGINS = [
   'https://takanakuqkuna.com',
   'http://takanakuqkuna.com',
-  'http://161.132.47.170',
+  'http://161.132.47.170'
 ]
 
 // DATABASES CONFIG

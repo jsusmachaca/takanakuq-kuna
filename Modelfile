@@ -1,5 +1,0 @@
-FROM orca-mini
-
-PARAMETER temperature 0
-
-SYSTEM "Habla solamente en español. Debes limitarte a menos de 100."

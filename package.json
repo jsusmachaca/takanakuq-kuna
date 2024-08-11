@@ -2,11 +2,10 @@
   "name": "takanakuq-kuna",
   "version": "1.0.0",
   "description": "API for the \"Luchadores platform\", a open source project designed to help people with neoplastic diseases (cancer)",
-  "main": "src/index.js",
-  "type": "module",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
+    "start": "node src/index.ts",
+    "dev": "ts-node-dev src/index.ts",
     "gen-key": "sed -i \"s/^SECRET_KEY=.*/SECRET_KEY=$(uuidgen | base64)/\" .env",
     "test": "jest --verbose --silent --detectOpenHandles"
   },
@@ -25,14 +24,16 @@
     "ollama": "0.5.2",
     "pg": "8.11.3",
     "sharp": "0.33.4",
-    "socket.io": "^4.7.5",
     "zod": "3.22.4"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "dotenv": "^16.3.1",
     "jest": "^29.7.0",
     "standard": "^17.1.0",
-    "supertest": "^6.3.4"
+    "supertest": "^6.3.4",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.4"
   },
   "eslintConfig": {
     "extends": "standard"

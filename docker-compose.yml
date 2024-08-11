@@ -24,7 +24,7 @@ services:
     depends_on:
       - db
   
-  db:  
+  db:
     image: postgres:16.2
     env_file:
       - .env
@@ -52,17 +52,9 @@ services:
     depends_on:
       - app
 
-  bot:
-    image: ollama/ollama
-    volumes:
-      - ollama:/root/.ollama
-      - ./Modelfile:/root/Modelfile
-    networks:
-      - takanakuq-net
 
 volumes:
   postgres-data:
-  ollama:
 
 networks:
   takanakuq-net:
