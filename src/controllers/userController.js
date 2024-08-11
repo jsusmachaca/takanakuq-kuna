@@ -1,6 +1,6 @@
 import { User } from '../models/pg/userModel.js'
 import { userProfileValidation, userValidation, userValidationPartial } from '../schemas/userSchema.js'
-import { cryptoNamed, generateToken, uploadS3Images, validateToken, getS3Images } from '../config/config.js'
+import { cryptoNamed, generateToken, uploadS3Images, validateToken, getS3Images } from '../config/config'
 import sharp from 'sharp'
 
 export class userController {
@@ -60,7 +60,7 @@ export class userController {
 
       let data = await User.findUser(validation.user_id)
 
-      if (data === null) throw new Error("user not found")
+      if (data === null) throw new Error('user not found')
 
       if (data.error) return res.status(400).json({ error: 'error when showing user' })
 
@@ -183,7 +183,7 @@ export class userController {
               .webp({ quality: 70 })
               .toBuffer()
             break
-          case 'image/avif': 
+          case 'image/avif':
             optimizedBuffer = await sharp(req.file.buffer)
               .resize(800)
               .avif({ quality: 50 })
@@ -191,12 +191,12 @@ export class userController {
             break
           case 'image/gif':
             optimizedBuffer = await sharp(req.file.buffer)
-                .resize(800)
-                .gif()
-                .toBuffer()
+              .resize(800)
+              .gif()
+              .toBuffer()
             break
           default:
-            return res.status(400).send({ message: 'image format not supported' });
+            return res.status(400).send({ message: 'image format not supported' })
         }
 
         await uploadS3Images({ filename, buffer: optimizedBuffer, carpet: 'profiles' })

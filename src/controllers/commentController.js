@@ -1,4 +1,4 @@
-import { validateToken, getS3Images } from '../config/config.js'
+import { validateToken, getS3Images } from '../config/config'
 import { Comment } from '../models/pg/commentModel.js'
 import { commentValidation } from '../schemas/commentsSchema.js'
 

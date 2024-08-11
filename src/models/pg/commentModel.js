@@ -1,4 +1,4 @@
-import { dbConnectionPg } from '../../config/config.js'
+import { dbConnectionPg } from '../../config/config'
 
 export class Comment {
   /**
@@ -24,7 +24,7 @@ export class Comment {
     } catch (error) {
       console.error(`\x1b[31man error occurred ${error}\x1b[0m`)
       return { error: error.message }
-    } finally { 
+    } finally {
       connection.release()
     }
   }

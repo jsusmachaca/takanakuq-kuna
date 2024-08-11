@@ -6,6 +6,7 @@ import { randomUUID } from 'node:crypto'
 import { extname } from 'node:path'
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { jwtData } from '../types/jwtData'
 
 export const {
   PORT
@@ -22,7 +23,7 @@ export const ACCEPTED_ORIGINS = [
 // DATABASES CONFIG
 const config = {
   host: process.env.DB_HOST ?? 'localhost',
-  port: process.env.DB_PORT ?? '5432',
+  port: parseInt(process.env.DB_PORT!) ?? 5432,
   user: process.env.DB_USER ?? 'root',
   password: process.env.DB_PASSWORD ?? '',
   database: process.env.DB_NAME ?? 'luchadores_test'
@@ -43,6 +44,7 @@ export const dbConnectionPg = async () => {
     }
   }
   console.error('\x1b[31m\nCould not establish connection after attempts\n\x1b[0m')
+  return false
 }
 
 /*
@@ -56,11 +58,11 @@ export const dbConnectionMysql = async () => {
 */
 
 // JWT CONFIG
-const SECRET_KEY = process.env.SECRET_KEY
+const SECRET_KEY = process.env.SECRET_KEY!
 
-export const generateToken = ({ data }) => jwt.sign(data, SECRET_KEY, { expiresIn: '1y' })
+export const generateToken = (data : jwtData) => jwt.sign(data, SECRET_KEY, { expiresIn: '1y' })
 
-export const validateToken = (token) => {
+export const validateToken = (token: string) => {
   try {
     const decodedToken = jwt.verify(token, SECRET_KEY)
     return decodedToken
@@ -70,20 +72,20 @@ export const validateToken = (token) => {
 }
 
 // AWS CONFIG
-export const cryptoNamed = (originalName) => {
+export const cryptoNamed = (originalName: string) => {
   const newName = randomUUID().replace(/-/g, '') + extname(originalName).toLowerCase()
   return newName
 }
 
 const s3 = new S3Client({
-  region: process.env.AWS_REGION,
+  region: process.env.AWS_REGION!,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    accessKeyId: process.env.AWS_ACCESS_KEY!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
   }
 })
 
-export const uploadS3Images = async ({ filename, carpet, buffer }) => {
+export const uploadS3Images = async (filename: string, carpet: string, buffer: Buffer) => {
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: `${carpet}/${filename}`,
@@ -94,7 +96,7 @@ export const uploadS3Images = async ({ filename, carpet, buffer }) => {
   return result
 }
 
-export const getS3Images = async ({ filename, carpet }) => {
+export const getS3Images = async (filename: string, carpet: string) => {
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: `${carpet}/${filename}`
@@ -104,7 +106,7 @@ export const getS3Images = async ({ filename, carpet }) => {
   return urlImage
 }
 
-export const deleteS3Images = async ({ filename, carpet }) => {
+export const deleteS3Images = async (filename: string, carpet: string) => {
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: `${carpet}/${filename}`

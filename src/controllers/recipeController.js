@@ -1,4 +1,4 @@
-import { validateToken } from '../config/config.js'
+import { validateToken } from '../config/config'
 import { Recipe } from '../models/pg/recipeModel.js'
 import { medicineValidation } from '../schemas/medicinesSchema.js'
 import { recipeValidation } from '../schemas/recipeSchema.js'

@@ -1,5 +1,4 @@
-// import { dbConnection } from '../../config/config.js'
-import { dbConnectionPg } from '../../config/config.js'
+import { dbConnectionPg } from '../../config/config'
 import bcrypt from 'bcrypt'
 
 const saltRounds = 10

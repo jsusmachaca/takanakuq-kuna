@@ -1,4 +1,4 @@
-import { cryptoNamed, deleteS3Images, getS3Images, uploadS3Images, validateToken } from '../config/config.js'
+import { cryptoNamed, deleteS3Images, getS3Images, uploadS3Images, validateToken } from '../config/config'
 import { Post } from '../models/pg/postModel.js'
 import { postValidation } from '../schemas/postSchema.js'
 import sharp from 'sharp'
@@ -119,7 +119,7 @@ export class postController {
               .webp({ quality: 70 })
               .toBuffer()
             break
-          case 'image/avif': 
+          case 'image/avif':
             optimizedBuffer = await sharp(req.file.buffer)
               .resize(800)
               .avif({ quality: 50 })
@@ -127,12 +127,12 @@ export class postController {
             break
           case 'image/gif':
             optimizedBuffer = await sharp(req.file.buffer)
-                .resize(800)
-                .gif()
-                .toBuffer()
+              .resize(800)
+              .gif()
+              .toBuffer()
             break
           default:
-            return res.status(400).send({ message: 'image format not supported' });
+            return res.status(400).send({ message: 'image format not supported' })
         }
 
         await uploadS3Images({ filename, carpet: 'posts', buffer: optimizedBuffer })

@@ -1,7 +1,7 @@
 /*
  * Authors: jsusmachaca, carlos123-a, RampageWallE, eljow
  */
-import { PORT } from './config/config.js'
+import { PORT } from './config/config'
 import express, { json, static as static_ } from 'express'
 import { corsMiddleware } from './middlewares/cors.js'
 import { errorHandler } from './middlewares/errorHandler.js'
