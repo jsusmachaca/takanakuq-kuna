@@ -17,7 +17,8 @@ export const {
 export const ACCEPTED_ORIGINS = [
   'https://takanakuqkuna.com',
   'http://takanakuqkuna.com',
-  'http://161.132.47.170'
+  'http://161.132.47.170',
+  'http://localhost:3000'
 ]
 
 // DATABASES CONFIG

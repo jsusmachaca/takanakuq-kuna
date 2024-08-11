@@ -11,8 +11,8 @@ export class postController {
       if (data.error) throw new Error('error to show posts')
 
       data = await Promise.all(data.map(async post => {
-        const urlImage = await getS3Images({ filename: post.post_image, carpet: 'posts' })
-        const urlProfileImage = await getS3Images({ filename: post.profile_image, carpet: 'profiles' })
+        const urlImage = await getS3Images(post.post_image, 'posts')
+        const urlProfileImage = await getS3Images(post.profile_image, 'profiles')
         return {
           ...post,
           post_image: post.post_image && urlImage,
@@ -45,8 +45,8 @@ export class postController {
       if (data.error) throw new Error('error to show posts')
 
       data = await Promise.all(data.map(async post => {
-        const urlImage = await getS3Images({ filename: post.post_image, carpet: 'posts' })
-        const urlProfileImage = await getS3Images({ filename: post.profile_image, carpet: 'profiles' })
+        const urlImage = await getS3Images(post.post_image, 'posts')
+        const urlProfileImage = await getS3Images(post.profile_image, 'profiles')
         return {
           ...post,
           post_image: post.post_image && urlImage,
@@ -73,8 +73,8 @@ export class postController {
 
       data = {
         ...data,
-        post_image: data.post_image && await getS3Images({ filename: data.post_image, carpet: 'posts' }),
-        profile_image: data.profile_image && await getS3Images({ filename: data.profile_image, carpet: 'profiles' })
+        post_image: data.post_image && await getS3Images(data.post_image, 'posts'),
+        profile_image: data.profile_image && await getS3Images(data.profile_image, 'profiles')
       }
       return res.json(data)
     } catch (error) {
@@ -135,7 +135,7 @@ export class postController {
             return res.status(400).send({ message: 'image format not supported' })
         }
 
-        await uploadS3Images({ filename, carpet: 'posts', buffer: optimizedBuffer })
+        await uploadS3Images(filename, 'posts', optimizedBuffer)
         req.body.post_image = filename
       }
 
@@ -171,7 +171,7 @@ export class postController {
       if (id === undefined) throw new Error('must provide id')
 
       const filename = await Post.getDeletedImage({ id, user_id: decodeToken.user_id })
-      await deleteS3Images({ filename: filename.post_image, carpet: 'posts' })
+      await deleteS3Images(filename.post_image, 'posts')
       const data = await Post.deletePost({ id, user_id: decodeToken.user_id })
 
       if (data.error) throw new Error('error to delete post')

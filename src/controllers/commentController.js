@@ -14,7 +14,7 @@ export class commentController {
       if (data.error) throw new Error('error to show comments')
 
       data = await Promise.all(data.map(async commet => {
-        const urlProfileImage = await getS3Images({ filename: commet.profile_image, carpet: 'profiles' })
+        const urlProfileImage = await getS3Images(commet.profile_image, 'profiles')
         return {
           ...commet,
           profile_image: commet.profile_image && urlProfileImage

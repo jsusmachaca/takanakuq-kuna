@@ -41,7 +41,7 @@ export class userController {
       is_admin: data.is_admin,
       is_staff: data.is_staff
     }
-    const token = generateToken({ data: userForToken })
+    const token = generateToken(userForToken)
     return res.json({ access_token: token })
   }
 
@@ -66,7 +66,7 @@ export class userController {
 
       data = {
         ...data,
-        profile_image: data.profile_image && await getS3Images({ filename: data.profile_image, carpet: 'profiles' })
+        profile_image: data.profile_image && await getS3Images(data.profile_image, 'profiles')
       }
       return res.json(data)
     } catch (error) {
@@ -199,7 +199,7 @@ export class userController {
             return res.status(400).send({ message: 'image format not supported' })
         }
 
-        await uploadS3Images({ filename, buffer: optimizedBuffer, carpet: 'profiles' })
+        await uploadS3Images(filename, 'profiles', optimizedBuffer)
         req.body.profile_image = filename
       }
 
@@ -232,7 +232,7 @@ export class userController {
 
       if (req.file) { // extract file
         const filename = cryptoNamed(req.file.originalname)
-        await uploadS3Images({ filename, buffer: req.file.buffer, carpet: 'profiles' })
+        await uploadS3Images(filename, 'profiles', req.file.buffer)
         req.body.profile_image = filename
       }
 
