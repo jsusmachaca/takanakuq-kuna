@@ -4,7 +4,7 @@ import { ACCEPTED_ORIGINS } from '../config/config'
 export const corsMiddleware = () => {
   return cors({
     origin: (origin, callback) => {
-      if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
+      if (ACCEPTED_ORIGINS.includes(origin!) || !origin) {
         return callback(null, true)
       }
       // if(!origin) {
