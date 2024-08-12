@@ -4,6 +4,5 @@ WORKDIR /app
 COPY . .
 RUN npm install
 
-# RUN npm run gen-key
 
 CMD [ "npm", "run", "dev" ]
