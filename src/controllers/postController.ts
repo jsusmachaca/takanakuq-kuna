@@ -70,7 +70,7 @@ export class postController {
 
       if (data === null) throw new Error('post not found')
 
-      if (data.error) throw new Error('error to get post')
+      if ('error' in data) throw new Error('error to get post')
 
       data = {
         ...data,
@@ -172,7 +172,12 @@ export class postController {
       if (id === undefined) throw new Error('must provide id')
 
       const filename = await Post.getDeletedImage({ id: parseInt(id as string), user_id: decodeToken.user_id })
-      await deleteS3Images(filename.post_image, 'posts')
+
+      if ('error' in filename!) throw new Error('error to delete post')
+      if (filename === null) throw new Error('error to delete post')
+
+      await deleteS3Images(filename!.post_image, 'posts')
+
       const data = await Post.deletePost({ id: parseInt(id as string), user_id: decodeToken.user_id })
 
       if (data.error) throw new Error('error to delete post')

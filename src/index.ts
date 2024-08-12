@@ -9,7 +9,7 @@ import path from 'node:path'
 
 import { users } from './routes/users.js'
 import { posts } from './routes/posts'
-import { recipes } from './routes/recipes.js'
+import { recipes } from './routes/recipes'
 import { comments } from './routes/comments'
 import { index } from './routes/index.js'
 

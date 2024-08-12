@@ -1,10 +1,11 @@
+import { Request, Response } from 'express'
 import { validateToken } from '../config/config'
-import { Recipe } from '../models/pg/recipeModel.js'
-import { medicineValidation } from '../schemas/medicinesSchema.js'
-import { recipeValidation } from '../schemas/recipeSchema.js'
+import { Recipe } from '../models/pg/recipeModel'
+import { medicineValidation } from '../schemas/medicinesSchema'
+import { recipeValidation } from '../schemas/recipeSchema'
 
 export class recipeController {
-  static async findMedicines (req, res) {
+  static async findMedicines (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -24,15 +25,15 @@ export class recipeController {
 
       if (data === null) throw new Error('there are no registered medicines yet.')
 
-      if (data.error) throw new Error('error to show medicines ')
+      if ('error' in data) throw new Error('error to show medicines ')
 
       return res.json(data)
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
-  static async createRecipe (req, res) {
+  static async createRecipe (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -54,11 +55,11 @@ export class recipeController {
 
       return res.json({ success: data, data: results.data })
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
-  static async deleteRecipe (req, res) {
+  static async deleteRecipe (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -77,11 +78,11 @@ export class recipeController {
 
       return res.json({ success: data })
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
-  static async createMedicines (req, res) {
+  static async createMedicines (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -100,6 +101,7 @@ export class recipeController {
       const recipeId = await Recipe.getId(decodeToken.user_id)
 
       if (recipeId === null) throw new Error("recipe don't created")
+      if ('error' in recipeId) throw new Error('error to add medicine')
 
       const data = await Recipe.createMedicine({ recipe_id: recipeId.id, data: results.data })
 
@@ -107,11 +109,11 @@ export class recipeController {
 
       return res.json({ success: data, data: results.data })
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
-  static async deleteMedicine (req, res) {
+  static async deleteMedicine (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -129,13 +131,16 @@ export class recipeController {
 
       const recipeId = await Recipe.getId(decodeToken.user_id)
 
-      const data = await Recipe.deleteMedicine({ recipe_id: recipeId.id, medicine_id: id })
+      if (recipeId === null) throw new Error("recipe don't created")
+      if ('error' in recipeId) throw new Error('error to add medicine')
+  
+      const data = await Recipe.deleteMedicine({ recipe_id: recipeId.id, medicine_id: parseInt(id as string) })
 
       if (data.error) throw new Error('error to delete medicine')
 
       return res.json({ success: data })
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 }
