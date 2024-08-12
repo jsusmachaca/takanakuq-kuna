@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { userController } from '../controllers/userController'
-import { multerMiddlewareProfile } from '../middlewares/multer.js'
+import { multerMiddlewareProfile } from '../middlewares/multer'
 
 export const users = Router()
 

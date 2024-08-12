@@ -3,8 +3,8 @@
  */
 import { PORT } from './config/config'
 import express, { json, static as static_ } from 'express'
-import { corsMiddleware } from './middlewares/cors.js'
-import { errorHandler } from './middlewares/errorHandler.js'
+import { corsMiddleware } from './middlewares/cors'
+import { errorHandler } from './middlewares/errorHandler'
 import path from 'node:path'
 
 import { users } from './routes/users'
