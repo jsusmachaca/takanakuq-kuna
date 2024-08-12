@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { UserData } from '../types/user'
 
 const userSchema = z.object({
   username: z.string({ required_error: 'username field is required' }),
@@ -16,17 +17,17 @@ const profileSchema = z.object({
   message: "at least one of the 'description' or 'profile_image' fields must be present."
 })
 
-export const userValidation = (data) => {
+export const userValidation = (data: UserData) => {
   return userSchema.refine(data => data.password === data.confirm_password, {
     message: "passwords  don't match"
   }).safeParse(data)
 }
 
-export const userValidationPartial = (data) => {
+export const userValidationPartial = (data: UserData) => {
   return userSchema.partial().safeParse(data)
 }
 
-export const userProfileValidation = (data) => {
+export const userProfileValidation = (data: UserData) => {
   return profileSchema.safeParse(data)
 }
 

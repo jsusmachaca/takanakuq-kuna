@@ -2,18 +2,18 @@ import { Router } from 'express'
 
 export const index = Router()
 
-index.get('/', (req, res) => {
+index.get('/', (_req, res) => {
   return res.render('pages/en/about')
 })
 
-index.get('/docs', (req, res) => {
+index.get('/docs', (_req, res) => {
   return res.render('pages/en/index')
 })
 
-index.get('/es', (req, res) => {
+index.get('/es', (_req, res) => {
   return res.render('pages/es/about-es')
 })
 
-index.get('/docs/es', (req, res) => {
+index.get('/docs/es', (_req, res) => {
   return res.render('pages/es/index-es')
 })

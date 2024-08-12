@@ -7,11 +7,11 @@ import { corsMiddleware } from './middlewares/cors.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 import path from 'node:path'
 
-import { users } from './routes/users.js'
+import { users } from './routes/users'
 import { posts } from './routes/posts'
 import { recipes } from './routes/recipes'
 import { comments } from './routes/comments'
-import { index } from './routes/index.js'
+import { index } from './routes/index'
 
 const app = express()
 

@@ -1,10 +1,11 @@
-import { User } from '../models/pg/userModel.js'
-import { userProfileValidation, userValidation, userValidationPartial } from '../schemas/userSchema.js'
+import { Request, Response } from 'express'
+import { User } from '../models/pg/userModel'
+import { userProfileValidation, userValidation, userValidationPartial } from '../schemas/userSchema'
 import { cryptoNamed, generateToken, uploadS3Images, validateToken, getS3Images } from '../config/config'
 import sharp from 'sharp'
 
 export class userController {
-  static async getAll (req, res) {
+  static async getAll (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -19,12 +20,12 @@ export class userController {
       const data = await User.getAll()
       return res.json(data)
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
   // Login Controller
-  static async findByName (req, res) {
+  static async findByName (req: Request, res: Response) {
     const results = userValidationPartial(req.body)
 
     if (results.error) return res.status(400)
@@ -46,7 +47,7 @@ export class userController {
   }
 
   // Show user profile data
-  static async findUser (req, res) {
+  static async findUser (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -70,12 +71,12 @@ export class userController {
       }
       return res.json(data)
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
   // Register controller
-  static async createUser (req, res) {
+  static async createUser (req: Request, res: Response) {
     const results = userValidation(req.body)
 
     if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
@@ -92,7 +93,7 @@ export class userController {
     return res.status(201).json({ success: data, data: results.data })
   }
 
-  static async editUser (req, res) {
+  static async editUser (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -112,17 +113,17 @@ export class userController {
 
       if (id === undefined) throw new Error('must provide id')
 
-      const data = await User.editUser({ id, data: results.data })
+      const data = await User.editUser({ id: parseInt(id as string), data: results.data })
 
       if (data.error) return res.status(400).json({ error: 'error when modifying' })
 
       return res.json({ success: data, data: results.data })
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
-  static async deleteUser (req, res) {
+  static async deleteUser (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -138,15 +139,15 @@ export class userController {
 
       if (id === undefined) throw new Error('must provide id')
 
-      const data = await User.deleteUser(id)
+      const data = await User.deleteUser(parseInt(id as string))
       return res.json({ success: data })
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
   // Add profile data for users
-  static async createProfile (req, res) {
+  static async createProfile (req: Request, res: Response) {
     const authorization = req.headers.authorization
     let token = ''
 
@@ -213,12 +214,12 @@ export class userController {
 
       return res.status(201).json({ success: data, data: results.data })
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 
   // Edit profile data to users
-  static async editProfile (req, res) {
+  static async editProfile (req: Request, res: Response) {
     const authorization = req.headers.authorization // extract token of header
     let token = ''
 
@@ -246,7 +247,7 @@ export class userController {
 
       return res.json({ success: data, data: results.data })
     } catch (error) {
-      return res.status(401).json({ error: error.message })
+      return res.status(401).json({ error: (error as Error).message })
     }
   }
 }
