@@ -1,4 +1,5 @@
 import { JwtPayload } from "jsonwebtoken"
+import { Request } from "express"
 
 export interface jwtData extends JwtPayload{
   user_id: number
@@ -12,4 +13,8 @@ export interface commentData {
   comment_id?: number
   post_id?: number
   comment?: string
+}
+
+export interface AuthRequest extends Request {
+  authUser?: jwtData
 }

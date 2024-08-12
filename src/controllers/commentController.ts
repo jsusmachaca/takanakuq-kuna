@@ -1,5 +1,6 @@
-import { Request, Response } from 'express'
-import { validateToken, getS3Images } from '../config/config'
+import { Response } from 'express'
+import { AuthRequest as Request } from '../types/global'
+import { getS3Images } from '../config/config'
 import { Comment } from '../models/pg/commentModel'
 import { commentValidation } from '../schemas/commentsSchema'
 
@@ -28,18 +29,9 @@ export class commentController {
   }
 
   static async publishComment (req: Request, res: Response) {
-    const authorization = req.headers.authorization
-    let token = ''
-
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
-
-      token += authorization.substring(7)
-      const decodeToken = validateToken(token)
-
-      if (decodeToken === null) throw new Error('invalid token')
-
       const { post } = req.query
+      const authetenticateUser = req.authUser
 
       if (post === undefined) throw new Error('must provide post id')
 
@@ -47,7 +39,7 @@ export class commentController {
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
 
-      const data = await Comment.createComment({ user_id: decodeToken.user_id, post_id: parseInt(post as string), comment: results.data.comment })
+      const data = await Comment.createComment({ user_id: authetenticateUser!.user_id, post_id: parseInt(post as string), comment: results.data.comment })
 
       if (data.error) throw new Error('error to publish comment')
 
@@ -58,22 +50,13 @@ export class commentController {
   }
 
   static async deleteComment (req: Request, res: Response) {
-    const authorization = req.headers.authorization
-    let token = ''
-
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
-
-      token += authorization.substring(7)
-      const decodeToken = validateToken(token)
-
-      if (decodeToken === null) throw new Error('invalid token')
-
+      const authUser = req.authUser!
       const { id, post } = req.query
 
       if (id === undefined || post === undefined) throw new Error('must provide comment id or post')
 
-      const data = await Comment.deleteComment({ comment_id: parseInt(id as string), user_id: decodeToken.user_id, post_id: parseInt(post as string) })
+      const data = await Comment.deleteComment({ comment_id: parseInt(id as string), user_id: authUser.user_id, post_id: parseInt(post as string) })
 
       if (data.error) throw new Error('error to delete comment')
 

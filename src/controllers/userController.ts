@@ -1,22 +1,13 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
+import { AuthRequest as Request } from '../types/global'
 import { User } from '../models/pg/userModel'
 import { userProfileValidation, userValidation, userValidationPartial } from '../schemas/userSchema'
-import { cryptoNamed, generateToken, uploadS3Images, validateToken, getS3Images } from '../config/config'
+import { cryptoNamed, generateToken, uploadS3Images, getS3Images } from '../config/config'
 import sharp from 'sharp'
 
 export class userController {
-  static async getAll (req: Request, res: Response) {
-    const authorization = req.headers.authorization
-    let token = ''
-
+  static async getAll (_req: Request, res: Response) {
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
-
-      token += authorization.substring(7)
-      const validation = validateToken(token)
-
-      if (validation === null) throw new Error('invalid token')
-
       const data = await User.getAll()
       return res.json(data)
     } catch (error) {
@@ -48,18 +39,9 @@ export class userController {
 
   // Show user profile data
   static async findUser (req: Request, res: Response) {
-    const authorization = req.headers.authorization
-    let token = ''
-
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
-
-      token += authorization.substring(7)
-      const validation = validateToken(token)
-
-      if (validation === null) throw new Error('invalid token')
-
-      let data = await User.findUser(validation.user_id)
+      const authUser = req.authUser!
+      let data = await User.findUser(authUser.user_id)
 
       if (data === null) throw new Error('user not found')
 
@@ -94,17 +76,7 @@ export class userController {
   }
 
   static async editUser (req: Request, res: Response) {
-    const authorization = req.headers.authorization
-    let token = ''
-
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
-
-      token += authorization.substring(7)
-      const validation = validateToken(token)
-
-      if (validation === null) throw new Error('invalid token')
-
       const results = userValidationPartial(req.body)
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
@@ -124,17 +96,7 @@ export class userController {
   }
 
   static async deleteUser (req: Request, res: Response) {
-    const authorization = req.headers.authorization
-    let token = ''
-
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
-
-      token += authorization.substring(7)
-      const validation = validateToken(token)
-
-      if (validation === null) throw new Error('invalid Token')
-
       const { id } = req.query
 
       if (id === undefined) throw new Error('must provide id')
@@ -148,17 +110,8 @@ export class userController {
 
   // Add profile data for users
   static async createProfile (req: Request, res: Response) {
-    const authorization = req.headers.authorization
-    let token = ''
-
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
-
-      token += authorization.substring(7)
-      const decodeToken = validateToken(token)
-
-      if (decodeToken === null) throw new Error('invalid token')
-
+      const authUser = req.authUser!
       if (req.file) {
         const filename = cryptoNamed(req.file.originalname)
         const mimetype = req.file.mimetype
@@ -208,7 +161,7 @@ export class userController {
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
 
-      const data = await User.createProfile({ user_id: decodeToken.user_id, data: results.data })
+      const data = await User.createProfile({ user_id: authUser.user_id, data: results.data })
 
       if (data.error) return res.status(400).json({ error: 'save error' })
 
@@ -220,17 +173,8 @@ export class userController {
 
   // Edit profile data to users
   static async editProfile (req: Request, res: Response) {
-    const authorization = req.headers.authorization // extract token of header
-    let token = ''
-
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided') // validate token
-
-      token += authorization.substring(7)
-      const decodeToken = validateToken(token)
-
-      if (decodeToken === null) throw new Error('invalid token')
-
+      const authUser = req.authUser!
       if (req.file) { // extract file
         const filename = cryptoNamed(req.file.originalname)
         await uploadS3Images(filename, 'profiles', req.file.buffer)
@@ -241,7 +185,7 @@ export class userController {
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
 
-      const data = await User.editProfile({ user_id: decodeToken.user_id, data: results.data })
+      const data = await User.editProfile({ user_id: authUser.user_id, data: results.data })
 
       if (data.error) return res.status(400).json({ error: 'error when modifying' })
 

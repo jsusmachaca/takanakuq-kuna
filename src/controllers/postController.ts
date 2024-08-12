@@ -1,5 +1,6 @@
-import { Request, Response } from 'express'
-import { cryptoNamed, deleteS3Images, getS3Images, uploadS3Images, validateToken } from '../config/config'
+import { Response } from 'express'
+import { AuthRequest as Request } from '../types/global'
+import { cryptoNamed, deleteS3Images, getS3Images, uploadS3Images } from '../config/config'
 import { Post } from '../models/pg/postModel'
 import { postValidation } from '../schemas/postSchema'
 import sharp from 'sharp'
@@ -27,16 +28,7 @@ export class postController {
   }
 
   static async getUserPosts (req: Request, res: Response) {
-    const authorization = req.headers.authorization
-    let token = ''
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
-
-      token += authorization.substring(7)
-      const decodeToken = validateToken(token)
-
-      if (decodeToken === null) throw new Error('invalid token')
-
       const { id } = req.query
 
       if (id === undefined) throw new Error('must provide id')
@@ -84,17 +76,8 @@ export class postController {
   }
 
   static async createPost (req: Request, res: Response) {
-    const authorization = req.headers.authorization
-    let token = ''
-
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
-
-      token += authorization.substring(7)
-      const decodeToken = validateToken(token)
-
-      if (decodeToken === null) throw new Error('invalid token')
-
+      const authUser = req.authUser!
       if (req.file) {
         const filename = cryptoNamed(req.file.originalname)
         const mimetype = req.file.mimetype
@@ -144,7 +127,7 @@ export class postController {
 
       if (results.error) return res.status(400).json({ error: results.error.issues[0].message })
 
-      const data = await Post.createPost({ user_id: decodeToken.user_id, post: results.data })
+      const data = await Post.createPost({ user_id: authUser.user_id, post: results.data })
 
       if (data.error) throw new Error('error to publish post')
 
@@ -155,30 +138,20 @@ export class postController {
   }
 
   static async deletePost (req: Request, res: Response) {
-    const authorization = req.headers.authorization
-    let token = ''
-
     try {
-      if (!authorization || !authorization.startsWith('Bearer')) throw new Error('token not provided')
-
-      token += authorization.substring(7)
-
-      const decodeToken = validateToken(token)
-
-      if (decodeToken === null) throw new Error('invalid token')
-
+      const authUser = req.authUser!
       const { id } = req.query
 
       if (id === undefined) throw new Error('must provide id')
 
-      const filename = await Post.getDeletedImage({ id: parseInt(id as string), user_id: decodeToken.user_id })
+      const filename = await Post.getDeletedImage({ id: parseInt(id as string), user_id: authUser.user_id })
 
       if ('error' in filename!) throw new Error('error to delete post')
       if (filename === null) throw new Error('error to delete post')
 
       await deleteS3Images(filename!.post_image, 'posts')
 
-      const data = await Post.deletePost({ id: parseInt(id as string), user_id: decodeToken.user_id })
+      const data = await Post.deletePost({ id: parseInt(id as string), user_id: authUser.user_id })
 
       if (data.error) throw new Error('error to delete post')
 
