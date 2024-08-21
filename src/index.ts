@@ -12,14 +12,12 @@ import { posts } from './routes/posts'
 import { recipes } from './routes/recipes'
 import { comments } from './routes/comments'
 import { index } from './routes/index'
-import { authentication } from './middlewares/authentication'
 
 const app = express()
 
 
 app.disable('x-powered-by')
 app.use(json())
-app.use(authentication)
 app.use(corsMiddleware())
 app.use(errorHandler)
 app.use(static_(path.join(process.cwd(), 'src', 'public')))
